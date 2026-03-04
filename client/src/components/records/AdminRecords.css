@@ -1,0 +1,424 @@
+/* ========== Shared Admin Records Styles ========== */
+
+.admin-records {
+    width: 100%;
+}
+
+.admin-records-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.admin-records-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.btn-add-admin {
+    display: flex;
+    align-items: center;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-add-admin:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+}
+
+/* ===== Form Card ===== */
+.admin-form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 2px solid #ede9fe;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+    animation: slideDown 0.25s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-form-card h4 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.admin-form-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-form-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.admin-form-group input,
+.admin-form-group select,
+.admin-form-group textarea {
+    padding: 11px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #1e293b;
+    background: #f8fafc;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.admin-form-group input:focus,
+.admin-form-group select:focus,
+.admin-form-group textarea:focus {
+    border-color: #7c3aed;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-save-admin {
+    display: flex;
+    align-items: center;
+    padding: 11px 22px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-save-admin:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+}
+
+.btn-cancel-admin {
+    display: flex;
+    align-items: center;
+    padding: 11px 22px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel-admin:hover {
+    background: #e2e8f0;
+}
+
+/* ===== Records List ===== */
+.admin-records-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-records-empty {
+    padding: 40px;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 16px;
+    background: white;
+    border-radius: 14px;
+    border: 2px dashed #e2e8f0;
+}
+
+.admin-record-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    transition: box-shadow 0.2s;
+}
+
+.admin-record-item:hover {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09);
+}
+
+.admin-record-item.ei-record {
+    align-items: flex-start;
+}
+
+.admin-record-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.semester-badge {
+    font-size: 15px;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-bottom: 4px;
+}
+
+.record-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.badge-gpa {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.badge-info {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.record-date-admin {
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+/* EI Record Specifics */
+.ei-record-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+
+.ei-overall-score {
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 800;
+    color: white;
+}
+
+.ei-bars-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 420px;
+}
+
+.ei-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ei-bar-label {
+    font-size: 13px;
+    color: #374151;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.ei-bar-bottom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ei-bar-track {
+    flex: 1;
+    height: 10px;
+    background: #f1f5f9;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.ei-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+.ei-bar-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+    width: 24px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.ei-notes-admin {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* Sliders */
+.ei-sliders-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+
+.ei-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ei-slider-row label {
+    font-size: 15px;
+    color: #374151;
+    font-weight: 600;
+    width: 170px;
+    flex-shrink: 0;
+}
+
+.ei-slider-input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.ei-slider-input input[type="range"] {
+    flex: 1;
+    height: 6px;
+    accent-color: #7c3aed;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.ei-score-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+/* Edit/Delete Buttons */
+.admin-record-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.btn-edit-admin,
+.btn-delete-admin {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-edit-admin {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.btn-edit-admin:hover {
+    background: #7c3aed;
+    color: white;
+    transform: scale(1.08);
+}
+
+.btn-delete-admin {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.btn-delete-admin:hover {
+    background: #ef4444;
+    color: white;
+    transform: scale(1.08);
+}
+
+@media (max-width: 600px) {
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ei-bars-admin {
+        min-width: unset;
+    }
+
+    .ei-bar-label {
+        width: 110px;
+        font-size: 12px;
+    }
+}

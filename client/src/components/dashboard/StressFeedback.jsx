@@ -1,0 +1,230 @@
+import { useState, useEffect } from 'react';
+import './StressFeedback.css';
+
+function StressFeedback({ studentId }) {
+    const [feedback, setFeedback] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    const API_URL = 'http://localhost:5000/api';
+
+    useEffect(() => {
+        fetchFeedback();
+    }, [studentId]);
+
+    const fetchFeedback = async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const response = await fetch(`${API_URL}/feedback/${studentId}`);
+            const data = await response.json();
+            if (!response.ok) {
+                setError(data.error || 'Failed to load feedback');
+            } else {
+                setFeedback(data);
+            }
+        } catch (err) {
+            setError('Could not connect to server');
+        }
+        setLoading(false);
+    };
+
+    if (loading) {
+        return (
+            <div className="feedback-container">
+                <div className="feedback-loading">
+                    <div className="loading-pulse"></div>
+                    <p>Analyzing student data...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="feedback-container">
+                <div className="feedback-error">
+                    <span>⚠️</span>
+                    <p>{error}</p>
+                    <button onClick={fetchFeedback} className="btn-retry">Retry</button>
+                </div>
+            </div>
+        );
+    }
+
+    if (!feedback) return null;
+
+    const stressConfig = {
+        high: { color: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)', border: 'rgba(239, 68, 68, 0.3)', icon: '🔴', label: 'High Stress' },
+        moderate: { color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)', border: 'rgba(245, 158, 11, 0.3)', icon: '🟡', label: 'Moderate Stress' },
+        low: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)', border: 'rgba(16, 185, 129, 0.3)', icon: '🟢', label: 'Low Stress' },
+        unknown: { color: '#6b7280', bg: 'rgba(107, 114, 128, 0.1)', border: 'rgba(107, 114, 128, 0.3)', icon: '⚪', label: 'Insufficient Data' }
+    };
+
+    const config = stressConfig[feedback.stressLevel] || stressConfig.unknown;
+
+    return (
+        <div className="feedback-container">
+            {/* Stress Level Header */}
+            <div className="stress-header" style={{ background: config.bg, borderColor: config.border }}>
+                <div className="stress-indicator">
+                    <span className="stress-icon">{config.icon}</span>
+                    <div className="stress-info">
+                        <h2 style={{ color: config.color }}>{config.label}</h2>
+                        {feedback.stressScore !== undefined && (
+                            <div className="stress-meter">
+                                <div className="meter-track">
+                                    <div
+                                        className="meter-fill"
+                                        style={{
+                                            width: `${feedback.stressScore}%`,
+                                            background: `linear-gradient(90deg, #10b981, #f59e0b, #ef4444)`
+                                        }}
+                                    ></div>
+                                </div>
+                                <span className="meter-label">Stress Score: {feedback.stressScore}/100</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Summary */}
+            <div className="feedback-summary">
+                <h3>📋 Summary</h3>
+                <p>{feedback.summary}</p>
+            </div>
+
+            {/* Detailed Analysis */}
+            {feedback.analysisPoints && feedback.analysisPoints.length > 0 && (
+                <div className="feedback-section analysis-section">
+                    <h3>🔍 Detailed Analysis</h3>
+                    <ul className="analysis-list">
+                        {feedback.analysisPoints.map((point, index) => (
+                            <li key={index} className="analysis-item">
+                                <span className="analysis-bullet">•</span>
+                                <span>{point}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {/* Academic & Emotional Cards */}
+            <div className="detail-cards">
+                {feedback.detailedAnalysis?.academic && (
+                    <div className="detail-card academic-detail">
+                        <h4>📚 Academic Analysis</h4>
+                        <div className="detail-metrics">
+                            <div className="detail-metric">
+                                <span className="metric-label">Avg CGPA</span>
+                                <span className="metric-value">{feedback.detailedAnalysis.academic.avgGpa}/10</span>
+                            </div>
+                            {feedback.detailedAnalysis.academic.avgAssignment && (
+                                <div className="detail-metric">
+                                    <span className="metric-label">Avg Assignment</span>
+                                    <span className="metric-value">{feedback.detailedAnalysis.academic.avgAssignment}%</span>
+                                </div>
+                            )}
+                            {feedback.detailedAnalysis.academic.avgAttendance && (
+                                <div className="detail-metric">
+                                    <span className="metric-label">Avg Attendance</span>
+                                    <span className="metric-value">{feedback.detailedAnalysis.academic.avgAttendance}%</span>
+                                </div>
+                            )}
+                            <div className="detail-status">
+                                <strong>Status:</strong> {feedback.detailedAnalysis.academic.status}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {feedback.detailedAnalysis?.emotional && (
+                    <div className="detail-card emotional-detail">
+                        <h4>💭 Emotional Analysis</h4>
+                        <div className="detail-metrics">
+                            <div className="detail-metric">
+                                <span className="metric-label">Overall EI</span>
+                                <span className="metric-value">{feedback.detailedAnalysis.emotional.avgOverall}/10</span>
+                            </div>
+                            <div className="ei-bars">
+                                {[
+                                    { label: 'Self Awareness', value: feedback.detailedAnalysis.emotional.avgSelfAwareness },
+                                    { label: 'Self Regulation', value: feedback.detailedAnalysis.emotional.avgSelfRegulation },
+                                    { label: 'Motivation', value: feedback.detailedAnalysis.emotional.avgMotivation },
+                                    { label: 'Empathy', value: feedback.detailedAnalysis.emotional.avgEmpathy },
+                                    { label: 'Social Skills', value: feedback.detailedAnalysis.emotional.avgSocialSkills }
+                                ].filter(d => d.value !== null).map((dim, i) => (
+                                    <div key={i} className="ei-bar-item">
+                                        <span className="ei-bar-label">{dim.label}</span>
+                                        <div className="ei-bar-track">
+                                            <div
+                                                className="ei-bar-fill"
+                                                style={{
+                                                    width: `${dim.value * 10}%`,
+                                                    backgroundColor: dim.value >= 7 ? '#10b981' : dim.value >= 4 ? '#f59e0b' : '#ef4444'
+                                                }}
+                                            ></div>
+                                        </div>
+                                        <span className="ei-bar-value">{dim.value}</span>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="detail-status">
+                                <strong>Status:</strong> {feedback.detailedAnalysis.emotional.status}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Remarks Analysis */}
+            {feedback.detailedAnalysis?.remarks && (
+                <div className="feedback-section remarks-section">
+                    <h3>📝 Remarks Analysis</h3>
+                    <div className="remarks-quote">
+                        <blockquote>"{feedback.detailedAnalysis.remarks.latestNotes}"</blockquote>
+                        <small>— Recorded on {new Date(feedback.detailedAnalysis.remarks.date).toLocaleDateString()}</small>
+                    </div>
+                    {feedback.detailedAnalysis.remarks.stressIndicators.length > 0 && (
+                        <div className="keyword-tags stress-tags">
+                            <span className="tag-label">⚠️ Stress Indicators:</span>
+                            {feedback.detailedAnalysis.remarks.stressIndicators.map((kw, i) => (
+                                <span key={i} className="tag stress-tag">{kw}</span>
+                            ))}
+                        </div>
+                    )}
+                    {feedback.detailedAnalysis.remarks.positiveIndicators.length > 0 && (
+                        <div className="keyword-tags positive-tags">
+                            <span className="tag-label">✅ Positive Indicators:</span>
+                            {feedback.detailedAnalysis.remarks.positiveIndicators.map((kw, i) => (
+                                <span key={i} className="tag positive-tag">{kw}</span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Suggestions */}
+            {feedback.suggestions && feedback.suggestions.length > 0 && (
+                <div className="feedback-section suggestions-section">
+                    <h3>💡 Recommendations</h3>
+                    <div className="suggestions-grid">
+                        {feedback.suggestions.map((suggestion, index) => (
+                            <div key={index} className="suggestion-card">
+                                <span className="suggestion-number">{index + 1}</span>
+                                <p>{suggestion}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <button className="btn-refresh-feedback" onClick={fetchFeedback}>
+                🔄 Refresh Feedback
+            </button>
+        </div>
+    );
+}
+
+export default StressFeedback;

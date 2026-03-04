@@ -1,0 +1,243 @@
+:root {
+  --primary: #4f46e5;
+  /* Indigo 600 */
+  --primary-dark: #3730a3;
+  /* Indigo 800 */
+  --primary-light: #e0e7ff;
+  /* Indigo 100 */
+  --secondary: #7c3aed;
+  /* Violet 600 */
+  --accent: #06b6d4;
+  /* Cyan 500 */
+
+  --background: #f0f4ff;
+  /* Soft blue-tinted bg */
+  --surface: #ffffff;
+  --text-main: #1e293b;
+  /* Slate 800 */
+  --text-secondary: #64748b;
+  /* Slate 500 */
+
+  --success: #10b981;
+  /* Emerald */
+  --danger: #ef4444;
+  /* Red */
+  --warning: #f59e0b;
+  /* Amber */
+  --info: #3b82f6;
+  /* Blue */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--background);
+  color: var(--text-main);
+  font-size: 18px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  background: var(--background);
+}
+
+.header {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+  color: white;
+  padding: 24px 50px;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: white;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.user-greeting {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.admin-badge {
+  padding: 4px 12px;
+  background: rgba(167, 139, 250, 0.3);
+  border: 1px solid rgba(167, 139, 250, 0.6);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #e9d5ff;
+}
+
+.btn-logout {
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* ===== Auth Pages ===== */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #06b6d4 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--surface);
+  padding: 3.5rem;
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  z-index: 10;
+  border: none;
+}
+
+.auth-header h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: #1e293b;
+  font-weight: 800;
+}
+
+/* ===== Typography ===== */
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+p,
+li,
+span,
+div {
+  font-size: 1.05rem;
+}
+
+button,
+input,
+select,
+textarea {
+  font-size: 1.05rem;
+}
+
+small {
+  font-size: 0.9rem;
+}
+
+/* ===== Form Elements ===== */
+input,
+select,
+textarea {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  background: white;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+button {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* ===== Loading ===== */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 20px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}

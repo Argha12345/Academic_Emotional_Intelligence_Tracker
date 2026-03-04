@@ -1,0 +1,475 @@
+.dashboard-container {
+  padding: 0;
+  width: 100%;
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ===== Student Info Header ===== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: #1e293b;
+  padding: 28px 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border-left: 6px solid #4f46e5;
+}
+
+.student-avatar-display {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 26px;
+  font-weight: 800;
+  margin-right: 18px;
+  flex-shrink: 0;
+}
+
+.dashboard-header .student-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.student-info h1 {
+  margin: 0 0 4px 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.student-meta {
+  margin: 0 0 2px 0;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.student-email {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.student-mentor {
+  margin: 6px 0 0 0;
+  font-size: 13px;
+  color: #7c3aed;
+  display: flex;
+  align-items: center;
+}
+
+.student-role-badge {
+  padding: 6px 16px;
+  background: #ede9fe;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7c3aed;
+  flex-shrink: 0;
+}
+
+/* ===== Tabs ===== */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  background: white;
+  padding: 7px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.tab {
+  flex: 1;
+  padding: 13px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  color: #94a3b8;
+  transition: all 0.3s ease;
+  border-radius: 11px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.tab:hover {
+  background: #f0f4ff;
+  color: #4f46e5;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+/* ===== Tab Content Area ===== */
+.tab-content {
+  background: white;
+  min-height: 400px;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Profile View ===== */
+.profile-view {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.profile-section {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.profile-section h3 {
+  margin: 0 0 18px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.profile-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-field span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.mentor-highlight {
+  color: #7c3aed !important;
+  background: #faf5ff !important;
+  border-color: #e9d5ff !important;
+}
+
+/* View only note */
+.view-only-note {
+  padding: 10px 14px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #92400e;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.profile-loading,
+.profile-empty {
+  padding: 30px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* ===== Academic Records View (student, read-only) ===== */
+.academic-records-view {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.academic-record-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: box-shadow 0.2s;
+}
+
+.academic-record-card:hover {
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+.arc-semester {
+  font-size: 14px;
+  font-weight: 800;
+  color: #4f46e5;
+  min-width: 110px;
+}
+
+.arc-stats {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.arc-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.arc-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.arc-value {
+  font-size: 14px;
+  font-weight: 800;
+  color: #374151;
+}
+
+.arc-date {
+  font-size: 11px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .dashboard-header .student-info {
+    flex-direction: column;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .arc-stats {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+/* ===== Change Password Section ===== */
+.change-password-section {
+  max-width: 500px;
+}
+
+.cp-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 30px;
+}
+
+.cp-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.cp-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cp-card-header h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.cp-card-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.cp-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.cp-success {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.cp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cp-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cp-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cp-input-wrap input {
+  width: 100%;
+  padding: 12px 44px 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #1e293b;
+  background: white;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.cp-input-wrap input:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.cp-eye {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 15px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.cp-eye:hover {
+  color: #4f46e5;
+}
+
+.cp-hint-error {
+  font-size: 11px;
+  color: #ef4444;
+  font-weight: 600;
+  padding-left: 2px;
+}
+
+.cp-hint-success {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+  padding-left: 2px;
+}
+
+.btn-cp-submit {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-top: 4px;
+}
+
+.btn-cp-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+.btn-cp-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

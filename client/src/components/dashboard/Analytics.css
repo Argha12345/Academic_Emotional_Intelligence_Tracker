@@ -1,0 +1,118 @@
+/* Professional Colorful Analytics */
+
+.analytics-container {
+  font-family: 'Inter', sans-serif;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.analytics-card {
+  border-radius: 20px;
+  padding: 28px;
+  color: #1e293b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.analytics-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+}
+
+.analytics-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Academic Card - Indigo/Blue Theme */
+.analytics-card.academic {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #f0f4ff 100%);
+}
+
+.analytics-card.academic::before {
+  background: linear-gradient(90deg, #4f46e5, #3b82f6);
+}
+
+.analytics-card.academic h3 {
+  margin-top: 0;
+  color: #3730a3;
+  border-bottom: 2px solid #c7d2fe;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Emotional Card - Violet/Purple Theme */
+.analytics-card.emotional {
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #fdf4ff 100%);
+}
+
+.analytics-card.emotional::before {
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+}
+
+.analytics-card.emotional h3 {
+  margin-top: 0;
+  color: #5b21b6;
+  border-bottom: 2px solid #ddd6fe;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.metric:last-child {
+  border-bottom: none;
+}
+
+.metric span {
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.metric strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.btn-refresh {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-refresh:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+}

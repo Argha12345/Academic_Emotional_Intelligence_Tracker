@@ -1,0 +1,5 @@
+/* Signup page reuses Login.css classes */
+.signup-page {
+    /* Background handled by Login.css (white/light) */
+    background: #ffffff;
+}
