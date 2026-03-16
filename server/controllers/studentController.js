@@ -1,36 +1,37 @@
-const db = require('../config/db');
+const Student = require('../models/Student');
 const { createStudentAccount } = require('./authController');
 
-exports.getAllStudents = (req, res) => {
-    db.all('SELECT * FROM students ORDER BY createdAt DESC', (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json(rows);
-        }
-    });
+exports.getAllStudents = async (req, res) => {
+    try {
+        const students = await Student.find().sort({ createdAt: -1 });
+        res.json(students);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.getStudentById = (req, res) => {
-    db.get('SELECT * FROM students WHERE id = ?', [req.params.id], (err, row) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json(row);
+exports.getStudentById = async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.id);
+        if (!student) {
+            return res.status(404).json({ error: 'Student not found' });
         }
-    });
+        res.json(student);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.getStudentByEmail = (req, res) => {
-    db.get('SELECT * FROM students WHERE email = ?', [req.params.email], (err, row) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else if (!row) {
-            res.status(404).json({ error: 'Student not found' });
-        } else {
-            res.json(row);
+exports.getStudentByEmail = async (req, res) => {
+    try {
+        const student = await Student.findOne({ email: req.params.email });
+        if (!student) {
+            return res.status(404).json({ error: 'Student not found' });
         }
-    });
+        res.json(student);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
 exports.createStudent = async (req, res) => {
@@ -44,63 +45,65 @@ exports.createStudent = async (req, res) => {
         return res.status(400).json({ error: 'Only @bitsathy.ac.in email addresses are allowed' });
     }
 
-    db.run(
-        'INSERT INTO students (name, email, rollNumber, department, mentorName) VALUES (?, ?, ?, ?, ?)',
-        [name, email.toLowerCase(), rollNumber, department, mentorName || ''],
-        async function (err) {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            const newStudent = { id: this.lastID, name, email: email.toLowerCase(), rollNumber, department, mentorName: mentorName || '' };
-            // Auto-create login account with default password 'bitsathy1'
-            try {
-                await createStudentAccount(name, email);
-            } catch (accountErr) {
-                console.warn('User account may already exist:', accountErr.message);
-            }
-            res.json(newStudent);
+    try {
+        const newStudent = new Student({
+            name,
+            email: email.toLowerCase(),
+            rollNumber,
+            department,
+            mentorName: mentorName || ''
+        });
+        await newStudent.save();
+
+        // Auto-create login account with default password 'bitsathy1'
+        try {
+            await createStudentAccount(name, email);
+        } catch (accountErr) {
+            console.warn('User account may already exist:', accountErr.message);
         }
-    );
+        res.json(newStudent);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-
-exports.updateStudent = (req, res) => {
+exports.updateStudent = async (req, res) => {
     const { name, email, rollNumber, department, mentorName } = req.body;
-    db.run(
-        'UPDATE students SET name = ?, email = ?, rollNumber = ?, department = ?, mentorName = ? WHERE id = ?',
-        [name, email, rollNumber, department, mentorName || '', req.params.id],
-        function (err) {
-            if (err) {
-                res.status(500).json({ error: err.message });
-            } else {
-                res.json({ id: req.params.id, name, email, rollNumber, department, mentorName: mentorName || '' });
-            }
-        }
-    );
+    try {
+        const student = await Student.findByIdAndUpdate(
+            req.params.id,
+            { name, email: email.toLowerCase(), rollNumber, department, mentorName: mentorName || '' },
+            { new: true }
+        );
+        if (!student) return res.status(404).json({ error: 'Student not found' });
+        res.json(student);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
 // Admin only: update mentor name
-exports.updateMentorName = (req, res) => {
+exports.updateMentorName = async (req, res) => {
     const { mentorName } = req.body;
-    db.run(
-        'UPDATE students SET mentorName = ? WHERE id = ?',
-        [mentorName || '', req.params.id],
-        function (err) {
-            if (err) {
-                res.status(500).json({ error: err.message });
-            } else {
-                res.json({ id: req.params.id, mentorName: mentorName || '' });
-            }
-        }
-    );
+    try {
+        const student = await Student.findByIdAndUpdate(
+            req.params.id,
+            { mentorName: mentorName || '' },
+            { new: true }
+        );
+        if (!student) return res.status(404).json({ error: 'Student not found' });
+        res.json({ id: student.id, mentorName: student.mentorName });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.deleteStudent = (req, res) => {
-    db.run('DELETE FROM students WHERE id = ?', [req.params.id], function (err) {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json({ message: 'Student deleted' });
-        }
-    });
+exports.deleteStudent = async (req, res) => {
+    try {
+        const student = await Student.findByIdAndDelete(req.params.id);
+        if (!student) return res.status(404).json({ error: 'Student not found' });
+        res.json({ message: 'Student deleted' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };

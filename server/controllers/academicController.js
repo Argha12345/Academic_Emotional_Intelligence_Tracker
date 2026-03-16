@@ -1,72 +1,56 @@
-const db = require('../config/db');
+const AcademicRecord = require('../models/AcademicRecord');
 
-exports.getAcademicRecords = (req, res) => {
-    db.all(
-        'SELECT * FROM academic_records WHERE studentId = ? ORDER BY recordDate DESC',
-        [req.params.studentId],
-        (err, rows) => {
-            if (err) {
-                res.status(500).json({ error: err.message });
-            } else {
-                res.json(rows);
-            }
-        }
-    );
+exports.getAcademicRecords = async (req, res) => {
+    try {
+        const records = await AcademicRecord.find({ studentId: req.params.studentId }).sort({ recordDate: -1 });
+        res.json(records);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.createAcademicRecord = (req, res) => {
+exports.createAcademicRecord = async (req, res) => {
     const { studentId, semester, gpa, assignmentScore, attendancePercentage } = req.body;
-    db.run(
-        'INSERT INTO academic_records (studentId, semester, gpa, assignmentScore, attendancePercentage) VALUES (?, ?, ?, ?, ?)',
-        [studentId, semester, gpa, assignmentScore, attendancePercentage],
-        function (err) {
-            if (err) {
-                res.status(500).json({ error: err.message });
-            } else {
-                res.json({
-                    id: this.lastID,
-                    studentId,
-                    semester,
-                    gpa,
-                    assignmentScore: assignmentScore ?? null,
-                    attendancePercentage: attendancePercentage ?? null,
-                    recordDate: new Date().toISOString()
-                });
-            }
-        }
-    );
+    try {
+        const record = new AcademicRecord({
+            studentId,
+            semester,
+            gpa,
+            assignmentScore: assignmentScore ?? null,
+            attendancePercentage: attendancePercentage ?? null
+        });
+        await record.save();
+        res.json(record);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.updateAcademicRecord = (req, res) => {
+exports.updateAcademicRecord = async (req, res) => {
     const semester = req.body.semester;
     const gpa = parseFloat(req.body.gpa);
     const assignmentScore = req.body.assignmentScore != null ? parseFloat(req.body.assignmentScore) : null;
     const attendancePercentage = req.body.attendancePercentage != null ? parseFloat(req.body.attendancePercentage) : null;
-    db.run(
-        'UPDATE academic_records SET semester = ?, gpa = ?, assignmentScore = ?, attendancePercentage = ? WHERE id = ?',
-        [semester, gpa, assignmentScore, attendancePercentage, req.params.id],
-        function (err) {
-            if (err) {
-                res.status(500).json({ error: err.message });
-            } else {
-                res.json({
-                    id: Number(req.params.id),
-                    semester,
-                    gpa,
-                    assignmentScore,
-                    attendancePercentage
-                });
-            }
-        }
-    );
+    
+    try {
+        const record = await AcademicRecord.findByIdAndUpdate(
+            req.params.id,
+            { semester, gpa, assignmentScore, attendancePercentage },
+            { new: true }
+        );
+        if (!record) return res.status(404).json({ error: 'Record not found' });
+        res.json(record);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
-exports.deleteAcademicRecord = (req, res) => {
-    db.run('DELETE FROM academic_records WHERE id = ?', [req.params.id], function (err) {
-        if (err) {
-            res.status(500).json({ error: err.message });
-        } else {
-            res.json({ message: 'Academic record deleted' });
-        }
-    });
+exports.deleteAcademicRecord = async (req, res) => {
+    try {
+        const record = await AcademicRecord.findByIdAndDelete(req.params.id);
+        if (!record) return res.status(404).json({ error: 'Record not found' });
+        res.json({ message: 'Academic record deleted' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };

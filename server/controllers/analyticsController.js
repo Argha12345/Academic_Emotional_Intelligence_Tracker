@@ -1,41 +1,51 @@
-const db = require('../config/db');
+const Student = require('../models/Student');
+const AcademicRecord = require('../models/AcademicRecord');
+const EmotionalRecord = require('../models/EmotionalRecord');
 
-exports.getStudentAnalytics = (req, res) => {
+exports.getStudentAnalytics = async (req, res) => {
     const studentId = req.params.studentId;
 
-    db.all(
-        'SELECT AVG(gpa) as avgGpa, AVG(assignmentScore) as avgAssignment, AVG(attendancePercentage) as avgAttendance FROM academic_records WHERE studentId = ?',
-        [studentId],
-        (err, academicData) => {
-            if (err) {
-                res.status(500).json({ error: err.message });
-                return;
-            }
+    try {
+        const academicData = await AcademicRecord.aggregate([
+            { $match: { studentId } },
+            { $group: {
+                _id: null,
+                avgGpa: { $avg: "$gpa" },
+                avgAssignment: { $avg: "$assignmentScore" },
+                avgAttendance: { $avg: "$attendancePercentage" },
+                recordCount: { $sum: 1 }
+            }}
+        ]);
 
-            db.all(
-                'SELECT AVG(selfAwareness) as avgSelfAwareness, AVG(selfRegulation) as avgSelfRegulation, AVG(motivation) as avgMotivation, AVG(empathy) as avgEmpathy, AVG(socialSkills) as avgSocialSkills FROM emotional_records WHERE studentId = ?',
-                [studentId],
-                (err, emotionalData) => {
-                    if (err) {
-                        res.status(500).json({ error: err.message });
-                    } else {
-                        res.json({
-                            academic: academicData[0] || {},
-                            emotional: emotionalData[0] || {}
-                        });
-                    }
-                }
-            );
-        }
-    );
+        const emotionalData = await EmotionalRecord.aggregate([
+            { $match: { studentId } },
+            { $group: {
+                _id: null,
+                avgOverall: { $avg: "$overallScore" },
+                avgSelfAwareness: { $avg: "$selfAwareness" },
+                avgSelfRegulation: { $avg: "$selfRegulation" },
+                avgMotivation: { $avg: "$motivation" },
+                avgEmpathy: { $avg: "$empathy" },
+                avgSocialSkills: { $avg: "$socialSkills" },
+                recordCount: { $sum: 1 }
+            }}
+        ]);
+        
+        res.json({
+            academic: academicData[0] || {},
+            emotional: emotionalData[0] || {}
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
 // Feedback Logic
 function generateStressFeedback(student, academic, latestEmotional, emotionalAvg) {
     const avgGpa = academic?.avgGpa || null;
     const avgOverall = emotionalAvg?.avgOverall || null;
-    const hasAcademicData = academic?.recordCount > 0 && avgGpa !== null;
-    const hasEmotionalData = emotionalAvg?.recordCount > 0 && avgOverall !== null;
+    const hasAcademicData = (academic?.recordCount || 0) > 0 && avgGpa !== null;
+    const hasEmotionalData = (emotionalAvg?.recordCount || 0) > 0 && avgOverall !== null;
 
     // If no data at all
     if (!hasAcademicData && !hasEmotionalData) {
@@ -207,11 +217,11 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
     // Generate summary
     let summary;
     if (stressLevel === 'high') {
-        summary = `${student.name} appears to be under HIGH stress. ${hasAcademicData ? `Average CGPA is ${avgGpa.toFixed(2)}/10` : 'No academic data'}. ${hasEmotionalData ? `Emotional well-being score is ${avgOverall.toFixed(1)}/10` : 'No emotional data'}. Immediate support and intervention is recommended.`;
+        summary = `${student.name} appears to be under HIGH stress. ${hasAcademicData ? 'Average CGPA is ' + avgGpa.toFixed(2) + '/10' : 'No academic data'}. ${hasEmotionalData ? 'Emotional well-being score is ' + avgOverall.toFixed(1) + '/10' : 'No emotional data'}. Immediate support and intervention is recommended.`;
     } else if (stressLevel === 'moderate') {
-        summary = `${student.name} shows MODERATE stress levels. ${hasAcademicData ? `Average CGPA is ${avgGpa.toFixed(2)}/10` : 'No academic data'}. ${hasEmotionalData ? `Emotional well-being score is ${avgOverall.toFixed(1)}/10` : 'No emotional data'}. Regular check-ins and targeted support would be beneficial.`;
+        summary = `${student.name} shows MODERATE stress levels. ${hasAcademicData ? 'Average CGPA is ' + avgGpa.toFixed(2) + '/10' : 'No academic data'}. ${hasEmotionalData ? 'Emotional well-being score is ' + avgOverall.toFixed(1) + '/10' : 'No emotional data'}. Regular check-ins and targeted support would be beneficial.`;
     } else {
-        summary = `${student.name} appears to be in a GOOD state. ${hasAcademicData ? `Average CGPA is ${avgGpa.toFixed(2)}/10` : 'No academic data'}. ${hasEmotionalData ? `Emotional well-being score is ${avgOverall.toFixed(1)}/10` : 'No emotional data'}. Continue monitoring and encouragement.`;
+        summary = `${student.name} appears to be in a GOOD state. ${hasAcademicData ? 'Average CGPA is ' + avgGpa.toFixed(2) + '/10' : 'No academic data'}. ${hasEmotionalData ? 'Emotional well-being score is ' + avgOverall.toFixed(1) + '/10' : 'No emotional data'}. Continue monitoring and encouragement.`;
     }
 
     // Add general wellness suggestions if list is short
@@ -233,43 +243,50 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
             remarks: remarksAnalysis
         }
     };
-} exports.getStressFeedback = (req, res) => {
+}
+
+exports.getStressFeedback = async (req, res) => {
     const studentId = req.params.studentId;
 
-    // Get student info
-    db.get('SELECT * FROM students WHERE id = ?', [studentId], (err, student) => {
-        if (err) return res.status(500).json({ error: err.message });
+    try {
+        const student = await Student.findById(studentId);
         if (!student) return res.status(404).json({ error: 'Student not found' });
 
-        // Get average academic data
-        db.get(
-            'SELECT AVG(gpa) as avgGpa, COUNT(*) as recordCount, AVG(assignmentScore) as avgAssignment, AVG(attendancePercentage) as avgAttendance FROM academic_records WHERE studentId = ?',
-            [studentId],
-            (err, academic) => {
-                if (err) return res.status(500).json({ error: err.message });
+        const academicData = await AcademicRecord.aggregate([
+            { $match: { studentId } },
+            { $group: {
+                _id: null,
+                avgGpa: { $avg: "$gpa" },
+                avgAssignment: { $avg: "$assignmentScore" },
+                avgAttendance: { $avg: "$attendancePercentage" },
+                recordCount: { $sum: 1 }
+            }}
+        ]);
 
-                // Get latest emotional record
-                db.get(
-                    'SELECT * FROM emotional_records WHERE studentId = ? ORDER BY recordDate DESC LIMIT 1',
-                    [studentId],
-                    (err, latestEmotional) => {
-                        if (err) return res.status(500).json({ error: err.message });
+        const latestEmotional = await EmotionalRecord.findOne({ studentId }).sort({ recordDate: -1 });
 
-                        // Get average emotional data
-                        db.get(
-                            'SELECT AVG(overallScore) as avgOverall, AVG(selfAwareness) as avgSelfAwareness, AVG(selfRegulation) as avgSelfRegulation, AVG(motivation) as avgMotivation, AVG(empathy) as avgEmpathy, AVG(socialSkills) as avgSocialSkills, COUNT(*) as recordCount FROM emotional_records WHERE studentId = ?',
-                            [studentId],
-                            (err, emotionalAvg) => {
-                                if (err) return res.status(500).json({ error: err.message });
+        const emotionalData = await EmotionalRecord.aggregate([
+            { $match: { studentId } },
+            { $group: {
+                _id: null,
+                avgOverall: { $avg: "$overallScore" },
+                avgSelfAwareness: { $avg: "$selfAwareness" },
+                avgSelfRegulation: { $avg: "$selfRegulation" },
+                avgMotivation: { $avg: "$motivation" },
+                avgEmpathy: { $avg: "$empathy" },
+                avgSocialSkills: { $avg: "$socialSkills" },
+                recordCount: { $sum: 1 }
+            }}
+        ]);
 
-                                // Generate feedback
-                                const feedback = generateStressFeedback(student, academic, latestEmotional, emotionalAvg);
-                                res.json(feedback);
-                            }
-                        );
-                    }
-                );
-            }
+        const feedback = generateStressFeedback(
+            student, 
+            academicData[0] || { recordCount: 0 }, 
+            latestEmotional, 
+            emotionalData[0] || { recordCount: 0 }
         );
-    });
+        res.json(feedback);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };

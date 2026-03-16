@@ -4,7 +4,8 @@ import Login from './components/auth/Login';
 import StudentForm from './components/student/StudentForm';
 import StudentDashboard from './components/dashboard/StudentDashboard';
 import AdminDashboard from './components/dashboard/AdminDashboard';
-import { FaGraduationCap, FaSignOutAlt, FaUserCircle, FaUserShield } from 'react-icons/fa';
+import MentorDashboard from './components/dashboard/MentorDashboard';
+import { FaGraduationCap, FaSignOutAlt, FaUserCircle, FaUserShield, FaUserTie } from 'react-icons/fa';
 import { capitalize } from './utils/stringUtils';
 
 const API_URL = 'http://localhost:5000/api';
@@ -12,7 +13,7 @@ const API_URL = 'http://localhost:5000/api';
 function App() {
   const [user, setUser] = useState(null);
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [view, setView] = useState('loading'); // 'loading' | 'dashboard' | 'form' | 'admin'
+  const [view, setView] = useState('loading'); // 'loading' | 'dashboard' | 'form' | 'admin' | 'mentor'
 
   // Restore session on mount
   useEffect(() => {
@@ -28,6 +29,8 @@ function App() {
     if (!user) return;
     if (user.role === 'admin') {
       setView('admin');
+    } else if (user.role === 'mentor') {
+      setView('mentor');
     } else {
       fetchStudentProfile(user.email);
     }
@@ -80,6 +83,7 @@ function App() {
   }
 
   const isAdmin = user.role === 'admin';
+  const isMentor = user.role === 'mentor';
 
   return (
     <div className="app-container">
@@ -90,10 +94,13 @@ function App() {
             <span className="user-greeting">
               {isAdmin
                 ? <><FaUserShield style={{ marginRight: '8px', verticalAlign: 'middle' }} />Admin Panel</>
-                : <><FaUserCircle style={{ marginRight: '8px', verticalAlign: 'middle' }} />Hi, {capitalize(user.name)}</>
+                : isMentor
+                  ? <><FaUserTie style={{ marginRight: '8px', verticalAlign: 'middle' }} />Hi, {capitalize(user.name)}</>
+                  : <><FaUserCircle style={{ marginRight: '8px', verticalAlign: 'middle' }} />Hi, {capitalize(user.name)}</>
               }
             </span>
             {isAdmin && <span className="admin-badge">ADMIN</span>}
+            {isMentor && <span className="admin-badge" style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9)' }}>MENTOR</span>}
             <button className="btn-logout" onClick={handleLogout}>
               <FaSignOutAlt /> Logout
             </button>
@@ -103,6 +110,8 @@ function App() {
 
       <main className="main-content">
         {view === 'admin' && isAdmin && <AdminDashboard />}
+
+        {view === 'mentor' && isMentor && <MentorDashboard user={user} />}
 
         {view === 'form' && !isAdmin && (
           <StudentForm

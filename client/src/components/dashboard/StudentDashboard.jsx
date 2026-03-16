@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import './StudentDashboard.css';
 import StressFeedback from './StressFeedback';
+import AcademicInsights from './AcademicInsights';
+import StudyTimetable from './StudyTimetable';
 import {
   FaUserCircle, FaHeartbeat, FaIdCard,
-  FaUserTie, FaKey, FaEye, FaEyeSlash
+  FaUserTie, FaKey, FaEye, FaEyeSlash, FaRobot, FaCalendarAlt
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
@@ -98,6 +100,12 @@ function StudentDashboard({ student, currentUserEmail }) {
         <button className={`tab ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
           <FaIdCard style={{ marginRight: '8px' }} /> My Profile
         </button>
+        <button className={`tab ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')}>
+          <FaRobot style={{ marginRight: '8px' }} /> AI Insights
+        </button>
+        <button className={`tab ${activeTab === 'timetable' ? 'active' : ''}`} onClick={() => setActiveTab('timetable')}>
+          <FaCalendarAlt style={{ marginRight: '8px' }} /> Study Timetable
+        </button>
         <button className={`tab ${activeTab === 'feedback' ? 'active' : ''}`} onClick={() => setActiveTab('feedback')}>
           <FaHeartbeat style={{ marginRight: '8px' }} /> Stress Feedback
         </button>
@@ -181,6 +189,12 @@ function StudentDashboard({ student, currentUserEmail }) {
             </div>
           </div>
         )}
+
+        {/* ---- AI Insights ---- */}
+        {activeTab === 'insights' && <AcademicInsights studentId={student.id} studentName={student.name} />}
+
+        {/* ---- Study Timetable ---- */}
+        {activeTab === 'timetable' && <StudyTimetable studentId={student.id} />}
 
         {/* ---- Stress Feedback ---- */}
         {activeTab === 'feedback' && <StressFeedback studentId={student.id} />}
