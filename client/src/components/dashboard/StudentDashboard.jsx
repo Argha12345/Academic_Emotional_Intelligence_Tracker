@@ -3,18 +3,23 @@ import './StudentDashboard.css';
 import StressFeedback from './StressFeedback';
 import AcademicInsights from './AcademicInsights';
 import StudyTimetable from './StudyTimetable';
+import ProfileSection from './ProfileSection';
+import CounsellingBooking from './CounsellingBooking';
 import {
   FaUserCircle, FaHeartbeat, FaIdCard,
-  FaUserTie, FaKey, FaEye, FaEyeSlash, FaRobot, FaCalendarAlt
+  FaUserTie, FaKey, FaEye, FaEyeSlash, FaReact, FaCalendarAlt,
+  FaEnvelope, FaGraduationCap, FaBook, FaClipboardList, FaCheckCircle, FaCommentDots
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
 const API_URL = 'http://localhost:5000/api';
 
-function StudentDashboard({ student, currentUserEmail }) {
-  const [activeTab, setActiveTab] = useState('profile');
+function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, user }) {
   const [academicRecords, setAcademicRecords] = useState([]);
   const [loadingAcademic, setLoadingAcademic] = useState(true);
+
+  const [mentorFeedbacks, setMentorFeedbacks] = useState([]);
+  const [loadingFeedback, setLoadingFeedback] = useState(false);
 
   // Change password state
   const [cpCurrent, setCpCurrent] = useState('');
@@ -26,7 +31,20 @@ function StudentDashboard({ student, currentUserEmail }) {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
 
-  useEffect(() => { fetchAcademicRecords(); }, [student.id]);
+  useEffect(() => { 
+    fetchAcademicRecords(); 
+    fetchMentorFeedback();
+  }, [student.id]);
+
+  const fetchMentorFeedback = async () => {
+    setLoadingFeedback(true);
+    try {
+      const res = await fetch(`${API_URL}/mentors/feedback/${student.id}`);
+      const data = await res.json();
+      setMentorFeedbacks(data || []);
+    } catch (e) { console.error(e); }
+    setLoadingFeedback(false);
+  };
 
   const fetchAcademicRecords = async () => {
     setLoadingAcademic(true);
@@ -59,7 +77,7 @@ function StudentDashboard({ student, currentUserEmail }) {
       const data = await res.json();
       if (!res.ok) { setCpError(data.error || 'Failed to change password'); }
       else {
-        setCpSuccess('✅ Password changed successfully!');
+        setCpSuccess('Password changed successfully!');
         setCpCurrent(''); setCpNew(''); setCpConfirm('');
       }
     } catch { setCpError('Server error. Please try again.'); }
@@ -92,65 +110,19 @@ function StudentDashboard({ student, currentUserEmail }) {
             )}
           </div>
         </div>
-        <div className="student-role-badge">👨‍🎓 Student</div>
+        <div className="student-role-badge"><FaGraduationCap style={{ marginRight: '6px' }} /> Student</div>
       </div>
 
-      {/* Tabs */}
-      <div className="tabs">
-        <button className={`tab ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
-          <FaIdCard style={{ marginRight: '8px' }} /> My Profile
-        </button>
-        <button className={`tab ${activeTab === 'insights' ? 'active' : ''}`} onClick={() => setActiveTab('insights')}>
-          <FaRobot style={{ marginRight: '8px' }} /> AI Insights
-        </button>
-        <button className={`tab ${activeTab === 'timetable' ? 'active' : ''}`} onClick={() => setActiveTab('timetable')}>
-          <FaCalendarAlt style={{ marginRight: '8px' }} /> Study Timetable
-        </button>
-        <button className={`tab ${activeTab === 'feedback' ? 'active' : ''}`} onClick={() => setActiveTab('feedback')}>
-          <FaHeartbeat style={{ marginRight: '8px' }} /> Stress Feedback
-        </button>
-        <button className={`tab ${activeTab === 'password' ? 'active' : ''}`} onClick={() => setActiveTab('password')}>
-          <FaKey style={{ marginRight: '8px' }} /> Change Password
-        </button>
-      </div>
 
       {/* Tab Content */}
       <div className="tab-content">
-        {/* ---- Profile ---- */}
+        {/* ---- Dashboard (Academic Records) ---- */}
         {activeTab === 'profile' && (
           <div className="profile-view">
             <div className="profile-section">
-              <h3><FaUserCircle style={{ marginRight: '8px', color: '#4f46e5' }} />Personal Information</h3>
-              <div className="profile-grid">
-                <div className="profile-field">
-                  <label>Full Name</label>
-                  <span>{capitalize(student.name)}</span>
-                </div>
-                <div className="profile-field">
-                  <label>Email Address</label>
-                  <span>{student.email}</span>
-                </div>
-                <div className="profile-field">
-                  <label>Roll Number</label>
-                  <span>{student.rollNumber}</span>
-                </div>
-                <div className="profile-field">
-                  <label>Department</label>
-                  <span>{student.department || 'Not specified'}</span>
-                </div>
-                {student.mentorName && (
-                  <div className="profile-field full-width">
-                    <label><FaUserTie style={{ marginRight: '4px' }} />Assigned Mentor</label>
-                    <span className="mentor-highlight">{student.mentorName}</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="profile-section">
-              <h3><span style={{ marginRight: '8px' }}>📚</span>Academic Records</h3>
+              <h3><FaBook style={{ marginRight: '8px', color: '#10b981' }} /> Academic Records</h3>
               <div className="view-only-note">
-                📋 Academic records are managed by your administrator
+                <FaClipboardList style={{ marginRight: '8px' }} /> Academic records are managed by your administrator
               </div>
               {loadingAcademic ? (
                 <div className="profile-loading">Loading records...</div>
@@ -199,79 +171,53 @@ function StudentDashboard({ student, currentUserEmail }) {
         {/* ---- Stress Feedback ---- */}
         {activeTab === 'feedback' && <StressFeedback studentId={student.id} />}
 
-        {/* ---- Change Password ---- */}
-        {activeTab === 'password' && (
-          <div className="change-password-section">
-            <div className="cp-card">
-              <div className="cp-card-header">
-                <div className="cp-icon-wrap"><FaKey size={28} color="#4f46e5" /></div>
-                <div>
-                  <h3>Change Password</h3>
-                  <p>Update your login password. Minimum 6 characters.</p>
-                </div>
-              </div>
+        {/* ---- Mentor Feedback ---- */}
+        {activeTab === 'mentorfeedback' && (
+          <div className="profile-view">
+           <div className="profile-section">
+               <h3><FaUserTie style={{ marginRight: '8px', color: '#0ea5e9' }} />Mentor Feedback</h3>
+               <p style={{ color: '#8892a4', marginBottom: '20px', fontSize: '14px' }}>Feedback and notes left by your assigned mentor regarding your academic and emotional progress.</p>
+               {loadingFeedback ? (
+                   <div className="profile-loading">Loading feedback...</div>
+               ) : mentorFeedbacks.length === 0 ? (
+                   <div className="profile-empty">No feedback received from your mentor yet.</div>
+               ) : (
+                   <div className="mentor-feedback-list">
+                       {mentorFeedbacks.map(fb => (
+                           <div key={fb.id} className="academic-record-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '10px' }}>
+                               <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
+                                   <span style={{ fontWeight: 700, color: '#f0f4ff', display: 'flex', alignItems: 'center' }}>
+                                       <FaUserTie style={{ marginRight: '8px', color: '#0ea5e9' }} />
+                                       {capitalize(fb.mentorName)}
+                                   </span>
+                                   <span style={{ fontSize: '13px', color: '#8892a4' }}>
+                                       {new Date(fb.createdAt).toLocaleDateString()} • {new Date(fb.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                   </span>
+                               </div>
+                               <p style={{ margin: 0, fontSize: '15px', color: '#cbd5e1', lineHeight: '1.6', background: '#0b0e18', padding: '14px', borderRadius: '10px', width: '100%', border: '1px solid #1e2435', boxSizing: 'border-box' }}>
+                                  {fb.feedback}
+                               </p>
+                           </div>
+                       ))}
+                   </div>
+               )}
+           </div>
+          </div>
+        )}
 
-              {cpError && <div className="cp-error">{cpError}</div>}
-              {cpSuccess && <div className="cp-success">{cpSuccess}</div>}
+        {/* ---- My Profile (with change password) ---- */}
+        {activeTab === 'myprofile' && (
+          <ProfileSection user={user} student={student} />
+        )}
 
-              <form onSubmit={handleChangePassword} className="cp-form">
-                <div className="cp-field">
-                  <label>Current Password</label>
-                  <div className="cp-input-wrap">
-                    <input
-                      type={showCurrent ? 'text' : 'password'}
-                      value={cpCurrent}
-                      onChange={e => { setCpCurrent(e.target.value); setCpError(''); setCpSuccess(''); }}
-                      placeholder="Enter current password"
-                      required
-                    />
-                    <button type="button" className="cp-eye" onClick={() => setShowCurrent(v => !v)}>
-                      {showCurrent ? <FaEyeSlash /> : <FaEye />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="cp-field">
-                  <label>New Password</label>
-                  <div className="cp-input-wrap">
-                    <input
-                      type={showNew ? 'text' : 'password'}
-                      value={cpNew}
-                      onChange={e => { setCpNew(e.target.value); setCpError(''); setCpSuccess(''); }}
-                      placeholder="Min 6 characters"
-                      required
-                      minLength={6}
-                    />
-                    <button type="button" className="cp-eye" onClick={() => setShowNew(v => !v)}>
-                      {showNew ? <FaEyeSlash /> : <FaEye />}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="cp-field">
-                  <label>Confirm New Password</label>
-                  <div className="cp-input-wrap">
-                    <input
-                      type="password"
-                      value={cpConfirm}
-                      onChange={e => { setCpConfirm(e.target.value); setCpError(''); setCpSuccess(''); }}
-                      placeholder="Re-enter new password"
-                      required
-                    />
-                  </div>
-                  {cpConfirm.length > 0 && cpNew !== cpConfirm && (
-                    <div className="cp-hint-error">Passwords do not match</div>
-                  )}
-                  {cpConfirm.length > 0 && cpNew === cpConfirm && cpNew.length >= 6 && (
-                    <div className="cp-hint-success">✓ Passwords match</div>
-                  )}
-                </div>
-
-                <button type="submit" className="btn-cp-submit" disabled={cpLoading}>
-                  {cpLoading ? 'Updating...' : '🔐 Update Password'}
-                </button>
-              </form>
-            </div>
+        {/* ---- Counselling Booking ---- */}
+        {activeTab === 'counselling' && (
+          <div className="counselling-page-layout">
+            <CounsellingBooking
+              studentId={student.id}
+              studentName={student.name}
+              studentEmail={student.email}
+            />
           </div>
         )}
       </div>

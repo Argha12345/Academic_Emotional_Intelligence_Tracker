@@ -1,14 +1,14 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const Mentor = require('../models/Mentor');
-const Student = require('../models/Student');
-const MentorFeedback = require('../models/MentorFeedback');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import Mentor from '../models/Mentor.js';
+import Student from '../models/Student.js';
+import MentorFeedback from '../models/MentorFeedback.js';
 
 const JWT_SECRET = 'academic_ei_tracker_secret_key_2026';
 const DEFAULT_MENTOR_PASSWORD = 'mentor123';
 
 // Mentor Login
-exports.mentorLogin = async (req, res) => {
+export const mentorLogin = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -38,7 +38,7 @@ exports.mentorLogin = async (req, res) => {
 };
 
 // Get all mentors (admin only)
-exports.getAllMentors = async (req, res) => {
+export const getAllMentors = async (req, res) => {
     try {
         const mentors = await Mentor.find().select('id name email department createdAt').sort({ createdAt: -1 });
         res.json(mentors);
@@ -48,7 +48,7 @@ exports.getAllMentors = async (req, res) => {
 };
 
 // Create a mentor (admin only)
-exports.createMentor = async (req, res) => {
+export const createMentor = async (req, res) => {
     const { name, email, department } = req.body;
 
     if (!name || !email) {
@@ -80,7 +80,7 @@ exports.createMentor = async (req, res) => {
 };
 
 // Delete a mentor (admin only)
-exports.deleteMentor = async (req, res) => {
+export const deleteMentor = async (req, res) => {
     try {
         const mentor = await Mentor.findByIdAndDelete(req.params.id);
         if (!mentor) return res.status(404).json({ error: 'Mentor not found' });
@@ -91,7 +91,7 @@ exports.deleteMentor = async (req, res) => {
 };
 
 // Reset mentor password (admin only)
-exports.resetMentorPassword = async (req, res) => {
+export const resetMentorPassword = async (req, res) => {
     const { email, newPassword } = req.body;
 
     if (!email || !newPassword) {
@@ -112,7 +112,7 @@ exports.resetMentorPassword = async (req, res) => {
 };
 
 // Get students assigned to a mentor (by mentor name match)
-exports.getAssignedStudents = async (req, res) => {
+export const getAssignedStudents = async (req, res) => {
     const mentorName = req.params.mentorName;
     try {
         // Find using case-insensitive regex
@@ -124,7 +124,7 @@ exports.getAssignedStudents = async (req, res) => {
 };
 
 // Mentor changes own password
-exports.changePassword = async (req, res) => {
+export const changePassword = async (req, res) => {
     const { email, currentPassword, newPassword } = req.body;
 
     if (!email || !currentPassword || !newPassword) {
@@ -153,7 +153,7 @@ exports.changePassword = async (req, res) => {
 // ===== Mentor Feedback =====
 
 // Get feedback for a student
-exports.getFeedback = async (req, res) => {
+export const getFeedback = async (req, res) => {
     try {
         const feedbacks = await MentorFeedback.find({ studentId: req.params.studentId }).sort({ createdAt: -1 });
         res.json(feedbacks);
@@ -163,7 +163,7 @@ exports.getFeedback = async (req, res) => {
 };
 
 // Add feedback for a student
-exports.addFeedback = async (req, res) => {
+export const addFeedback = async (req, res) => {
     const { studentId, mentorName, feedback } = req.body;
 
     if (!studentId || !mentorName || !feedback) {
@@ -184,7 +184,7 @@ exports.addFeedback = async (req, res) => {
 };
 
 // Delete a feedback entry
-exports.deleteFeedback = async (req, res) => {
+export const deleteFeedback = async (req, res) => {
     try {
         const feedback = await MentorFeedback.findByIdAndDelete(req.params.id);
         if (!feedback) return res.status(404).json({ error: 'Feedback not found' });

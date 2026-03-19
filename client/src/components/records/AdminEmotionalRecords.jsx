@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import './AdminRecords.css';
-import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaBrain, FaCog, FaBullseye, FaHeart, FaHandshake } from 'react-icons/fa';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -10,11 +13,11 @@ const defaultForm = {
 };
 
 const dimensions = [
-    { name: 'selfAwareness', label: '🧠 Self Awareness' },
-    { name: 'selfRegulation', label: '⚙️ Self Regulation' },
-    { name: 'motivation', label: '🎯 Motivation' },
-    { name: 'empathy', label: '❤️ Empathy' },
-    { name: 'socialSkills', label: '🤝 Social Skills' }
+    { name: 'selfAwareness', label: <><FaBrain style={{ marginRight: '6px' }} /> Self Awareness</> },
+    { name: 'selfRegulation', label: <><FaCog style={{ marginRight: '6px' }} /> Self Regulation</> },
+    { name: 'motivation', label: <><FaBullseye style={{ marginRight: '6px' }} /> Motivation</> },
+    { name: 'empathy', label: <><FaHeart style={{ marginRight: '6px', color: '#ef4444' }} /> Empathy</> },
+    { name: 'socialSkills', label: <><FaHandshake style={{ marginRight: '6px' }} /> Social Skills</> }
 ];
 
 function AdminEmotionalRecords({ studentId }) {
@@ -101,7 +104,7 @@ function AdminEmotionalRecords({ studentId }) {
     return (
         <div className="admin-records">
             <div className="admin-records-header">
-                <h3>🧠 Emotional Intelligence Report</h3>
+                <h3><FaBrain style={{ marginRight: '6px' }} /> Emotional Intelligence Report</h3>
                 <button className="btn-add-admin" onClick={() => { handleCancel(); setShowForm(true); }}>
                     <FaPlus style={{ marginRight: '6px' }} /> Add Record
                 </button>
@@ -110,7 +113,7 @@ function AdminEmotionalRecords({ studentId }) {
             {showForm && (
                 <div className="admin-form-card">
                     <h4>{editId ? '✏️ Edit EI Record' : '➕ Add EI Record'}</h4>
-                    <p style={{ color: '#64748b', fontSize: '13px', marginTop: 0 }}>Rate each dimension on a scale of 1–10</p>
+                    <p style={{ color: '#64748b', fontSize: '13px', marginTop: 0 }}>Rate each dimension on a scale of 1-10</p>
                     <form onSubmit={handleSubmit}>
                         <div className="ei-sliders-admin">
                             {dimensions.map(d => (
@@ -156,7 +159,7 @@ function AdminEmotionalRecords({ studentId }) {
             ) : (
                 <div className="admin-records-list">
                     {records.map(record => (
-                        <div key={record.id} className="admin-record-item ei-record">
+                        <div key={record.id} className="admin-record-item ei-record" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                             <div className="admin-record-left" style={{ flex: 1 }}>
                                 <div className="ei-record-header">
                                     <span className="ei-overall-score" style={{ background: getColor(record.overallScore) }}>
@@ -182,6 +185,35 @@ function AdminEmotionalRecords({ studentId }) {
                                 </div>
                                 {record.notes && <div className="ei-notes-admin">📝 {record.notes}</div>}
                             </div>
+                            
+                            {/* PIE CHART SECTION */}
+                            <div className="ei-pie-chart" style={{ width: '160px', height: '160px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Pie 
+                                    data={{
+                                        labels: ['Self Awareness', 'Self Regulation', 'Motivation', 'Empathy', 'Social Skills'],
+                                        datasets: [{
+                                            data: [record.selfAwareness, record.selfRegulation, record.motivation, record.empathy, record.socialSkills],
+                                            backgroundColor: [
+                                                'rgba(99, 102, 241, 0.85)',
+                                                'rgba(16, 185, 129, 0.85)', 
+                                                'rgba(245, 158, 11, 0.85)',
+                                                'rgba(239, 68, 68, 0.85)',
+                                                'rgba(168, 85, 247, 0.85)'
+                                            ],
+                                            borderColor: '#ffffff',
+                                            borderWidth: 2,
+                                            hoverOffset: 6
+                                        }]
+                                    }} 
+                                    options={{
+                                        plugins: { legend: { display: false } },
+                                        maintainAspectRatio: false,
+                                        cutout: '20%' // slight doughnut feel
+                                    }} 
+                                    style={{ width: '100%', height: '100%' }}
+                                />
+                            </div>
+
                             <div className="admin-record-actions" style={{ flexDirection: 'column' }}>
                                 <button className="btn-edit-admin" onClick={() => handleEdit(record)}><FaEdit /></button>
                                 <button className="btn-delete-admin" onClick={() => handleDelete(record.id)}><FaTrash /></button>

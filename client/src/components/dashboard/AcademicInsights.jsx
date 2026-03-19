@@ -3,7 +3,7 @@ import './AcademicInsights.css';
 import {
     FaBrain, FaChartLine, FaExclamationTriangle, FaCheckCircle,
     FaLightbulb, FaChartBar, FaGraduationCap, FaArrowUp, FaArrowDown,
-    FaMinus, FaRobot, FaStar, FaHeart
+    FaMinus, FaReact, FaStar, FaHeart
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
@@ -36,8 +36,8 @@ function AcademicInsights({ studentId, studentName }) {
         return (
             <div className="ml-loading">
                 <div className="ml-loading-spinner"></div>
-                <p>Running ML analysis...</p>
-                <span>Analyzing academic data with regression models</span>
+                <p>Running analysis...</p>
+                <span>Analyzing academic data...</span>
             </div>
         );
     }
@@ -54,9 +54,9 @@ function AcademicInsights({ studentId, studentName }) {
     if (!insights || !insights.hasData) {
         return (
             <div className="ml-no-data">
-                <FaRobot size={48} />
+                <FaReact size={48} />
                 <h3>No Data for Analysis</h3>
-                <p>Add academic records (CGPA, attendance, assignments) to unlock ML-powered insights, predictions, and personalized recommendations.</p>
+                <p>Add academic records (CGPA, attendance, assignments) to unlock predictive analytics, performance trends, and personalized recommendations.</p>
             </div>
         );
     }
@@ -80,14 +80,14 @@ function AcademicInsights({ studentId, studentName }) {
             {/* Header Banner */}
             <div className="ml-header-banner">
                 <div className="ml-header-left">
-                    <FaRobot className="ml-header-icon" />
+                    <FaReact className="ml-header-icon" />
                     <div>
-                        <h2>ML Academic Insights</h2>
-                        <p>AI-powered analysis using Linear Regression & Statistical Models</p>
+                        <h2>Smart Analytics</h2>
+                        <p>Advanced academic analysis and performance predictions</p>
                     </div>
                 </div>
                 <div className="ml-header-badge">
-                    <FaBrain />
+                    <FaReact />
                     <span>{insights.recordCount} records analyzed</span>
                 </div>
             </div>
@@ -165,7 +165,7 @@ function AcademicInsights({ studentId, studentName }) {
 
             {/* CGPA Chart */}
             <div className="ml-section">
-                <h3><FaChartBar style={{ marginRight: '8px', color: '#6366f1' }} />CGPA Trend Analysis (Linear Regression)</h3>
+                <h3><FaChartBar style={{ marginRight: '8px', color: '#6366f1' }} />CGPA Trend Analysis</h3>
                 <div className="ml-chart-card">
                     <div className="ml-bar-chart">
                         {insights.chartData.gpaHistory.map((item, i) => (
@@ -208,7 +208,7 @@ function AcademicInsights({ studentId, studentName }) {
             {/* EI-Academic Correlation */}
             {insights.eiCorrelation && (
                 <div className="ml-section">
-                    <h3><FaHeart style={{ marginRight: '8px', color: '#ec4899' }} />EI–Academic Correlation (Pearson r)</h3>
+                    <h3><FaHeart style={{ marginRight: '8px', color: '#ec4899' }} />EI-Academic Correlation</h3>
                     <div className="ml-correlation-card">
                         <div className="ml-corr-visual">
                             <div className="ml-corr-circle" style={{
@@ -252,7 +252,7 @@ function AcademicInsights({ studentId, studentName }) {
 
             {/* Smart Recommendations */}
             <div className="ml-section">
-                <h3><FaLightbulb style={{ marginRight: '8px', color: '#f59e0b' }} />AI-Powered Recommendations</h3>
+                <h3><FaLightbulb style={{ marginRight: '8px', color: '#f59e0b' }} />Smart Recommendations</h3>
                 <div className="ml-recommendations">
                     {insights.recommendations.map((rec, i) => (
                         <div key={i} className={`ml-rec-card ml-rec-${rec.priority}`}>
@@ -271,9 +271,9 @@ function AcademicInsights({ studentId, studentName }) {
 
             {/* Summary */}
             <div className="ml-summary-card">
-                <FaRobot className="ml-summary-icon" />
+                <FaReact className="ml-summary-icon" />
                 <div>
-                    <h4>ML Analysis Summary</h4>
+                    <h4>Analysis Summary</h4>
                     <p>{insights.performanceSummary}</p>
                 </div>
             </div>

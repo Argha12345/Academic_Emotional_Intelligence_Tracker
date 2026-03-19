@@ -1,10 +1,10 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const emotionalController = require('../controllers/emotionalController');
+import * as emotionalController from '../controllers/emotionalController.js';
 
 router.get('/:studentId', emotionalController.getEmotionalRecords);
 router.post('/', emotionalController.createEmotionalRecord);
 router.put('/:id', emotionalController.updateEmotionalRecord);
 router.delete('/:id', emotionalController.deleteEmotionalRecord);
 
-module.exports = router;
+export default router;

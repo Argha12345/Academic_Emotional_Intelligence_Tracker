@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './AdminRecords.css';
-import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaBook } from 'react-icons/fa';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -116,7 +116,7 @@ function AdminAcademicRecords({ studentId }) {
     return (
         <div className="admin-records">
             <div className="admin-records-header">
-                <h3>📚 Academic Records (CGPA)</h3>
+                <h3><FaBook style={{ marginRight: '6px', color: '#10b981' }} /> Academic Records (CGPA)</h3>
                 <button className="btn-add-admin" onClick={() => { handleCancel(); setShowForm(true); }}>
                     <FaPlus style={{ marginRight: '6px' }} /> Add Record
                 </button>
@@ -136,19 +136,19 @@ function AdminAcademicRecords({ studentId }) {
                                 </select>
                             </div>
                             <div className="admin-form-group">
-                                <label>CGPA * (0 – 10)</label>
+                                <label>CGPA * (0 - 10)</label>
                                 <input type="number" step="0.01" min="0" max="10" name="gpa"
                                     value={formData.gpa} onChange={handleChange} placeholder="e.g. 7.50" required />
                             </div>
                             <div className="admin-form-group">
                                 <label>Assignment Marks (%)</label>
                                 <input type="number" step="0.01" min="0" max="100" name="assignmentScore"
-                                    value={formData.assignmentScore} onChange={handleChange} placeholder="0 – 100" />
+                                    value={formData.assignmentScore} onChange={handleChange} placeholder="0 - 100" />
                             </div>
                             <div className="admin-form-group">
                                 <label>Attendance (%)</label>
                                 <input type="number" step="0.01" min="0" max="100" name="attendancePercentage"
-                                    value={formData.attendancePercentage} onChange={handleChange} placeholder="0 – 100" />
+                                    value={formData.attendancePercentage} onChange={handleChange} placeholder="0 - 100" />
                             </div>
                         </div>
                         <div className="admin-form-actions">

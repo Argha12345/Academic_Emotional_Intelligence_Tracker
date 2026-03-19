@@ -7,70 +7,72 @@
 }
 
 .form-card {
-  background: white;
+  background: #12161f;
   border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   padding: 40px;
   max-width: 520px;
   width: 100%;
   border-top: 5px solid;
-  border-image: linear-gradient(90deg, #4f46e5, #7c3aed, #06b6d4) 1;
+  border-image: linear-gradient(90deg, #6366f1, #8b5cf6, #3b82f6) 1;
 }
 
 .form-card h2 {
   margin-top: 0;
   margin-bottom: 28px;
-  color: #1e293b;
+  color: #f0f4ff;
   text-align: center;
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 800;
+  font-size: 30px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
+.form-group { margin-bottom: 20px; }
 
 .form-group label {
   display: block;
   margin-bottom: 6px;
   font-weight: 700;
-  color: #374151;
-  font-size: 14px;
+  color: #8892a4;
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .form-group input {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid #e2e8f0;
+  border: 1px solid #1e2435;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 20px;
   box-sizing: border-box;
   transition: all 0.2s;
-  background: #f8fafc;
+  background: #0b0e18;
+  color: #f0f4ff;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #4f46e5;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #6366f1;
+  background: #0f1623;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .input-readonly {
-  background: #f1f5f9 !important;
-  color: #64748b !important;
+  background: #161925 !important;
+  color: #4b5563 !important;
   cursor: not-allowed;
+  border-color: #1e2435 !important;
 }
 
 .error-message {
-  background: #fef2f2;
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
   padding: 12px 16px;
   border-radius: 10px;
   margin-bottom: 20px;
   text-align: center;
-  font-size: 14px;
-  border: 1px solid #fecaca;
+  font-size: 18px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .form-actions {
@@ -79,8 +81,7 @@
   margin-top: 28px;
 }
 
-.btn-submit,
-.btn-cancel {
+.btn-submit, .btn-cancel {
   flex: 1;
   padding: 14px;
   border: none;
@@ -88,26 +89,27 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
 }
 
 .btn-cancel {
-  background: #f1f5f9;
-  color: #64748b;
-  border: 2px solid #e2e8f0;
+  background: #1e2435;
+  color: #8892a4;
+  border: 1px solid #334155;
 }
 
 .btn-cancel:hover {
-  background: #e2e8f0;
+  background: #334155;
+  color: #f0f4ff;
 }

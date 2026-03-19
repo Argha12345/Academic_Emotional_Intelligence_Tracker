@@ -1,17 +1,19 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const path = require('path');
+import 'dotenv/config.js';
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import path from 'path';
 
 // Import routes
-const studentRoutes = require('./routes/studentRoutes');
-const academicRoutes = require('./routes/academicRoutes');
-const emotionalRoutes = require('./routes/emotionalRoutes');
-const analyticsRoutes = require('./routes/analyticsRoutes');
-const mentorRoutes = require('./routes/mentorRoutes');
-const mlRoutes = require('./routes/mlRoutes');
-const authController = require('./controllers/authController');
-const connectDB = require('./config/db');
+import studentRoutes from './routes/studentRoutes.js';
+import academicRoutes from './routes/academicRoutes.js';
+import emotionalRoutes from './routes/emotionalRoutes.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
+import mentorRoutes from './routes/mentorRoutes.js';
+import mlRoutes from './routes/mlRoutes.js';
+import counsellingRoutes from './routes/counsellingRoutes.js';
+import * as authController from './controllers/authController.js';
+import connectDB from './config/db.js';
 
 // Initialize express app
 const app = express();
@@ -31,6 +33,8 @@ app.post('/api/auth/admin-login', authController.adminLogin);
 app.get('/api/auth/verify', authController.verify);
 app.post('/api/auth/change-password', authController.changePassword);
 app.post('/api/auth/admin-change-password', authController.adminChangePassword);
+app.get('/api/auth/profile', authController.getProfile);
+app.post('/api/auth/admin-change-own-password', authController.adminChangeOwnPassword);
 
 // API routes
 app.use('/api/students', studentRoutes);
@@ -39,6 +43,7 @@ app.use('/api/emotional', emotionalRoutes);
 app.use('/api', analyticsRoutes);
 app.use('/api/mentors', mentorRoutes);
 app.use('/api/ml', mlRoutes);
+app.use('/api/counselling', counsellingRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

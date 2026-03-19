@@ -5,9 +5,9 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light;
-  color: #1e293b;
-  background-color: #f0f4ff;
+  color-scheme: dark;
+  color: #f0f4ff;
+  background-color: #0b0d14;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,15 +15,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  background-color: #0b0d14;
+}
+
 body {
   margin: 0;
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f0f4ff;
+  background-color: #0b0d14;
+  color: #f0f4ff;
 }
 
 #root {
   width: 100%;
   min-height: 100vh;
+  background-color: #0b0d14;
 }

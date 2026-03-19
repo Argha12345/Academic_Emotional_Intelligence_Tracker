@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const analyticsController = require('../controllers/analyticsController');
+import * as analyticsController from '../controllers/analyticsController.js';
 
 router.get('/analytics/:studentId', analyticsController.getStudentAnalytics);
 router.get('/feedback/:studentId', analyticsController.getStressFeedback);
 
-module.exports = router;
+export default router;

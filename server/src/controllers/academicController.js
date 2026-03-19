@@ -1,6 +1,6 @@
-const AcademicRecord = require('../models/AcademicRecord');
+import AcademicRecord from '../models/AcademicRecord.js';
 
-exports.getAcademicRecords = async (req, res) => {
+export const getAcademicRecords = async (req, res) => {
     try {
         const records = await AcademicRecord.find({ studentId: req.params.studentId }).sort({ recordDate: -1 });
         res.json(records);
@@ -9,7 +9,7 @@ exports.getAcademicRecords = async (req, res) => {
     }
 };
 
-exports.createAcademicRecord = async (req, res) => {
+export const createAcademicRecord = async (req, res) => {
     const { studentId, semester, gpa, assignmentScore, attendancePercentage } = req.body;
     try {
         const record = new AcademicRecord({
@@ -26,7 +26,7 @@ exports.createAcademicRecord = async (req, res) => {
     }
 };
 
-exports.updateAcademicRecord = async (req, res) => {
+export const updateAcademicRecord = async (req, res) => {
     const semester = req.body.semester;
     const gpa = parseFloat(req.body.gpa);
     const assignmentScore = req.body.assignmentScore != null ? parseFloat(req.body.assignmentScore) : null;
@@ -45,7 +45,7 @@ exports.updateAcademicRecord = async (req, res) => {
     }
 };
 
-exports.deleteAcademicRecord = async (req, res) => {
+export const deleteAcademicRecord = async (req, res) => {
     try {
         const record = await AcademicRecord.findByIdAndDelete(req.params.id);
         if (!record) return res.status(404).json({ error: 'Record not found' });

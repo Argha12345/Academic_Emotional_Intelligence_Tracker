@@ -1,5 +1,6 @@
 import './Analytics.css';
 import GradesChart from './GradesChart';
+import { FaBook, FaBrain } from 'react-icons/fa';
 
 function Analytics({ student, data, onRefresh }) {
   const academicAvg = data.academic || {};
@@ -11,7 +12,7 @@ function Analytics({ student, data, onRefresh }) {
 
         {/* ===== Academic Analytics ===== */}
         <div className="analytics-card academic">
-          <h3>📚 Academic Performance</h3>
+          <h3><FaBook style={{ marginRight: '8px', color: '#10b981' }} /> Academic Performance</h3>
 
           <div className="metric">
             <span>Average CGPA</span>
@@ -50,7 +51,7 @@ function Analytics({ student, data, onRefresh }) {
 
         {/* ===== Emotional Intelligence Analytics ===== */}
         <div className="analytics-card emotional">
-          <h3>💭 Emotional Intelligence</h3>
+          <h3><FaBrain style={{ marginRight: '8px', color: '#7c3aed' }} /> Emotional Intelligence</h3>
 
           <div className="metric">
             <span>Self Awareness</span>

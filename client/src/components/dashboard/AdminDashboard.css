@@ -1,4 +1,4 @@
-/* ===== Admin Dashboard - Dual Sidebar Layout ===== */
+/* ===== Admin Dashboard - Single Sidebar Layout ===== */
 .admin-container {
     display: flex;
     gap: 0;
@@ -8,7 +8,15 @@
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Dual Sidebar ===== */
+/* ===== Single Sidebar (replaces dual sidebar) ===== */
+.admin-single-sidebar {
+    width: 280px;
+    min-width: 260px;
+    flex-shrink: 0;
+    display: flex;
+}
+
+/* Legacy dual-sidebar kept for compatibility */
 .admin-dual-sidebar {
     display: flex;
     width: 560px;
@@ -18,6 +26,7 @@
 
 .admin-sidebar-col {
     flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -47,20 +56,20 @@
 }
 
 .sidebar-col-icon {
-    font-size: 24px;
+    font-size: 30px;
     color: #a78bfa;
     flex-shrink: 0;
 }
 
 .sidebar-col-header h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 800;
     color: white;
 }
 
 .sidebar-col-header span {
-    font-size: 11px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.45);
     font-weight: 500;
 }
@@ -76,7 +85,7 @@
     padding: 7px 10px;
     border-radius: 8px;
     border: 1.5px dashed;
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
@@ -128,7 +137,7 @@
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     color: white;
-    font-size: 11px;
+    font-size: 15px;
     outline: none;
     transition: all 0.2s;
 }
@@ -148,14 +157,14 @@
     color: #fca5a5;
     padding: 6px 8px;
     border-radius: 6px;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 6px;
 }
 
 .sidebar-email-hint {
     color: #fbbf24;
-    font-size: 9px;
+    font-size: 13px;
     font-weight: 600;
     padding-left: 4px;
 }
@@ -167,7 +176,7 @@
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -197,7 +206,7 @@
 
 .sidebar-hint {
     color: rgba(255, 255, 255, 0.3);
-    font-size: 9px;
+    font-size: 13px;
     text-align: center;
     margin-top: 4px;
     font-weight: 500;
@@ -216,7 +225,7 @@
     top: 50%;
     transform: translateY(-50%);
     color: rgba(255, 255, 255, 0.3);
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .sidebar-col-search input {
@@ -226,7 +235,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     color: white;
-    font-size: 11px;
+    font-size: 15px;
     outline: none;
     transition: all 0.2s;
 }
@@ -294,7 +303,7 @@
     justify-content: center;
     color: white;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 18px;
     flex-shrink: 0;
 }
 
@@ -314,7 +323,7 @@
 }
 
 .sidebar-item-name {
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 700;
     color: white;
     white-space: nowrap;
@@ -323,7 +332,7 @@
 }
 
 .sidebar-item-sub {
-    font-size: 10px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.4);
     margin-top: 1px;
     white-space: nowrap;
@@ -336,7 +345,7 @@
     border: none;
     color: rgba(255, 255, 255, 0.15);
     cursor: pointer;
-    font-size: 11px;
+    font-size: 15px;
     padding: 4px;
     border-radius: 6px;
     transition: all 0.2s;
@@ -357,14 +366,14 @@
     padding: 20px 10px;
     text-align: center;
     color: rgba(255, 255, 255, 0.3);
-    font-size: 11px;
+    font-size: 15px;
     line-height: 1.5;
 }
 
 /* ===== Main Panel ===== */
 .admin-main {
     flex: 1;
-    background: #f8fafc;
+    background: #0b0d14;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -382,14 +391,15 @@
 }
 
 .admin-welcome-icon {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+    width: 100px;
+    height: 100px;
+    border-radius: 24px;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #7c3aed;
+    color: #818cf8;
     margin-bottom: 24px;
     animation: gentle-pulse 3s ease-in-out infinite;
 }
@@ -407,18 +417,18 @@
 }
 
 .admin-welcome h2 {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 800;
-    color: #1e293b;
-    margin: 0 0 12px;
+    color: #f0f4ff;
+    margin: 0 0 10px;
 }
 
 .admin-welcome p {
-    font-size: 15px;
-    color: #64748b;
+    font-size: 18px;
+    color: #8892a4;
     max-width: 440px;
     line-height: 1.6;
-    margin: 0 0 32px;
+    margin: 0 0 28px;
 }
 
 .welcome-stats {
@@ -431,21 +441,21 @@
     flex-direction: column;
     align-items: center;
     padding: 20px 30px;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-    color: #7c3aed;
+    background: #161925;
+    border-radius: 14px;
+    border: 1px solid #1e2435;
+    color: #818cf8;
     gap: 6px;
 }
 
 .welcome-stat.stat-mentor {
-    color: #0ea5e9;
+    color: #22d3ee;
 }
 
 .welcome-stat span {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
-    color: #4f46e5;
+    color: #f0f4ff;
 }
 
 .stat-mentor span {
@@ -453,8 +463,8 @@
 }
 
 .welcome-stat label {
-    font-size: 12px;
-    color: #64748b;
+    font-size: 15px;
+    color: #8892a4;
     font-weight: 600;
 }
 
@@ -463,9 +473,9 @@
     display: flex;
     align-items: center;
     gap: 18px;
-    padding: 22px 28px;
-    background: white;
-    border-bottom: 1px solid #e2e8f0;
+    padding: 20px 24px;
+    background: #161925;
+    border-bottom: 1px solid #1e2435;
 }
 
 .admin-student-avatar-lg {
@@ -477,7 +487,7 @@
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 800;
     flex-shrink: 0;
 }
@@ -488,25 +498,25 @@
 
 .admin-student-info h2 {
     margin: 0 0 3px;
-    font-size: 20px;
+    font-size: 23px;
     font-weight: 800;
-    color: #1e293b;
+    color: #f0f4ff;
 }
 
 .admin-student-info p {
     margin: 0 0 2px;
-    font-size: 13px;
-    color: #64748b;
+    font-size: 16px;
+    color: #8892a4;
 }
 
 .admin-student-email {
-    font-size: 12px !important;
-    color: #94a3b8 !important;
+    font-size: 13px !important;
+    color: #4b5563 !important;
 }
 
 .admin-mentor-display {
-    font-size: 12px !important;
-    color: #7c3aed !important;
+    font-size: 13px !important;
+    color: #818cf8 !important;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -515,64 +525,63 @@
 
 .btn-remove-header {
     padding: 8px 14px;
-    background: #fef2f2;
-    border: 1.5px solid #fecaca;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
     border-radius: 10px;
-    color: #dc2626;
-    font-size: 12px;
+    color: #f87171;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
     align-items: center;
+    gap: 5px;
     flex-shrink: 0;
 }
 
 .btn-remove-header:hover {
-    background: #fee2e2;
-    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
 }
 
 /* Tabs */
 .admin-tabs {
     display: flex;
     gap: 0;
-    border-bottom: 2px solid #e2e8f0;
-    background: white;
-    padding: 0 28px;
+    border-bottom: 1px solid #1e2435;
+    background: #161925;
+    padding: 0 20px;
     flex-wrap: wrap;
 }
 
 .admin-tab {
-    padding: 12px 18px;
+    padding: 11px 16px;
     border: none;
     background: transparent;
-    color: #94a3b8;
+    color: #8892a4;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
     display: flex;
     align-items: center;
 }
 
-.admin-tab:hover {
-    color: #7c3aed;
-    background: #faf5ff;
-}
+.admin-tab:hover { color: #818cf8; }
 
 .admin-tab.active {
-    color: #6d28d9;
-    border-bottom-color: #7c3aed;
-    background: #faf5ff;
+    color: #818cf8;
+    border-bottom-color: #6366f1;
 }
 
 .admin-tab-content {
     flex: 1;
     overflow-y: auto;
-    padding: 24px 28px;
+    padding: 22px 24px;
+    background: #0b0d14;
 }
 
 /* Mentor Section (Assign / Password) */
@@ -581,44 +590,43 @@
 }
 
 .mentor-card {
-    background: white;
-    border-radius: 18px;
-    padding: 28px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e2e8f0;
+    background: #161925;
+    border-radius: 16px;
+    padding: 26px;
+    border: 1px solid #1e2435;
 }
 
 .mentor-card-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 22px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid #f1f5f9;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1e2435;
 }
 
 .mentor-card-header h3 {
     margin: 0 0 4px;
-    font-size: 18px;
+    font-size: 21px;
     font-weight: 800;
-    color: #1e293b;
+    color: #f0f4ff;
 }
 
 .mentor-card-header p {
     margin: 0;
-    font-size: 13px;
-    color: #64748b;
+    font-size: 16px;
+    color: #8892a4;
 }
 
 .mentor-success {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #15803d;
-    padding: 10px 14px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #6ee7b7;
+    padding: 10px 13px;
     border-radius: 10px;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .mentor-input-group {
@@ -627,9 +635,9 @@
 
 .mentor-input-group label {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
-    color: #374151;
+    color: #8892a4;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 6px;
@@ -637,11 +645,12 @@
 
 .mentor-input-group input {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e2e8f0;
+    padding: 10px 14px;
+    border: 1px solid #1e2435;
     border-radius: 10px;
-    font-size: 14px;
-    color: #1e293b;
+    font-size: 18px;
+    color: #f0f4ff;
+    background: #0b0e18;
     outline: none;
     transition: all 0.2s;
 }
@@ -658,7 +667,7 @@
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.25s;
@@ -687,8 +696,8 @@
     align-items: center;
     gap: 18px;
     padding: 22px 28px;
-    background: white;
-    border-bottom: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #0f1623 0%, #111827 100%);
+    border-bottom: 1px solid #1e2d45;
 }
 
 .mentor-panel-avatar {
@@ -700,7 +709,7 @@
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 24px;
+    font-size: 30px;
     font-weight: 800;
     flex-shrink: 0;
 }
@@ -711,27 +720,28 @@
 
 .mentor-panel-info h2 {
     margin: 0 0 3px;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 800;
-    color: #1e293b;
+    color: #f0f4ff;
 }
 
 .mentor-panel-info p {
     margin: 0 0 6px;
-    font-size: 13px;
-    color: #64748b;
+    font-size: 17px;
+    color: #8892a4;
 }
 
 .mentor-panel-badge {
     display: inline-flex;
     align-items: center;
+    gap: 5px;
     padding: 4px 12px;
-    background: #e0f2fe;
-    border: 1px solid #bae6fd;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.25);
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 700;
-    color: #0284c7;
+    color: #22d3ee;
 }
 
 .mentor-panel-body {
@@ -740,43 +750,44 @@
     padding: 24px 28px;
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 24px;
+    background: #0b0d14;
 }
 
 .mentor-panel-section h3 {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 800;
-    color: #1e293b;
-    margin: 0 0 16px;
+    color: #8892a4;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 0 0 12px;
     display: flex;
     align-items: center;
 }
 
 .mentor-panel-count {
     margin-left: 8px;
-    background: #e0f2fe;
-    color: #0284c7;
+    background: rgba(34, 211, 238, 0.1);
+    color: #22d3ee;
+    border: 1px solid rgba(34, 211, 238, 0.2);
     padding: 2px 10px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
 }
 
 .mentor-panel-loading,
 .mentor-panel-empty {
-    padding: 30px;
+    padding: 24px;
     text-align: center;
-    color: #94a3b8;
-    font-size: 14px;
-    background: white;
+    color: #4b5563;
+    font-size: 17px;
+    background: #161925;
     border-radius: 14px;
-    border: 1px dashed #e2e8f0;
+    border: 1px dashed #1e2d45;
 }
 
-.mentor-panel-empty small {
-    color: #cbd5e1;
-    font-size: 12px;
-}
+.mentor-panel-empty small { color: #4b5563; font-size: 15px; }
 
 /* Assigned Students Grid */
 .mentor-assigned-grid {
@@ -789,17 +800,18 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 16px 18px;
-    background: white;
-    border: 1.5px solid #e2e8f0;
+    padding: 14px 16px;
+    background: #161925;
+    border: 1px solid #1e2d45;
     border-radius: 14px;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .mentor-assigned-card:hover {
-    border-color: #a78bfa;
-    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.1);
+    border-color: rgba(99, 102, 241, 0.4);
+    background: #1a1f2e;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.12);
     transform: translateY(-1px);
 }
 
@@ -813,7 +825,7 @@
     justify-content: center;
     color: white;
     font-weight: 800;
-    font-size: 18px;
+    font-size: 23px;
     flex-shrink: 0;
 }
 
@@ -825,26 +837,26 @@
 }
 
 .assigned-name {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 700;
-    color: #1e293b;
+    color: #f0f4ff;
 }
 
 .assigned-roll {
-    font-size: 12px;
-    color: #64748b;
+    font-size: 15px;
+    color: #8892a4;
     margin-top: 1px;
 }
 
 .assigned-email {
-    font-size: 11px;
-    color: #94a3b8;
+    font-size: 14px;
+    color: #4b5563;
     margin-top: 1px;
 }
 
 .assigned-chevron {
-    color: #cbd5e1;
-    font-size: 12px;
+    color: #1e2d45;
+    font-size: 16px;
     flex-shrink: 0;
 }
 

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const emotionalRecordSchema = new mongoose.Schema({
   studentId: { type: String, required: true },
@@ -21,4 +21,4 @@ const emotionalRecordSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('EmotionalRecord', emotionalRecordSchema);
+export default mongoose.model('EmotionalRecord', emotionalRecordSchema);

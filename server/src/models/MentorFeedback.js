@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const mentorFeedbackSchema = new mongoose.Schema({
   studentId: { type: String, required: true },
@@ -16,4 +16,4 @@ const mentorFeedbackSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('MentorFeedback', mentorFeedbackSchema);
+export default mongoose.model('MentorFeedback', mentorFeedbackSchema);

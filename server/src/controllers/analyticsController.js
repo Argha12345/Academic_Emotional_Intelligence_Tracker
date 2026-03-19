@@ -1,8 +1,8 @@
-const Student = require('../models/Student');
-const AcademicRecord = require('../models/AcademicRecord');
-const EmotionalRecord = require('../models/EmotionalRecord');
+import Student from '../models/Student.js';
+import AcademicRecord from '../models/AcademicRecord.js';
+import EmotionalRecord from '../models/EmotionalRecord.js';
 
-exports.getStudentAnalytics = async (req, res) => {
+export const getStudentAnalytics = async (req, res) => {
     const studentId = req.params.studentId;
 
     try {
@@ -82,32 +82,32 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
 
         if (avgGpa < 4.0) {
             stressScore += 40;
-            academicAnalysis.status = 'Critical — CGPA is very low';
+            academicAnalysis.status = 'Critical - CGPA is very low';
             analysisPoints.push(`CGPA is critically low at ${avgGpa.toFixed(2)}/10. This is a major stress indicator.`);
             suggestions.push('Consider seeking academic tutoring or mentoring support');
             suggestions.push('Break study goals into smaller, achievable milestones');
             suggestions.push('Talk to your academic advisor about a recovery plan');
         } else if (avgGpa < 6.0) {
             stressScore += 25;
-            academicAnalysis.status = 'Below Average — needs improvement';
+            academicAnalysis.status = 'Below Average - needs improvement';
             analysisPoints.push(`CGPA is below average at ${avgGpa.toFixed(2)}/10. This may be causing academic stress.`);
             suggestions.push('Create a structured study schedule with regular breaks');
             suggestions.push('Focus on weaker subjects and seek peer study groups');
         } else if (avgGpa < 7.5) {
             stressScore += 10;
-            academicAnalysis.status = 'Average — room for growth';
+            academicAnalysis.status = 'Average - room for growth';
             analysisPoints.push(`CGPA is at ${avgGpa.toFixed(2)}/10. Decent performance with potential for improvement.`);
             suggestions.push('Set slightly higher academic goals each semester');
         } else {
             stressScore += 0;
-            academicAnalysis.status = 'Good — performing well';
+            academicAnalysis.status = 'Good - performing well';
             analysisPoints.push(`CGPA is strong at ${avgGpa.toFixed(2)}/10. Keep up the momentum!`);
         }
 
         // Attendance factor
         if (academic.avgAttendance !== null && academic.avgAttendance < 60) {
             stressScore += 10;
-            suggestions.push('Improve class attendance — low attendance often correlates with poor performance');
+            suggestions.push('Improve class attendance - low attendance often correlates with poor performance');
         }
     }
 
@@ -126,38 +126,38 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
 
         if (avgOverall < 3.5) {
             stressScore += 40;
-            emotionalAnalysis.status = 'Critical — emotional well-being is very low';
+            emotionalAnalysis.status = 'Critical - emotional well-being is very low';
             analysisPoints.push(`Emotional intelligence overall score is very low at ${avgOverall.toFixed(1)}/10. This strongly indicates high stress.`);
             suggestions.push('Consider speaking with a counselor or mental health professional');
             suggestions.push('Practice daily mindfulness or meditation exercises');
         } else if (avgOverall < 5.5) {
             stressScore += 25;
-            emotionalAnalysis.status = 'Below Average — emotional support recommended';
+            emotionalAnalysis.status = 'Below Average - emotional support recommended';
             analysisPoints.push(`Emotional intelligence score is below average at ${avgOverall.toFixed(1)}/10. Emotional well-being needs attention.`);
             suggestions.push('Join peer support groups or wellness workshops');
             suggestions.push('Practice journaling to improve self-awareness');
         } else if (avgOverall < 7.0) {
             stressScore += 10;
-            emotionalAnalysis.status = 'Moderate — generally stable';
+            emotionalAnalysis.status = 'Moderate - generally stable';
             analysisPoints.push(`Emotional intelligence is at ${avgOverall.toFixed(1)}/10. Fairly stable but monitor regularly.`);
         } else {
             stressScore += 0;
-            emotionalAnalysis.status = 'Good — emotionally resilient';
+            emotionalAnalysis.status = 'Good - emotionally resilient';
             analysisPoints.push(`Emotional intelligence is strong at ${avgOverall.toFixed(1)}/10. Great emotional resilience!`);
         }
 
         // Check specific weak dimensions
         if (emotionalAvg.avgMotivation !== null && emotionalAvg.avgMotivation < 4) {
             stressScore += 8;
-            suggestions.push('Motivation is low — set small rewarding goals and celebrate small wins');
+            suggestions.push('Motivation is low - set small rewarding goals and celebrate small wins');
         }
         if (emotionalAvg.avgSelfRegulation !== null && emotionalAvg.avgSelfRegulation < 4) {
             stressScore += 8;
-            suggestions.push('Self-regulation is low — try breathing exercises and structured routines');
+            suggestions.push('Self-regulation is low - try breathing exercises and structured routines');
         }
         if (emotionalAvg.avgSocialSkills !== null && emotionalAvg.avgSocialSkills < 4) {
             stressScore += 5;
-            suggestions.push('Social skills need work — try joining clubs or group activities');
+            suggestions.push('Social skills need work - try joining clubs or group activities');
         }
     }
 
@@ -181,7 +181,7 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
         if (foundStress.length >= 3) {
             stressScore += 20;
             analysisPoints.push(`Recent remarks contain multiple stress indicators: "${foundStress.join(', ')}". This is concerning.`);
-            suggestions.push('The student\'s own words indicate significant stress — immediate counseling is recommended');
+            suggestions.push('The student\'s own words indicate significant stress - immediate counseling is recommended');
         } else if (foundStress.length >= 1) {
             stressScore += 10;
             analysisPoints.push(`Recent remarks mention stress-related words: "${foundStress.join(', ')}". Worth monitoring.`);
@@ -197,7 +197,7 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
     // ===== Combined Analysis =====
     if (hasAcademicData && hasEmotionalData && avgGpa < 5.0 && avgOverall < 5.0) {
         stressScore += 10;
-        analysisPoints.push('⚠️ Both CGPA and emotional scores are low — this combination strongly indicates the student is under significant stress.');
+        analysisPoints.push('⚠️ Both CGPA and emotional scores are low - this combination strongly indicates the student is under significant stress.');
         suggestions.push('Urgent: Schedule a one-on-one meeting with the student to discuss support options');
     }
 
@@ -245,7 +245,7 @@ function generateStressFeedback(student, academic, latestEmotional, emotionalAvg
     };
 }
 
-exports.getStressFeedback = async (req, res) => {
+export const getStressFeedback = async (req, res) => {
     const studentId = req.params.studentId;
 
     try {

@@ -405,7 +405,7 @@ function StudyTimetable({ studentId }) {
                                     </span>
                                 </div>
                                 {daySessions.length === 0 ? (
-                                    <div className="tt-no-sessions">Rest day — no sessions scheduled</div>
+                                    <div className="tt-no-sessions">Rest day - no sessions scheduled</div>
                                 ) : (
                                     <div className="tt-sessions-list">
                                         {daySessions.map(session => {

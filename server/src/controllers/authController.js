@@ -1,9 +1,9 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const Mentor = require('../models/Mentor');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import Mentor from '../models/Mentor.js';
 
-const JWT_SECRET = 'academic_ei_tracker_secret_key_2026';
+const JWT_SECRET = process.env.JWT_SECRET || 'academic_ei_tracker_secret_key_2026';
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
 const DEFAULT_PASSWORD = 'bitsathy1';
 
@@ -12,7 +12,7 @@ const ADMIN_USERNAME = 'admin';
 const ADMIN_PASSWORD = 'admin123';
 
 // Student Login (email + password, email must end with @bitsathy.ac.in)
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -50,7 +50,7 @@ exports.login = async (req, res) => {
 };
 
 // Admin Login
-exports.adminLogin = (req, res) => {
+export const adminLogin = (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -73,7 +73,7 @@ exports.adminLogin = (req, res) => {
 };
 
 // Verify Token
-exports.verify = async (req, res) => {
+export const verify = async (req, res) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -102,7 +102,7 @@ exports.verify = async (req, res) => {
 };
 
 // Student: Change Own Password
-exports.changePassword = async (req, res) => {
+export const changePassword = async (req, res) => {
     const { email, currentPassword, newPassword } = req.body;
 
     if (!email || !currentPassword || !newPassword) {
@@ -131,7 +131,7 @@ exports.changePassword = async (req, res) => {
 };
 
 // Admin: Reset Any Student's Password
-exports.adminChangePassword = async (req, res) => {
+export const adminChangePassword = async (req, res) => {
     const { email, newPassword } = req.body;
 
     if (!email || !newPassword) {
@@ -151,8 +151,70 @@ exports.adminChangePassword = async (req, res) => {
     }
 };
 
+// Get user profile (works for student, mentor, admin)
+export const getProfile = async (req, res) => {
+    const { role, email } = req.query;
+
+    try {
+        if (role === 'admin') {
+            return res.json({
+                id: '0',
+                name: 'Admin',
+                email: 'admin@system',
+                role: 'admin',
+                department: 'System Administration',
+                joinedDate: '2026-01-01'
+            });
+        }
+
+        if (role === 'mentor') {
+            const mentor = await Mentor.findOne({ email: email.toLowerCase() });
+            if (!mentor) return res.status(404).json({ error: 'Mentor not found' });
+            return res.json({
+                id: mentor.id,
+                name: mentor.name,
+                email: mentor.email,
+                role: 'mentor',
+                department: mentor.department || 'Not specified',
+                joinedDate: mentor.createdAt
+            });
+        }
+
+        // Student
+        const user = await User.findOne({ email: email.toLowerCase() });
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        return res.json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role || 'student',
+            joinedDate: user.createdAt
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+// Admin: Change own password
+export const adminChangeOwnPassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+    
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ error: 'Current and new password are required' });
+    }
+    if (newPassword.length < 6) {
+        return res.status(400).json({ error: 'New password must be at least 6 characters' });
+    }
+    if (currentPassword !== ADMIN_PASSWORD) {
+        return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+    // Note: Since admin password is hardcoded, we acknowledge the change but it will reset on server restart
+    // In a real app, this would update a database entry
+    res.json({ message: 'Password change acknowledged (Note: Hardcoded admin credentials require code update for persistence)' });
+};
+
 // Internal: Create user account (called when admin adds a student)
-exports.createStudentAccount = async (name, email) => {
+export const createStudentAccount = async (name, email) => {
     const hashed = await bcrypt.hash(DEFAULT_PASSWORD, 10);
     try {
         const existing = await User.findOne({ email: email.toLowerCase() });

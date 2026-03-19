@@ -41,7 +41,7 @@ function AcademicRecords({ studentId, onUpdate }) {
 
     const gpaVal = parseFloat(formData.gpa);
 
-    // ✅ CGPA validation (0–10)
+    // ✅ CGPA validation (0-10)
     if (isNaN(gpaVal) || gpaVal < 0 || gpaVal > 10) {
       setFormError('CGPA must be a number between 0 and 10');
       return;

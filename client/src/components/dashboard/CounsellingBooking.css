@@ -1,0 +1,584 @@
+/* ===========================================
+   Counselling Booking Panel - Premium Dark UI
+   =========================================== */
+
+.counselling-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.counselling-loading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    color: #8892a4;
+    font-size: 16px;
+}
+
+.counselling-spinner {
+    animation: spin 1s linear infinite;
+    font-size: 18px;
+    color: #6366f1;
+}
+
+/* Header */
+.counselling-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(124, 58, 237, 0.08));
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 14px;
+}
+
+.counselling-header-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    color: white;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+    flex-shrink: 0;
+}
+
+.counselling-header h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #f0f4ff;
+    margin: 0;
+}
+
+.counselling-header p {
+    font-size: 14px;
+    color: #8892a4;
+    margin: 2px 0 0 0;
+}
+
+/* Stress Card */
+.counselling-stress-card {
+    background: #161925;
+    border: 1px solid #1e2435;
+    border-radius: 12px;
+    padding: 16px 18px;
+}
+
+.stress-score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.stress-score-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #8892a4;
+}
+
+.stress-score-value {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.stress-score-bar {
+    height: 8px;
+    background: #0b0e18;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.stress-score-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.8s ease;
+}
+
+.stress-score-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #4b5563;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Existing Session */
+.counselling-existing {
+    background: #161925;
+    border: 1px solid #1e2435;
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.existing-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.existing-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.existing-date,
+.existing-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.existing-date svg,
+.existing-time svg {
+    color: #6366f1;
+    font-size: 15px;
+}
+
+.existing-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.btn-confirm-session {
+    flex: 1;
+    padding: 9px 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-confirm-session:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.btn-confirm-session:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-cancel-session {
+    padding: 9px 14px;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 10px;
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-cancel-session:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.btn-cancel-session:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Success Card */
+.counselling-success-card {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
+
+.counselling-success-card .success-icon {
+    font-size: 37px;
+    color: #10b981;
+    margin-bottom: 10px;
+}
+
+.counselling-success-card h4 {
+    color: #10b981;
+    font-size: 17px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.counselling-success-card p {
+    font-size: 15px;
+    color: #cbd5e1;
+    margin: 4px 0;
+}
+
+.counselling-success-card .success-hint {
+    color: #8892a4;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+/* Recommendation Alert */
+.counselling-recommendation {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.recommendation-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 12px;
+}
+
+.recommendation-icon {
+    font-size: 23px;
+    color: #ef4444;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.recommendation-alert strong {
+    display: block;
+    font-size: 16px;
+    color: #f87171;
+    margin-bottom: 4px;
+}
+
+.recommendation-alert p {
+    font-size: 14px;
+    color: #8892a4;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.counselling-error {
+    padding: 10px 14px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 10px;
+    color: #f87171;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* Slot Selection */
+.slot-selection {
+    background: #161925;
+    border: 1px solid #1e2435;
+    border-radius: 12px;
+    padding: 16px 18px;
+}
+
+.slot-selection h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f0f4ff;
+    margin: 0 0 12px;
+    display: flex;
+    align-items: center;
+}
+
+.date-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.date-btn {
+    padding: 10px 8px;
+    border: 1px solid #1e2435;
+    border-radius: 10px;
+    background: #0b0e18;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.date-btn:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.date-btn.selected {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.date-day {
+    font-size: 13px;
+    font-weight: 700;
+    color: #8892a4;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.date-btn.selected .date-day {
+    color: #818cf8;
+}
+
+.date-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: #cbd5e1;
+}
+
+.date-btn.selected .date-value {
+    color: #f0f4ff;
+}
+
+/* Time Grid */
+.time-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.time-btn {
+    padding: 10px 12px;
+    border: 1px solid #1e2435;
+    border-radius: 10px;
+    background: #0b0e18;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #8892a4;
+    transition: all 0.2s;
+}
+
+.time-btn:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    background: rgba(99, 102, 241, 0.06);
+    color: #cbd5e1;
+}
+
+.time-btn.selected {
+    border-color: #6366f1;
+    background: rgba(99, 102, 241, 0.15);
+    color: #f0f4ff;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.time-icon {
+    font-size: 13px;
+    color: #6366f1;
+}
+
+/* Booking Summary */
+.booking-summary {
+    background: #161925;
+    border: 1px solid #1e2435;
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.booking-summary-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.booking-summary-info span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+
+.booking-summary-info span svg {
+    color: #6366f1;
+    font-size: 14px;
+}
+
+.btn-book-session {
+    width: 100%;
+    padding: 11px 16px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-book-session:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+}
+
+.btn-book-session:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Counselling OK */
+.counselling-ok {
+    background: rgba(16, 185, 129, 0.06);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    padding: 20px 18px;
+    text-align: center;
+}
+
+.counselling-ok .ok-icon {
+    font-size: 32px;
+    color: #10b981;
+    margin-bottom: 10px;
+}
+
+.counselling-ok h4 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #10b981;
+    margin: 0 0 6px;
+}
+
+.counselling-ok p {
+    font-size: 14px;
+    color: #8892a4;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Session History */
+.session-history {
+    background: #161925;
+    border: 1px solid #1e2435;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.history-toggle {
+    width: 100%;
+    padding: 14px 18px;
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.history-toggle:hover {
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.history-toggle svg:first-child {
+    color: #6366f1;
+}
+
+.history-chevron {
+    margin-left: auto;
+    font-size: 14px;
+    color: #4b5563;
+    transition: transform 0.25s;
+}
+
+.history-chevron.open {
+    transform: rotate(90deg);
+}
+
+.history-list {
+    border-top: 1px solid #1e2435;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: #0b0e18;
+    border-radius: 8px;
+    border: 1px solid #1e2435;
+}
+
+.history-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.history-date {
+    font-size: 15px;
+    font-weight: 700;
+    color: #cbd5e1;
+}
+
+.history-slot {
+    font-size: 13px;
+    color: #8892a4;
+}
+
+.history-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

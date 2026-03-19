@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const mentorController = require('../controllers/mentorController');
+import * as mentorController from '../controllers/mentorController.js';
 
 // Mentor auth
 router.post('/login', mentorController.mentorLogin);
@@ -20,4 +20,4 @@ router.get('/feedback/:studentId', mentorController.getFeedback);
 router.post('/feedback', mentorController.addFeedback);
 router.delete('/feedback/:id', mentorController.deleteFeedback);
 
-module.exports = router;
+export default router;

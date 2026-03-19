@@ -1,12 +1,6 @@
-const Student = require('../models/Student');
-const AcademicRecord = require('../models/AcademicRecord');
-const EmotionalRecord = require('../models/EmotionalRecord');
-
-// =========================================================
-// ML Academic Insights Engine
-// Uses: Linear Regression, Statistical Analysis, Classification
-// =========================================================
-
+import Student from '../models/Student.js';
+import AcademicRecord from '../models/AcademicRecord.js';
+import EmotionalRecord from '../models/EmotionalRecord.js';
 // ---- Linear Regression (Ordinary Least Squares) ----
 function linearRegression(points) {
     const n = points.length;
@@ -90,7 +84,7 @@ function classifyRisk(avgGpa, gpaSlope, avgAttendance, avgAssignment, eiScore) {
     else if (avgGpa < 7.5) riskScore += 8;
     else riskScore += 0;
 
-    // Trend contribution (20% weight) — declining trend is risky
+    // Trend contribution (20% weight) - declining trend is risky
     if (gpaSlope !== null) {
         if (gpaSlope < -0.5) riskScore += 20;
         else if (gpaSlope < -0.2) riskScore += 14;
@@ -149,7 +143,7 @@ function generateRecommendations(data) {
         if (gpaSlope < -0.3) {
             recs.push({ icon: '⚠️', title: 'Declining Performance Detected', text: `Your CGPA has been declining by approximately ${Math.abs(gpaSlope).toFixed(2)} points per semester. Identify new challenges early and don't hesitate to seek help.`, priority: 'high' });
         } else if (gpaSlope > 0.2) {
-            recs.push({ icon: '📈', title: 'Positive Upward Trend', text: `Great news! Your grades are improving by ~${gpaSlope.toFixed(2)} points per semester. Your study strategy is working — keep it up!`, priority: 'low' });
+            recs.push({ icon: '📈', title: 'Positive Upward Trend', text: `Great news! Your grades are improving by ~${gpaSlope.toFixed(2)} points per semester. Your study strategy is working - keep it up!`, priority: 'low' });
         }
     }
 
@@ -180,7 +174,7 @@ function generateRecommendations(data) {
     // Prediction-based
     if (predictedGpa !== null && avgGpa !== null) {
         if (predictedGpa < avgGpa - 0.5) {
-            recs.push({ icon: '🔮', title: 'Predicted Dip — Act Now', text: `Our model predicts a possible CGPA of ${predictedGpa.toFixed(2)} next semester. Take proactive steps: review fundamentals, increase study time, and seek academic counseling.`, priority: 'high' });
+            recs.push({ icon: '🔮', title: 'Predicted Dip - Act Now', text: `Our model predicts a possible CGPA of ${predictedGpa.toFixed(2)} next semester. Take proactive steps: review fundamentals, increase study time, and seek academic counseling.`, priority: 'high' });
         } else if (predictedGpa > avgGpa + 0.3) {
             recs.push({ icon: '🔮', title: 'Predicted Improvement', text: `The trend suggests your next semester CGPA could reach ${predictedGpa.toFixed(2)}. Stay on your current trajectory and push a little harder!`, priority: 'low' });
         }
@@ -208,7 +202,7 @@ function generateRecommendations(data) {
 // =========================================================
 // Main API Endpoint
 // =========================================================
-exports.getAcademicInsights = async (req, res) => {
+export const getAcademicInsights = async (req, res) => {
     const studentId = req.params.studentId;
 
     try {
@@ -229,7 +223,7 @@ exports.getAcademicInsights = async (req, res) => {
 // Mentor Stress Alert API
 // Returns high-risk students for a given mentor
 // =========================================================
-exports.getMentorStressAlerts = async (req, res) => {
+export const getMentorStressAlerts = async (req, res) => {
     const mentorName = decodeURIComponent(req.params.mentorName);
 
     try {
@@ -286,7 +280,7 @@ exports.getMentorStressAlerts = async (req, res) => {
             const reasons = [];
             if (avgEi !== null && avgEi < 4.5) reasons.push(`Very low EI score (${avgEi.toFixed(1)}/10)`);
             else if (avgEi !== null && avgEi < 6) reasons.push(`Below average EI score (${avgEi.toFixed(1)}/10)`);
-            if (eiTrend === 'declining') reasons.push(`Stress increasing — EI dropped by ${Math.abs(eiDrop).toFixed(1)} points recently`);
+            if (eiTrend === 'declining') reasons.push(`Stress increasing - EI dropped by ${Math.abs(eiDrop).toFixed(1)} points recently`);
             if (avgGpa !== null && avgGpa < 5) reasons.push(`Critical CGPA (${avgGpa.toFixed(2)}/10)`);
             else if (avgGpa !== null && avgGpa < 6.5) reasons.push(`Below average CGPA (${avgGpa.toFixed(2)}/10)`);
             if (gpaSlope !== null && gpaSlope < -0.3) reasons.push(`CGPA declining by ${Math.abs(gpaSlope).toFixed(2)}/sem`);
@@ -336,7 +330,7 @@ exports.getMentorStressAlerts = async (req, res) => {
             const order = { high: 0, moderate: 1, low: 2, excellent: 3 };
             return (order[a.riskLevel] - order[b.riskLevel]) || (b.riskScore - a.riskScore);
         });
-        
+
         res.json({ alerts, totalStudents: students.length });
 
     } catch (err) {

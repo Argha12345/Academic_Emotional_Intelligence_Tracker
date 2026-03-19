@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const mlController = require('../controllers/mlController');
+import * as mlController from '../controllers/mlController.js';
 
 // ML Academic Insights
 router.get('/insights/:studentId', mlController.getAcademicInsights);
 
-// Mentor Stress Alerts — returns high-risk students for a given mentor
+// Mentor Stress Alerts - returns high-risk students for a given mentor
 router.get('/stress-alerts/:mentorName', mlController.getMentorStressAlerts);
 
-module.exports = router;
+export default router;

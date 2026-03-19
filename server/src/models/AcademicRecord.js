@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const academicRecordSchema = new mongoose.Schema({
   studentId: { type: String, required: true },
@@ -18,4 +18,4 @@ const academicRecordSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('AcademicRecord', academicRecordSchema);
+export default mongoose.model('AcademicRecord', academicRecordSchema);

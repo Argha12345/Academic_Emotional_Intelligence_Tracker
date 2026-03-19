@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import './StressFeedback.css';
+import { FaBook, FaBrain, FaClipboardList, FaSearch, FaCommentDots, FaLightbulb, FaExclamationTriangle } from 'react-icons/fa';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function StressFeedback({ studentId }) {
     const [feedback, setFeedback] = useState(null);
@@ -44,7 +48,7 @@ function StressFeedback({ studentId }) {
         return (
             <div className="feedback-container">
                 <div className="feedback-error">
-                    <span>⚠️</span>
+                    <FaExclamationTriangle style={{ fontSize: '24px', marginBottom: '8px' }} />
                     <p>{error}</p>
                     <button onClick={fetchFeedback} className="btn-retry">Retry</button>
                 </div>
@@ -91,14 +95,14 @@ function StressFeedback({ studentId }) {
 
             {/* Summary */}
             <div className="feedback-summary">
-                <h3>📋 Summary</h3>
+                <h3><FaClipboardList style={{ marginRight: '8px' }} /> Summary</h3>
                 <p>{feedback.summary}</p>
             </div>
 
             {/* Detailed Analysis */}
             {feedback.analysisPoints && feedback.analysisPoints.length > 0 && (
                 <div className="feedback-section analysis-section">
-                    <h3>🔍 Detailed Analysis</h3>
+                    <h3><FaSearch style={{ marginRight: '8px' }} /> Detailed Analysis</h3>
                     <ul className="analysis-list">
                         {feedback.analysisPoints.map((point, index) => (
                             <li key={index} className="analysis-item">
@@ -114,7 +118,7 @@ function StressFeedback({ studentId }) {
             <div className="detail-cards">
                 {feedback.detailedAnalysis?.academic && (
                     <div className="detail-card academic-detail">
-                        <h4>📚 Academic Analysis</h4>
+                        <h4><FaBook style={{ marginRight: '8px', color: '#10b981' }} /> Academic Analysis</h4>
                         <div className="detail-metrics">
                             <div className="detail-metric">
                                 <span className="metric-label">Avg CGPA</span>
@@ -141,34 +145,51 @@ function StressFeedback({ studentId }) {
 
                 {feedback.detailedAnalysis?.emotional && (
                     <div className="detail-card emotional-detail">
-                        <h4>💭 Emotional Analysis</h4>
+                        <h4><FaBrain style={{ marginRight: '8px', color: '#7c3aed' }} /> Emotional Analysis</h4>
                         <div className="detail-metrics">
                             <div className="detail-metric">
                                 <span className="metric-label">Overall EI</span>
                                 <span className="metric-value">{feedback.detailedAnalysis.emotional.avgOverall}/10</span>
                             </div>
-                            <div className="ei-bars">
-                                {[
-                                    { label: 'Self Awareness', value: feedback.detailedAnalysis.emotional.avgSelfAwareness },
-                                    { label: 'Self Regulation', value: feedback.detailedAnalysis.emotional.avgSelfRegulation },
-                                    { label: 'Motivation', value: feedback.detailedAnalysis.emotional.avgMotivation },
-                                    { label: 'Empathy', value: feedback.detailedAnalysis.emotional.avgEmpathy },
-                                    { label: 'Social Skills', value: feedback.detailedAnalysis.emotional.avgSocialSkills }
-                                ].filter(d => d.value !== null).map((dim, i) => (
-                                    <div key={i} className="ei-bar-item">
-                                        <span className="ei-bar-label">{dim.label}</span>
-                                        <div className="ei-bar-track">
-                                            <div
-                                                className="ei-bar-fill"
-                                                style={{
-                                                    width: `${dim.value * 10}%`,
-                                                    backgroundColor: dim.value >= 7 ? '#10b981' : dim.value >= 4 ? '#f59e0b' : '#ef4444'
-                                                }}
-                                            ></div>
-                                        </div>
-                                        <span className="ei-bar-value">{dim.value}</span>
-                                    </div>
-                                ))}
+                            <div className="ei-pie-chart" style={{ width: '100%', maxWidth: '300px', height: '240px', margin: '20px auto' }}>
+                                <Pie 
+                                    data={{
+                                        labels: ['Self Awareness', 'Self Regulation', 'Motivation', 'Empathy', 'Social Skills'],
+                                        datasets: [{
+                                            data: [
+                                                feedback.detailedAnalysis.emotional.avgSelfAwareness,
+                                                feedback.detailedAnalysis.emotional.avgSelfRegulation,
+                                                feedback.detailedAnalysis.emotional.avgMotivation,
+                                                feedback.detailedAnalysis.emotional.avgEmpathy,
+                                                feedback.detailedAnalysis.emotional.avgSocialSkills
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(99, 102, 241, 0.85)',
+                                                'rgba(16, 185, 129, 0.85)', 
+                                                'rgba(245, 158, 11, 0.85)',
+                                                'rgba(239, 68, 68, 0.85)',
+                                                'rgba(168, 85, 247, 0.85)'
+                                            ],
+                                            borderColor: '#ffffff',
+                                            borderWidth: 2,
+                                            hoverOffset: 6
+                                        }]
+                                    }} 
+                                    options={{
+                                        plugins: { 
+                                            legend: { 
+                                                display: true,
+                                                position: 'right',
+                                                labels: { 
+                                                    boxWidth: 12,
+                                                    font: { size: 11, weight: 'bold' } 
+                                                }
+                                            } 
+                                        },
+                                        maintainAspectRatio: false,
+                                        cutout: '30%'
+                                    }} 
+                                />
                             </div>
                             <div className="detail-status">
                                 <strong>Status:</strong> {feedback.detailedAnalysis.emotional.status}
@@ -181,10 +202,10 @@ function StressFeedback({ studentId }) {
             {/* Remarks Analysis */}
             {feedback.detailedAnalysis?.remarks && (
                 <div className="feedback-section remarks-section">
-                    <h3>📝 Remarks Analysis</h3>
+                    <h3><FaCommentDots style={{ marginRight: '8px' }} /> Remarks Analysis</h3>
                     <div className="remarks-quote">
                         <blockquote>"{feedback.detailedAnalysis.remarks.latestNotes}"</blockquote>
-                        <small>— Recorded on {new Date(feedback.detailedAnalysis.remarks.date).toLocaleDateString()}</small>
+                        <small>- Recorded on {new Date(feedback.detailedAnalysis.remarks.date).toLocaleDateString()}</small>
                     </div>
                     {feedback.detailedAnalysis.remarks.stressIndicators.length > 0 && (
                         <div className="keyword-tags stress-tags">
@@ -208,7 +229,7 @@ function StressFeedback({ studentId }) {
             {/* Suggestions */}
             {feedback.suggestions && feedback.suggestions.length > 0 && (
                 <div className="feedback-section suggestions-section">
-                    <h3>💡 Recommendations</h3>
+                    <h3><FaLightbulb style={{ marginRight: '8px', color: '#f59e0b' }} /> Recommendations</h3>
                     <div className="suggestions-grid">
                         {feedback.suggestions.map((suggestion, index) => (
                             <div key={index} className="suggestion-card">

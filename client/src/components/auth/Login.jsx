@@ -47,8 +47,7 @@ function Login({ onLogin }) {
             });
             const data = await res.json();
             if (!res.ok) { setError(data.error || 'Login failed'); setLoading(false); return; }
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            document.cookie = `token=${data.token}; path=/; max-age=604800; Secure; SameSite=Strict`;
             onLogin(data.user);
         } catch {
             setError('Server connection failed. Make sure the backend is running.');
@@ -68,8 +67,7 @@ function Login({ onLogin }) {
             });
             const data = await res.json();
             if (!res.ok) { setError(data.error || 'Login failed'); setLoading(false); return; }
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            document.cookie = `token=${data.token}; path=/; max-age=604800; Secure; SameSite=Strict`;
             onLogin(data.user);
         } catch {
             setError('Server connection failed. Make sure the backend is running.');
@@ -89,8 +87,7 @@ function Login({ onLogin }) {
             });
             const data = await res.json();
             if (!res.ok) { setError(data.error || 'Admin login failed'); setLoading(false); return; }
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
+            document.cookie = `token=${data.token}; path=/; max-age=604800; Secure; SameSite=Strict`;
             onLogin(data.user);
         } catch {
             setError('Server connection failed. Make sure the backend is running.');
@@ -273,7 +270,7 @@ function Login({ onLogin }) {
                     )}
                 </div>
 
-                {/* ===== College Info — BELOW the card ===== */}
+                {/* ===== College Info - BELOW the card ===== */}
                 <div className="auth-college-footer">
                     <div className="auth-college-footer-name">BANNARI AMMAN INSTITUTE OF TECHNOLOGY</div>
                     <div className="auth-college-footer-sub">Stay Ahead</div>

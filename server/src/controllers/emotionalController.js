@@ -1,6 +1,6 @@
-const EmotionalRecord = require('../models/EmotionalRecord');
+import EmotionalRecord from '../models/EmotionalRecord.js';
 
-exports.getEmotionalRecords = async (req, res) => {
+export const getEmotionalRecords = async (req, res) => {
     try {
         const records = await EmotionalRecord.find({ studentId: req.params.studentId }).sort({ recordDate: -1 });
         res.json(records);
@@ -9,7 +9,7 @@ exports.getEmotionalRecords = async (req, res) => {
     }
 };
 
-exports.createEmotionalRecord = async (req, res) => {
+export const createEmotionalRecord = async (req, res) => {
     const studentId = req.body.studentId;
     const selfAwareness = Number(req.body.selfAwareness);
     const selfRegulation = Number(req.body.selfRegulation);
@@ -30,7 +30,7 @@ exports.createEmotionalRecord = async (req, res) => {
     }
 };
 
-exports.updateEmotionalRecord = async (req, res) => {
+export const updateEmotionalRecord = async (req, res) => {
     const selfAwareness = Number(req.body.selfAwareness);
     const selfRegulation = Number(req.body.selfRegulation);
     const motivation = Number(req.body.motivation);
@@ -52,7 +52,7 @@ exports.updateEmotionalRecord = async (req, res) => {
     }
 };
 
-exports.deleteEmotionalRecord = async (req, res) => {
+export const deleteEmotionalRecord = async (req, res) => {
     try {
         const record = await EmotionalRecord.findByIdAndDelete(req.params.id);
         if (!record) return res.status(404).json({ error: 'Record not found' });

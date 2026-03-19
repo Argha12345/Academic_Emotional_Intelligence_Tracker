@@ -1,7 +1,7 @@
-const Student = require('../models/Student');
-const { createStudentAccount } = require('./authController');
+import Student from '../models/Student.js';
+import { createStudentAccount } from './authController.js';
 
-exports.getAllStudents = async (req, res) => {
+export const getAllStudents = async (req, res) => {
     try {
         const students = await Student.find().sort({ createdAt: -1 });
         res.json(students);
@@ -10,7 +10,7 @@ exports.getAllStudents = async (req, res) => {
     }
 };
 
-exports.getStudentById = async (req, res) => {
+export const getStudentById = async (req, res) => {
     try {
         const student = await Student.findById(req.params.id);
         if (!student) {
@@ -22,7 +22,7 @@ exports.getStudentById = async (req, res) => {
     }
 };
 
-exports.getStudentByEmail = async (req, res) => {
+export const getStudentByEmail = async (req, res) => {
     try {
         const student = await Student.findOne({ email: req.params.email });
         if (!student) {
@@ -34,7 +34,7 @@ exports.getStudentByEmail = async (req, res) => {
     }
 };
 
-exports.createStudent = async (req, res) => {
+export const createStudent = async (req, res) => {
     const { name, email, rollNumber, department, mentorName } = req.body;
 
     if (!name || !email || !rollNumber) {
@@ -67,7 +67,7 @@ exports.createStudent = async (req, res) => {
     }
 };
 
-exports.updateStudent = async (req, res) => {
+export const updateStudent = async (req, res) => {
     const { name, email, rollNumber, department, mentorName } = req.body;
     try {
         const student = await Student.findByIdAndUpdate(
@@ -83,7 +83,7 @@ exports.updateStudent = async (req, res) => {
 };
 
 // Admin only: update mentor name
-exports.updateMentorName = async (req, res) => {
+export const updateMentorName = async (req, res) => {
     const { mentorName } = req.body;
     try {
         const student = await Student.findByIdAndUpdate(
@@ -98,7 +98,7 @@ exports.updateMentorName = async (req, res) => {
     }
 };
 
-exports.deleteStudent = async (req, res) => {
+export const deleteStudent = async (req, res) => {
     try {
         const student = await Student.findByIdAndDelete(req.params.id);
         if (!student) return res.status(404).json({ error: 'Student not found' });

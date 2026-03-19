@@ -1,10 +1,10 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const academicController = require('../controllers/academicController');
+import * as academicController from '../controllers/academicController.js';
 
 router.get('/:studentId', academicController.getAcademicRecords);
 router.post('/', academicController.createAcademicRecord);
 router.put('/:id', academicController.updateAcademicRecord);
 router.delete('/:id', academicController.deleteAcademicRecord);
 
-module.exports = router;
+export default router;

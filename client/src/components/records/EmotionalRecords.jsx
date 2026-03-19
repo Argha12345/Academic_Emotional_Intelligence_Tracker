@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import './EmotionalRecords.css';
+import { FaBrain, FaCog, FaBullseye, FaHeart, FaHandshake } from 'react-icons/fa';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function EmotionalRecords({ studentId, onUpdate }) {
   const [records, setRecords] = useState([]);
@@ -133,11 +137,11 @@ function EmotionalRecords({ studentId, onUpdate }) {
           <form onSubmit={handleSubmit}>
             <div className="ei-scale-container">
               {[
-                { name: 'selfAwareness', label: '🧠 Self Awareness' },
-                { name: 'selfRegulation', label: '⚙️ Self Regulation' },
-                { name: 'motivation', label: '🎯 Motivation' },
-                { name: 'empathy', label: '❤️ Empathy' },
-                { name: 'socialSkills', label: '🤝 Social Skills' }
+                { name: 'selfAwareness', label: <><FaBrain style={{ marginRight: '6px' }} /> Self Awareness</> },
+                { name: 'selfRegulation', label: <><FaCog style={{ marginRight: '6px' }} /> Self Regulation</> },
+                { name: 'motivation', label: <><FaBullseye style={{ marginRight: '6px' }} /> Motivation</> },
+                { name: 'empathy', label: <><FaHeart style={{ marginRight: '6px' }} /> Empathy</> },
+                { name: 'socialSkills', label: <><FaHandshake style={{ marginRight: '6px' }} /> Social Skills</> }
               ].map(dimension => (
                 <div key={dimension.name} className="scale-group">
                   <label>{dimension.label}</label>
@@ -179,9 +183,10 @@ function EmotionalRecords({ studentId, onUpdate }) {
           <p className="empty-message">No emotional intelligence records yet.</p>
         ) : (
           records.map(record => (
-            <div key={record.id} className="ei-record-item">
-              <div className="record-date">{new Date(record.recordDate).toLocaleDateString()}</div>
-              <div className="ei-scores">
+            <div key={record.id} className="ei-record-item" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ flex: '1 1 60%', minWidth: '250px' }}>
+                <div className="record-date">{new Date(record.recordDate).toLocaleDateString()}</div>
+                <div className="ei-scores">
                 <div className="score">
                   <span>Self Awareness</span>
                   <div className="score-bar">
@@ -237,6 +242,32 @@ function EmotionalRecords({ studentId, onUpdate }) {
                     </div>
                   </div>
                 </div>
+              </div>
+              </div>
+              <div className="ei-pie-chart" style={{ width: '140px', height: '140px', flexShrink: 0, margin: '15px auto' }}>
+                <Pie 
+                    data={{
+                        labels: ['Self Awareness', 'Self Regulation', 'Motivation', 'Empathy', 'Social Skills'],
+                        datasets: [{
+                            data: [record.selfAwareness, record.selfRegulation, record.motivation, record.empathy, record.socialSkills],
+                            backgroundColor: [
+                                'rgba(99, 102, 241, 0.85)',
+                                'rgba(16, 185, 129, 0.85)', 
+                                'rgba(245, 158, 11, 0.85)',
+                                'rgba(239, 68, 68, 0.85)',
+                                'rgba(168, 85, 247, 0.85)'
+                            ],
+                            borderColor: '#ffffff',
+                            borderWidth: 2,
+                            hoverOffset: 6
+                        }]
+                    }} 
+                    options={{
+                        plugins: { legend: { display: false } },
+                        maintainAspectRatio: false,
+                        cutout: '20%'
+                    }} 
+                />
               </div>
               <div className="record-overall">
                 <strong>Overall Score: {record.overallScore.toFixed(1)}/10</strong>

@@ -6,17 +6,21 @@ import {
     FaUserTie, FaUsers, FaSearch, FaBook, FaBrain,
     FaHeartbeat, FaGraduationCap, FaChevronRight,
     FaKey, FaEye, FaEyeSlash, FaIdCard, FaCommentDots,
-    FaPaperPlane, FaTrash, FaRobot, FaExclamationTriangle,
-    FaBell, FaTimes, FaArrowUp
+    FaPaperPlane, FaTrash, FaReact, FaExclamationTriangle,
+    FaBell, FaTimes, FaArrowUp, FaEnvelope, FaChartBar, FaCheckCircle, FaClipboardList, FaUserCircle
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
+import ProfileSection from './ProfileSection';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const API_URL = 'http://localhost:5000/api';
 
-function MentorDashboard({ user }) {
+function MentorDashboard({ user, activeTab, setActiveTab }) {
     const [students, setStudents] = useState([]);
     const [selectedStudent, setSelectedStudent] = useState(null);
-    const [activeTab, setActiveTab] = useState('profile');
+    const [detailTab, setDetailTab] = useState('profile');
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(true);
 
@@ -44,8 +48,9 @@ function MentorDashboard({ user }) {
     const [feedbackLoading, setFeedbackLoading] = useState(false);
     const [feedbackSending, setFeedbackSending] = useState(false);
 
-    // Sidebar view
-    const [sidebarView, setSidebarView] = useState('students'); // 'students' | 'settings'
+    // sidebarView derived from global activeTab (students | alerts | settings)
+    const sidebarView = activeTab || 'students';
+    const setSidebarView = (v) => { if (setActiveTab) setActiveTab(v); };
 
     // Stress Alerts
     const [stressAlerts, setStressAlerts] = useState([]);
@@ -81,7 +86,7 @@ function MentorDashboard({ user }) {
 
     const handleSelectStudent = (student) => {
         setSelectedStudent(student);
-        setActiveTab('profile');
+        setDetailTab('profile');
         fetchStudentAcademic(student.id);
         fetchStudentEmotional(student.id);
         fetchFeedback(student.id);
@@ -127,7 +132,7 @@ function MentorDashboard({ user }) {
             const data = await res.json();
             if (!res.ok) { setCpError(data.error || 'Failed to change password'); }
             else {
-                setCpSuccess('✅ Password changed successfully!');
+                setCpSuccess('Password changed successfully!');
                 setCpCurrent(''); setCpNew(''); setCpConfirm('');
             }
         } catch { setCpError('Server error. Please try again.'); }
@@ -200,8 +205,8 @@ function MentorDashboard({ user }) {
                     <div className="mentor-alert-banner-left">
                         <FaExclamationTriangle className="mentor-alert-banner-icon" />
                         <div>
-                            <strong>⚠️ Stress Alert — {stressAlerts.filter(a => a.riskLevel === 'high').length > 0 ? `${stressAlerts.filter(a => a.riskLevel === 'high').length} high-risk` : `${stressAlerts.length} at-risk`} student{stressAlerts.length > 1 ? 's' : ''} detected</strong>
-                            <span> — {stressAlerts.slice(0, 3).map(a => capitalize(a.studentName)).join(', ')}{stressAlerts.length > 3 ? ` +${stressAlerts.length - 3} more` : ''}</span>
+                            <strong><FaExclamationTriangle style={{ marginRight: '6px' }} /> Stress Alert - {stressAlerts.filter(a => a.riskLevel === 'high').length > 0 ? `${stressAlerts.filter(a => a.riskLevel === 'high').length} high-risk` : `${stressAlerts.length} at-risk`} student{stressAlerts.length > 1 ? 's' : ''} detected</strong>
+                            <span> - {stressAlerts.slice(0, 3).map(a => capitalize(a.studentName)).join(', ')}{stressAlerts.length > 3 ? ` +${stressAlerts.length - 3} more` : ''}</span>
                         </div>
                     </div>
                     <div className="mentor-alert-banner-right">
@@ -220,40 +225,15 @@ function MentorDashboard({ user }) {
 
             {/* Sidebar + Main Row */}
             <div className="mentor-inner-body">
-            {/* Sidebar */}
+            {/* Sidebar - student list only (nav now lives in global App sidebar) */}
             <div className="mentor-sidebar">
                 <div className="mentor-sidebar-header">
                     <FaUserTie className="mentor-sidebar-icon" />
                     <div>
-                        <h2>Mentor Panel</h2>
+                        <h2>Students</h2>
                         <p className="mentor-name-display">{capitalize(user.name)}</p>
                         <p>{students.length} student{students.length !== 1 ? 's' : ''} assigned</p>
                     </div>
-                </div>
-
-                {/* Sidebar Nav */}
-                <div className="mentor-sidebar-nav">
-                    <button
-                        className={`sidebar-nav-btn ${sidebarView === 'students' ? 'active' : ''}`}
-                        onClick={() => setSidebarView('students')}
-                    >
-                        <FaUsers style={{ marginRight: '8px' }} /> My Students
-                    </button>
-                    <button
-                        className={`sidebar-nav-btn sidebar-alert-btn ${sidebarView === 'alerts' ? 'alert-active' : ''}`}
-                        onClick={() => { setSidebarView('alerts'); setSelectedStudent(null); }}
-                    >
-                        <FaBell style={{ marginRight: '6px' }} /> Alerts
-                        {stressAlerts.length > 0 && (
-                            <span className="mentor-alert-badge">{stressAlerts.length}</span>
-                        )}
-                    </button>
-                    <button
-                        className={`sidebar-nav-btn ${sidebarView === 'settings' ? 'active' : ''}`}
-                        onClick={() => { setSidebarView('settings'); setSelectedStudent(null); }}
-                    >
-                        <FaKey style={{ marginRight: '8px' }} /> Settings
-                    </button>
                 </div>
 
                 {sidebarView === 'students' && (
@@ -306,7 +286,7 @@ function MentorDashboard({ user }) {
                         <div className="mentor-settings-card">
                             <h4><FaKey style={{ marginRight: '8px' }} />Change Password</h4>
                             {cpError && <div className="mentor-cp-error">{cpError}</div>}
-                            {cpSuccess && <div className="mentor-cp-success">{cpSuccess}</div>}
+                            {cpSuccess && <div className="mentor-cp-success"><FaCheckCircle style={{ marginRight: '6px' }} /> {cpSuccess}</div>}
                             <form onSubmit={handleChangePassword}>
                                 <div className="mentor-cp-field">
                                     <label>Current Password</label>
@@ -351,11 +331,11 @@ function MentorDashboard({ user }) {
                                         <div className="mentor-cp-hint-error">Passwords do not match</div>
                                     )}
                                     {cpConfirm.length > 0 && cpNew === cpConfirm && cpNew.length >= 6 && (
-                                        <div className="mentor-cp-hint-ok">✓ Passwords match</div>
+                                        <div className="mentor-cp-hint-ok"><FaCheckCircle style={{ marginRight: '4px' }} /> Passwords match</div>
                                     )}
                                 </div>
                                 <button type="submit" className="mentor-cp-submit" disabled={cpLoading}>
-                                    {cpLoading ? 'Updating...' : '🔐 Update Password'}
+                                    {cpLoading ? 'Updating...' : <><FaKey style={{ marginRight: '6px' }} /> Update Password</>}
                                 </button>
                             </form>
                         </div>
@@ -365,7 +345,13 @@ function MentorDashboard({ user }) {
 
             {/* Main Panel */}
             <div className="mentor-main">
-                {/* ===== ALERTS PANEL — shown when sidebarView='alerts', fully separate ===== */}
+                {/* ===== MY PROFILE PANEL ===== */}
+                {sidebarView === 'myprofile' && (
+                    <div style={{ padding: '4px' }}>
+                        <ProfileSection user={user} />
+                    </div>
+                )}
+                {/* ===== ALERTS PANEL - shown when sidebarView='alerts', fully separate ===== */}
                 {sidebarView === 'alerts' && (
                     <div className="mentor-alerts-panel">
                         <div className="mentor-alerts-panel-header">
@@ -382,7 +368,7 @@ function MentorDashboard({ user }) {
 
                         {stressAlerts.length === 0 ? (
                             <div className="mentor-alert-all-ok">
-                                <span style={{ fontSize: 48 }}>✅</span>
+                                <FaCheckCircle style={{ fontSize: 48, color: '#10b981', marginBottom: '16px' }} />
                                 <h4>All Students Are Doing Well!</h4>
                                 <p>No elevated stress or risk detected among your assigned students right now.</p>
                             </div>
@@ -426,13 +412,13 @@ function MentorDashboard({ user }) {
                                         <div className="mentor-alert-metrics">
                                             {alert.avgEi !== null && (
                                                 <div className="mentor-metric-chip">
-                                                    <span className="mentor-metric-label">🧠 EI Score</span>
+                                                    <span className="mentor-metric-label"><FaBrain style={{ marginRight: '4px' }} /> EI Score</span>
                                                     <span className="mentor-metric-val" style={{ color: alert.avgEi < 5 ? '#ef4444' : '#f59e0b' }}>{alert.avgEi}/10</span>
                                                 </div>
                                             )}
                                             {alert.avgGpa !== null && (
                                                 <div className="mentor-metric-chip">
-                                                    <span className="mentor-metric-label">🎓 Avg CGPA</span>
+                                                    <span className="mentor-metric-label"><FaGraduationCap style={{ marginRight: '4px' }} /> Avg CGPA</span>
                                                     <span className="mentor-metric-val" style={{ color: alert.avgGpa < 5 ? '#ef4444' : '#f59e0b' }}>{alert.avgGpa}/10</span>
                                                 </div>
                                             )}
@@ -443,19 +429,19 @@ function MentorDashboard({ user }) {
                                                 </div>
                                             )}
                                             <div className="mentor-metric-chip">
-                                                <span className="mentor-metric-label">⚠ Risk Score</span>
+                                                <span className="mentor-metric-label"><FaExclamationTriangle style={{ marginRight: '4px' }} /> Risk Score</span>
                                                 <span className="mentor-metric-val" style={{ color: alert.riskColor }}>{alert.riskScore}/100</span>
                                             </div>
                                         </div>
 
-                                        {/* Stress Reasons — highlighted section */}
+                                        {/* Stress Reasons - highlighted section */}
                                         {alert.reasons.length > 0 && (
                                             <div className="mentor-alert-reasons-section">
-                                                <div className="mentor-alert-reasons-title">📋 Stress &amp; Risk Factors:</div>
+                                                <div className="mentor-alert-reasons-title"><FaClipboardList style={{ marginRight: '6px' }} /> Stress &amp; Risk Factors:</div>
                                                 <div className="mentor-alert-reasons">
                                                     {alert.reasons.map((r, i) => (
                                                         <span key={i} className={`mentor-alert-reason ${alert.riskLevel === 'high' ? 'reason-high' : 'reason-moderate'}`}>
-                                                            ⚠ {r}
+                                                            <FaExclamationTriangle style={{ marginRight: '4px' }} /> {r}
                                                         </span>
                                                     ))}
                                                 </div>
@@ -483,9 +469,9 @@ function MentorDashboard({ user }) {
                                 <label>Assigned Students</label>
                             </div>
                             <div className="mentor-welcome-stat">
-                                <FaGraduationCap />
-                                <span style={{ color: '#10b981' }}>📊</span>
-                                <label>View Reports</label>
+                                <FaChartBar style={{ fontSize: '36px', color: '#10b981', marginBottom: '8px' }} />
+                                <span>Reports</span>
+                                <label>View Overall Data</label>
                             </div>
                         </div>
                         {students.length === 0 && (
@@ -507,66 +493,67 @@ function MentorDashboard({ user }) {
                                 <p>{selectedStudent.rollNumber} • {selectedStudent.department || 'N/A'}</p>
                                 <p className="mentor-student-email">{selectedStudent.email}</p>
                             </div>
-                            <div className="mentor-student-role-badge">👨‍🎓 Student</div>
+                            <div className="mentor-student-role-badge"><FaGraduationCap style={{ marginRight: '6px' }} /> Student</div>
                         </div>
 
-                        {/* Tabs — NO Stress Alerts tab here, alerts are a separate top-level view */}
+                        {/* Tabs - student detail view sub-tabs */}
                         <div className="mentor-tabs">
                             <button
-                                className={`mentor-tab ${activeTab === 'profile' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('profile')}
+                                className={`mentor-tab ${detailTab === 'profile' ? 'active' : ''}`}
+                                onClick={() => setDetailTab('profile')}
                             >
                                 <FaIdCard style={{ marginRight: '8px' }} /> Profile &amp; Academics
                             </button>
                             <button
-                                className={`mentor-tab ${activeTab === 'emotional' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('emotional')}
+                                className={`mentor-tab ${detailTab === 'emotional' ? 'active' : ''}`}
+                                onClick={() => setDetailTab('emotional')}
                             >
                                 <FaBrain style={{ marginRight: '8px' }} /> EI Records
                             </button>
                             <button
-                                className={`mentor-tab ${activeTab === 'mlinsights' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('mlinsights')}
+                                className={`mentor-tab ${detailTab === 'mlinsights' ? 'active' : ''}`}
+                                onClick={() => setDetailTab('mlinsights')}
                             >
-                                <FaRobot style={{ marginRight: '8px' }} /> AI Insights
+                                <FaReact style={{ marginRight: '8px' }} /> Smart Analytics
                             </button>
                             <button
-                                className={`mentor-tab ${activeTab === 'feedback' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('feedback')}
+                                className={`mentor-tab ${detailTab === 'feedback' ? 'active' : ''}`}
+                                onClick={() => setDetailTab('feedback')}
                             >
                                 <FaHeartbeat style={{ marginRight: '8px' }} /> Stress Feedback
                             </button>
                             <button
-                                className={`mentor-tab ${activeTab === 'mentorfeedback' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('mentorfeedback')}
+                                className={`mentor-tab ${detailTab === 'mentorfeedback' ? 'active' : ''}`}
+                                onClick={() => setDetailTab('mentorfeedback')}
                             >
                                 <FaCommentDots style={{ marginRight: '8px' }} /> My Feedback
                             </button>
                         </div>
 
+
                         {/* Tab Content */}
                         <div className="mentor-tab-content">
                             {/* Profile & Academic Records Tab */}
-                            {activeTab === 'profile' && (
+                            {detailTab === 'profile' && (
                                 <div className="mentor-profile-view">
                                     {/* Personal info card */}
                                     <div className="mentor-info-card">
                                         <h3><FaIdCard style={{ marginRight: '8px', color: '#4f46e5' }} />Personal Information</h3>
                                         <div className="mentor-info-grid">
                                             <div className="mentor-info-field">
-                                                <label>Full Name</label>
+                                                <label><FaUserCircle style={{ marginRight: '6px' }} /> Full Name</label>
                                                 <span>{capitalize(selectedStudent.name)}</span>
                                             </div>
                                             <div className="mentor-info-field">
-                                                <label>Email Address</label>
+                                                <label><FaEnvelope style={{ marginRight: '6px' }} /> Email Address</label>
                                                 <span>{selectedStudent.email}</span>
                                             </div>
                                             <div className="mentor-info-field">
-                                                <label>Roll Number</label>
+                                                <label><FaIdCard style={{ marginRight: '6px' }} /> Roll Number</label>
                                                 <span>{selectedStudent.rollNumber}</span>
                                             </div>
                                             <div className="mentor-info-field">
-                                                <label>Department</label>
+                                                <label><FaBook style={{ marginRight: '6px' }} /> Department</label>
                                                 <span>{selectedStudent.department || 'Not specified'}</span>
                                             </div>
                                         </div>
@@ -614,7 +601,7 @@ function MentorDashboard({ user }) {
                             )}
 
                             {/* Emotional Records Tab */}
-                            {activeTab === 'emotional' && (
+                            {detailTab === 'emotional' && (
                                 <div className="mentor-emotional-view">
                                     <div className="mentor-info-card">
                                         <h3><FaBrain style={{ marginRight: '8px', color: '#7c3aed' }} />Emotional Intelligence Records</h3>
@@ -634,28 +621,45 @@ function MentorDashboard({ user }) {
                                                                 Overall: {record.overallScore !== null ? Number(record.overallScore).toFixed(1) : 'N/A'}/10
                                                             </span>
                                                         </div>
-                                                        <div className="mentor-ei-bars">
-                                                            {[
-                                                                { label: 'Self Awareness', value: record.selfAwareness },
-                                                                { label: 'Self Regulation', value: record.selfRegulation },
-                                                                { label: 'Motivation', value: record.motivation },
-                                                                { label: 'Empathy', value: record.empathy },
-                                                                { label: 'Social Skills', value: record.socialSkills },
-                                                            ].map((dim) => (
-                                                                <div key={dim.label} className="mentor-ei-bar-row">
-                                                                    <span className="mentor-ei-bar-label">{dim.label}</span>
-                                                                    <div className="mentor-ei-bar-track">
-                                                                        <div
-                                                                            className="mentor-ei-bar-fill"
-                                                                            style={{
-                                                                                width: `${(dim.value || 0) * 10}%`,
-                                                                                background: getEiColor(dim.value)
-                                                                            }}
-                                                                        />
-                                                                    </div>
-                                                                    <span className="mentor-ei-bar-value">{dim.value ?? 'N/A'}</span>
-                                                                </div>
-                                                            ))}
+                                                        <div className="mentor-ei-pie-chart" style={{ width: '100%', maxWidth: '300px', height: '220px', margin: '15px auto' }}>
+                                                            <Pie 
+                                                                data={{
+                                                                    labels: ['Self Awareness', 'Self Regulation', 'Motivation', 'Empathy', 'Social Skills'],
+                                                                    datasets: [{
+                                                                        data: [
+                                                                            record.selfAwareness, 
+                                                                            record.selfRegulation, 
+                                                                            record.motivation, 
+                                                                            record.empathy, 
+                                                                            record.socialSkills
+                                                                        ],
+                                                                        backgroundColor: [
+                                                                            'rgba(99, 102, 241, 0.85)',
+                                                                            'rgba(16, 185, 129, 0.85)', 
+                                                                            'rgba(245, 158, 11, 0.85)',
+                                                                            'rgba(239, 68, 68, 0.85)',
+                                                                            'rgba(168, 85, 247, 0.85)'
+                                                                        ],
+                                                                        borderColor: '#ffffff',
+                                                                        borderWidth: 2,
+                                                                        hoverOffset: 6
+                                                                    }]
+                                                                }} 
+                                                                options={{
+                                                                    plugins: { 
+                                                                        legend: { 
+                                                                            display: true,
+                                                                            position: 'right',
+                                                                            labels: { 
+                                                                                boxWidth: 10,
+                                                                                font: { size: 10, weight: 'bold' } 
+                                                                            }
+                                                                        } 
+                                                                    },
+                                                                    maintainAspectRatio: false,
+                                                                    cutout: '30%'
+                                                                }} 
+                                                            />
                                                         </div>
                                                         {record.notes && (
                                                             <div className="mentor-ei-notes">
@@ -671,97 +675,17 @@ function MentorDashboard({ user }) {
                             )}
 
                             {/* ML Insights Tab */}
-                            {activeTab === 'mlinsights' && (
+                            {detailTab === 'mlinsights' && (
                                 <AcademicInsights studentId={selectedStudent.id} studentName={selectedStudent.name} />
                             )}
 
                             {/* Stress Feedback Tab */}
-                            {activeTab === 'feedback' && (
+                            {detailTab === 'feedback' && (
                                 <StressFeedback studentId={selectedStudent.id} />
                             )}
 
-                            {/* Stress Alerts Tab */}
-                            {activeTab === 'stressalerts' && (
-                                <div className="mentor-stress-alerts-view">
-                                    <div className="mentor-info-card">
-                                        <h3><FaBell style={{ marginRight: '8px', color: '#ef4444' }} />Student Stress &amp; Risk Alerts</h3>
-                                        <p className="mentor-alert-subtitle">Students with elevated emotional stress or academic risk that require your attention.</p>
-                                        {stressAlerts.length === 0 ? (
-                                            <div className="mentor-alert-all-ok">
-                                                <span style={{ fontSize: 36 }}>✅</span>
-                                                <h4>All Students are Doing Well!</h4>
-                                                <p>No elevated stress or risk detected among your assigned students at this time.</p>
-                                            </div>
-                                        ) : (
-                                            <div className="mentor-alert-list">
-                                                {stressAlerts.map(alert => (
-                                                    <div key={alert.studentId} className={`mentor-alert-card mentor-alert-risk-${alert.riskLevel}`}>
-                                                        <div className="mentor-alert-card-header">
-                                                            <div className="mentor-alert-student-info">
-                                                                <div className="mentor-alert-avatar" style={{ background: alert.riskColor }}>
-                                                                    {alert.studentName.charAt(0).toUpperCase()}
-                                                                </div>
-                                                                <div>
-                                                                    <div className="mentor-alert-name">{capitalize(alert.studentName)}</div>
-                                                                    <div className="mentor-alert-roll">{alert.rollNumber} • {alert.department || 'N/A'}</div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="mentor-alert-right">
-                                                                <div className="mentor-alert-risk-badge" style={{ background: `${alert.riskColor}22`, color: alert.riskColor, border: `1px solid ${alert.riskColor}55` }}>
-                                                                    <FaExclamationTriangle style={{ marginRight: 5 }} />{alert.riskLabel}
-                                                                </div>
-                                                                <button
-                                                                    className="mentor-alert-view-student"
-                                                                    onClick={() => {
-                                                                        const student = students.find(s => s.id === alert.studentId);
-                                                                        if (student) { handleSelectStudent(student); setActiveTab('profile'); }
-                                                                    }}
-                                                                >
-                                                                    View Student →
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div className="mentor-alert-metrics">
-                                                            {alert.avgEi !== null && (
-                                                                <div className="mentor-metric-chip">
-                                                                    <span className="mentor-metric-label">EI Score</span>
-                                                                    <span className="mentor-metric-val" style={{ color: alert.avgEi < 5 ? '#ef4444' : '#f59e0b' }}>{alert.avgEi}/10</span>
-                                                                </div>
-                                                            )}
-                                                            {alert.avgGpa !== null && (
-                                                                <div className="mentor-metric-chip">
-                                                                    <span className="mentor-metric-label">Avg CGPA</span>
-                                                                    <span className="mentor-metric-val" style={{ color: alert.avgGpa < 5 ? '#ef4444' : '#f59e0b' }}>{alert.avgGpa}/10</span>
-                                                                </div>
-                                                            )}
-                                                            {alert.eiTrend === 'declining' && (
-                                                                <div className="mentor-metric-chip trend-bad">
-                                                                    <FaArrowUp style={{ transform: 'rotate(180deg)', marginRight: 4 }} />
-                                                                    <span>Stress Increasing</span>
-                                                                </div>
-                                                            )}
-                                                            <div className="mentor-metric-chip">
-                                                                <span className="mentor-metric-label">Risk Score</span>
-                                                                <span className="mentor-metric-val" style={{ color: alert.riskColor }}>{alert.riskScore}/100</span>
-                                                            </div>
-                                                        </div>
-                                                        {alert.reasons.length > 0 && (
-                                                            <div className="mentor-alert-reasons">
-                                                                {alert.reasons.map((r, i) => (
-                                                                    <span key={i} className="mentor-alert-reason">⚠ {r}</span>
-                                                                ))}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-
                             {/* Mentor Feedback Tab */}
-                            {activeTab === 'mentorfeedback' && (
+                            {detailTab === 'mentorfeedback' && (
                                 <div className="mentor-feedback-view">
                                     <div className="mentor-info-card">
                                         <h3><FaCommentDots style={{ marginRight: '8px', color: '#0ea5e9' }} />Leave Feedback for {capitalize(selectedStudent.name)}</h3>

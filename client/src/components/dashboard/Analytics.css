@@ -1,4 +1,4 @@
-/* Professional Colorful Analytics */
+/* Professional Colorful Analytics - Dark Theme */
 
 .analytics-container {
   font-family: 'Inter', sans-serif;
@@ -14,10 +14,11 @@
 .analytics-card {
   border-radius: 20px;
   padding: 28px;
-  color: #1e293b;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  color: #f0f4ff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
-  border: none;
+  border: 1px solid #1e2435;
+  background: #161925;
   position: relative;
   overflow: hidden;
 }
@@ -33,12 +34,13 @@
 
 .analytics-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(99, 102, 241, 0.3);
 }
 
 /* Academic Card - Indigo/Blue Theme */
 .analytics-card.academic {
-  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 50%, #f0f4ff 100%);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%), #161925;
 }
 
 .analytics-card.academic::before {
@@ -47,17 +49,17 @@
 
 .analytics-card.academic h3 {
   margin-top: 0;
-  color: #3730a3;
-  border-bottom: 2px solid #c7d2fe;
+  color: #818cf8;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.2);
   padding-bottom: 14px;
   margin-bottom: 18px;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
 }
 
 /* Emotional Card - Violet/Purple Theme */
 .analytics-card.emotional {
-  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #fdf4ff 100%);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%), #161925;
 }
 
 .analytics-card.emotional::before {
@@ -66,11 +68,11 @@
 
 .analytics-card.emotional h3 {
   margin-top: 0;
-  color: #5b21b6;
-  border-bottom: 2px solid #ddd6fe;
+  color: #c084fc;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
   padding-bottom: 14px;
   margin-bottom: 18px;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
 }
 
@@ -79,7 +81,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .metric:last-child {
@@ -87,15 +89,15 @@
 }
 
 .metric span {
-  font-size: 15px;
-  color: #64748b;
+  font-size: 20px;
+  color: #8892a4;
   font-weight: 600;
 }
 
 .metric strong {
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 700;
-  color: #1e293b;
+  color: #f0f4ff;
 }
 
 .btn-refresh {
@@ -106,13 +108,14 @@
   color: white;
   border: none;
   border-radius: 14px;
-  font-size: 16px;
+  font-size: 21px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .btn-refresh:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
 }

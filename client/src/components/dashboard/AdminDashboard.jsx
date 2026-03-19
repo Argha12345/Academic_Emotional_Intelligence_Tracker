@@ -3,23 +3,25 @@ import './AdminDashboard.css';
 import AdminAcademicRecords from '../records/AdminAcademicRecords';
 import AdminEmotionalRecords from '../records/AdminEmotionalRecords';
 import AcademicInsights from './AcademicInsights';
+import CounsellingBooking from './CounsellingBooking';
 import {
     FaUsers, FaBook, FaBrain, FaUserTie, FaSearch,
     FaUserShield, FaGraduationCap, FaChevronRight,
     FaPlus, FaTrash, FaTimes, FaUserPlus, FaKey, FaChalkboardTeacher,
-    FaArrowLeft, FaRobot
+    FaArrowLeft, FaReact, FaSave, FaCheckCircle, FaCommentDots, FaCalendarCheck
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
+import ProfileSection from './ProfileSection';
 
 const API_URL = 'http://localhost:5000/api';
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
 
 const defaultAddForm = { name: '', email: '', rollNumber: '', department: '', mentorName: '' };
 
-function AdminDashboard() {
+function AdminDashboard({ activeTab, user }) {
     const [students, setStudents] = useState([]);
     const [selectedStudent, setSelectedStudent] = useState(null);
-    const [activeTab, setActiveTab] = useState('academic');
+    const [detailTab, setDetailTab] = useState('academic');
     const [searchQuery, setSearchQuery] = useState('');
     const [mentorSearchQuery, setMentorSearchQuery] = useState('');
     const [loading, setLoading] = useState(true);
@@ -61,8 +63,27 @@ function AdminDashboard() {
     const [mrpSuccess, setMrpSuccess] = useState('');
     const [mrpLoading, setMrpLoading] = useState(false);
 
+    // Mentor Feedback
+    const [mentorFeedbacks, setMentorFeedbacks] = useState([]);
+    const [loadingFeedback, setLoadingFeedback] = useState(false);
+
     // Main panel view: 'student' | 'mentor'
     const [panelView, setPanelView] = useState(null);
+
+    // Sync sidebar activeTab with panelView
+    useEffect(() => {
+        if (activeTab === 'students' && panelView !== 'student') {
+            setSelectedStudent(null);
+            setSelectedMentor(null);
+            setPanelView(null);
+        }
+        if (activeTab === 'mentors' && panelView !== 'mentor') {
+            setSelectedStudent(null);
+            setSelectedMentor(null);
+            setPanelView(null);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activeTab]);
 
     useEffect(() => { fetchStudents(); fetchMentors(); }, []);
 
@@ -92,7 +113,19 @@ function AdminDashboard() {
         setMentorName(student.mentorName || '');
         setMentorSuccess('');
         setRpNew(''); setRpConfirm(''); setRpError(''); setRpSuccess('');
-        setActiveTab('academic');
+        setDetailTab('academic');
+
+        fetchMentorFeedback(student.id);
+    };
+
+    const fetchMentorFeedback = async (studentId) => {
+        setLoadingFeedback(true);
+        try {
+            const res = await fetch(`${API_URL}/mentors/feedback/${studentId}`);
+            const data = await res.json();
+            setMentorFeedbacks(data || []);
+        } catch (e) { console.error('Error fetching mentor feedback:', e); }
+        setLoadingFeedback(false);
     };
 
     const handleAddFormChange = (e) => {
@@ -174,7 +207,7 @@ function AdminDashboard() {
             });
             const data = await res.json();
             if (!res.ok) setRpError(data.error || 'Failed to reset password');
-            else { setRpSuccess('✅ Password reset successfully!'); setRpNew(''); setRpConfirm(''); }
+            else { setRpSuccess('Password reset successfully!'); setRpNew(''); setRpConfirm(''); }
         } catch { setRpError('Server error. Please try again.'); }
         setRpLoading(false);
     };
@@ -242,7 +275,7 @@ function AdminDashboard() {
             });
             const data = await res.json();
             if (!res.ok) setMrpError(data.error || 'Failed to reset password');
-            else { setMrpSuccess('✅ Mentor password reset successfully!'); setMrpNew(''); setMrpConfirm(''); }
+            else { setMrpSuccess('Mentor password reset successfully!'); setMrpNew(''); setMrpConfirm(''); }
         } catch { setMrpError('Server error. Please try again.'); }
         setMrpLoading(false);
     };
@@ -260,9 +293,11 @@ function AdminDashboard() {
 
     return (
         <div className="admin-container">
-            {/* ===== Dual Sidebar ===== */}
-            <div className="admin-dual-sidebar">
+            {/* ===== Single Sidebar (shows Students or Mentors based on global sidebar tab) ===== */}
+            <div className="admin-single-sidebar">
+
                 {/* --- Students Column --- */}
+                {activeTab === 'students' && (
                 <div className="admin-sidebar-col admin-sidebar-students">
                     <div className="sidebar-col-header">
                         <FaGraduationCap className="sidebar-col-icon" />
@@ -339,8 +374,10 @@ function AdminDashboard() {
                         )}
                     </div>
                 </div>
+                )}
 
                 {/* --- Mentors Column --- */}
+                {activeTab === 'mentors' && (
                 <div className="admin-sidebar-col admin-sidebar-mentors">
                     <div className="sidebar-col-header mentor-header">
                         <FaChalkboardTeacher className="sidebar-col-icon" />
@@ -414,6 +451,7 @@ function AdminDashboard() {
                         )}
                     </div>
                 </div>
+                )}
             </div>
 
             {/* ===== Main Panel ===== */}
@@ -469,28 +507,34 @@ function AdminDashboard() {
                         </div>
 
                         <div className="admin-tabs">
-                            <button className={`admin-tab ${activeTab === 'academic' ? 'active' : ''}`} onClick={() => setActiveTab('academic')}>
+                            <button className={`admin-tab ${detailTab === 'academic' ? 'active' : ''}`} onClick={() => setDetailTab('academic')}>
                                 <FaBook style={{ marginRight: '8px' }} /> CGPA & Academic
                             </button>
-                            <button className={`admin-tab ${activeTab === 'emotional' ? 'active' : ''}`} onClick={() => setActiveTab('emotional')}>
+                            <button className={`admin-tab ${detailTab === 'emotional' ? 'active' : ''}`} onClick={() => setDetailTab('emotional')}>
                                 <FaBrain style={{ marginRight: '8px' }} /> EI Report
                             </button>
-                            <button className={`admin-tab ${activeTab === 'mlinsights' ? 'active' : ''}`} onClick={() => setActiveTab('mlinsights')}>
-                                <FaRobot style={{ marginRight: '8px' }} /> AI Insights
+                            <button className={`admin-tab ${detailTab === 'mlinsights' ? 'active' : ''}`} onClick={() => setDetailTab('mlinsights')}>
+                                <FaReact style={{ marginRight: '8px' }} /> Smart Analytics
                             </button>
-                            <button className={`admin-tab ${activeTab === 'mentor' ? 'active' : ''}`} onClick={() => setActiveTab('mentor')}>
+                            <button className={`admin-tab ${detailTab === 'mentor' ? 'active' : ''}`} onClick={() => setDetailTab('mentor')}>
                                 <FaUserTie style={{ marginRight: '8px' }} /> Assign Mentor
                             </button>
-                            <button className={`admin-tab ${activeTab === 'password' ? 'active' : ''}`} onClick={() => { setActiveTab('password'); setRpError(''); setRpSuccess(''); }}>
+                            <button className={`admin-tab ${detailTab === 'mentorfeedback' ? 'active' : ''}`} onClick={() => setDetailTab('mentorfeedback')}>
+                                <FaCommentDots style={{ marginRight: '8px' }} /> Mentor Feedback
+                            </button>
+                            <button className={`admin-tab ${detailTab === 'password' ? 'active' : ''}`} onClick={() => { setDetailTab('password'); setRpError(''); setRpSuccess(''); }}>
                                 <FaKey style={{ marginRight: '8px' }} /> Reset Password
+                            </button>
+                            <button className={`admin-tab ${detailTab === 'counselling' ? 'active' : ''}`} onClick={() => setDetailTab('counselling')}>
+                                <FaCalendarCheck style={{ marginRight: '8px' }} /> Counselling
                             </button>
                         </div>
 
                         <div className="admin-tab-content">
-                            {activeTab === 'academic' && <AdminAcademicRecords studentId={selectedStudent.id} />}
-                            {activeTab === 'emotional' && <AdminEmotionalRecords studentId={selectedStudent.id} />}
-                            {activeTab === 'mlinsights' && <AcademicInsights studentId={selectedStudent.id} studentName={selectedStudent.name} />}
-                            {activeTab === 'mentor' && (
+                            {detailTab === 'academic' && <AdminAcademicRecords studentId={selectedStudent.id} />}
+                            {detailTab === 'emotional' && <AdminEmotionalRecords studentId={selectedStudent.id} />}
+                            {detailTab === 'mlinsights' && <AcademicInsights studentId={selectedStudent.id} studentName={selectedStudent.name} />}
+                            {detailTab === 'mentor' && (
                                 <div className="mentor-section">
                                     <div className="mentor-card">
                                         <div className="mentor-card-header">
@@ -500,7 +544,7 @@ function AdminDashboard() {
                                                 <p>Set or update the mentor name for {capitalize(selectedStudent.name)}</p>
                                             </div>
                                         </div>
-                                        {mentorSuccess && <div className="mentor-success">{mentorSuccess}</div>}
+                                        {mentorSuccess && <div className="mentor-success"><FaCheckCircle style={{ marginRight: '6px' }} /> {mentorSuccess}</div>}
                                         <div className="mentor-input-group">
                                             <label htmlFor="mentorName">Mentor Name</label>
                                             <input id="mentorName" type="text" value={mentorName}
@@ -508,12 +552,45 @@ function AdminDashboard() {
                                                 placeholder="Enter mentor's full name" />
                                         </div>
                                         <button className="btn-save-mentor" onClick={handleMentorSave} disabled={mentorSaving}>
-                                            {mentorSaving ? 'Saving...' : '💾 Save Mentor Name'}
+                                            {mentorSaving ? 'Saving...' : <><FaSave style={{ marginRight: '6px' }} /> Save Mentor Name</>}
                                         </button>
                                     </div>
                                 </div>
                             )}
-                            {activeTab === 'password' && (
+                            {detailTab === 'mentorfeedback' && (
+                                <div className="mentor-section">
+                                    <div className="mentor-card">
+                                        <div className="mentor-card-header">
+                                            <FaCommentDots size={32} color="#0ea5e9" />
+                                            <div>
+                                                <h3>Mentor Feedback</h3>
+                                                <p>Feedback left by {selectedStudent.mentorName || 'mentors'} for {capitalize(selectedStudent.name)}.</p>
+                                            </div>
+                                        </div>
+                                        
+                                        {loadingFeedback ? (
+                                            <div style={{ padding: '20px', color: '#8892a4' }}>Loading feedback...</div>
+                                        ) : mentorFeedbacks.length === 0 ? (
+                                            <div style={{ padding: '20px', color: '#8892a4', background: '#0b0e18', borderRadius: '10px', marginTop: '16px' }}>No feedback given to this student yet.</div>
+                                        ) : (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '16px' }}>
+                                                {mentorFeedbacks.map(fb => (
+                                                    <div key={fb.id} style={{ background: '#0b0e18', padding: '16px', borderRadius: '12px', border: '1px solid #1e2435' }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                                                            <strong style={{ color: '#0ea5e9' }}><FaUserTie style={{ marginRight: '6px' }} /> {fb.mentorName}</strong>
+                                                            <span style={{ fontSize: '13px', color: '#8892a4' }}>
+                                                              {new Date(fb.createdAt).toLocaleDateString()}
+                                                            </span>
+                                                        </div>
+                                                        <p style={{ margin: 0, color: '#e2e8f0', fontSize: '15px', lineHeight: '1.5' }}>{fb.feedback}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                            {detailTab === 'password' && (
                                 <div className="mentor-section">
                                     <div className="mentor-card">
                                         <div className="mentor-card-header">
@@ -523,8 +600,8 @@ function AdminDashboard() {
                                                 <p>Set a new password for {capitalize(selectedStudent.name)}.</p>
                                             </div>
                                         </div>
-                                        {rpError && <div className="mentor-success" style={{ background: '#fef2f2', borderColor: '#fecaca', color: '#dc2626' }}>{rpError}</div>}
-                                        {rpSuccess && <div className="mentor-success">{rpSuccess}</div>}
+                                        {rpError && <div className="mentor-success" style={{ background: 'rgba(239,68,68,0.1)', borderColor: 'rgba(239,68,68,0.3)', color: '#f87171' }}>{rpError}</div>}
+                                        {rpSuccess && <div className="mentor-success"><FaCheckCircle style={{ marginRight: '6px' }} /> {rpSuccess}</div>}
                                         <form onSubmit={handleAdminResetPassword}>
                                             <div className="mentor-input-group">
                                                 <label>New Password</label>
@@ -542,10 +619,20 @@ function AdminDashboard() {
                                                 )}
                                             </div>
                                             <button type="submit" className="btn-save-mentor" disabled={rpLoading}>
-                                                {rpLoading ? 'Resetting...' : '🔐 Reset Password'}
+                                                {rpLoading ? 'Resetting...' : <><FaKey style={{ marginRight: '6px' }} /> Reset Password</>}
                                             </button>
                                         </form>
                                     </div>
+                                </div>
+                            )}
+                            {detailTab === 'counselling' && (
+                                <div className="mentor-section">
+                                    <CounsellingBooking
+                                        studentId={selectedStudent.id}
+                                        studentName={selectedStudent.name}
+                                        studentEmail={selectedStudent.email}
+                                        bookedByRole="admin"
+                                    />
                                 </div>
                             )}
                         </div>
@@ -606,7 +693,7 @@ function AdminDashboard() {
                             {/* Reset Mentor Password */}
                             <div className="mentor-panel-section">
                                 <h3><FaKey style={{ marginRight: '8px', color: '#7c3aed' }} />Reset Mentor Password</h3>
-                                <div className="mentor-card" style={{ border: '1px solid #e0f2fe' }}>
+                                <div className="mentor-card">
                                     <div className="mentor-card-header">
                                         <FaKey size={26} color="#0ea5e9" />
                                         <div>
@@ -614,8 +701,8 @@ function AdminDashboard() {
                                             <p>Set a new password for {capitalize(selectedMentor.name)}.</p>
                                         </div>
                                     </div>
-                                    {mrpError && <div className="mentor-success" style={{ background: '#fef2f2', borderColor: '#fecaca', color: '#dc2626' }}>{mrpError}</div>}
-                                    {mrpSuccess && <div className="mentor-success">{mrpSuccess}</div>}
+                                    {mrpError && <div className="mentor-success" style={{ background: 'rgba(239,68,68,0.1)', borderColor: 'rgba(239,68,68,0.3)', color: '#f87171' }}>{mrpError}</div>}
+                                    {mrpSuccess && <div className="mentor-success"><FaCheckCircle style={{ marginRight: '6px' }} /> {mrpSuccess}</div>}
                                     <form onSubmit={handleMentorResetPassword}>
                                         <div className="mentor-input-group">
                                             <label>New Password</label>
@@ -633,7 +720,7 @@ function AdminDashboard() {
                                             )}
                                         </div>
                                         <button type="submit" className="btn-save-mentor" style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9)' }} disabled={mrpLoading}>
-                                            {mrpLoading ? 'Resetting...' : '🔐 Reset Mentor Password'}
+                                            {mrpLoading ? 'Resetting...' : <><FaKey style={{ marginRight: '6px' }} /> Reset Mentor Password</>}
                                         </button>
                                     </form>
                                 </div>
@@ -642,6 +729,13 @@ function AdminDashboard() {
                     </div>
                 )}
             </div>
+
+            {/* --- My Profile Panel (Admin) --- */}
+            {activeTab === 'myprofile' && (
+                <div className="admin-main" style={{ flex: 1, padding: '24px' }}>
+                    <ProfileSection user={user} />
+                </div>
+            )}
         </div>
     );
 }

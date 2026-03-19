@@ -1,37 +1,41 @@
+/* =====================================================
+   Student Dashboard - Dark Professional Theme
+   ===================================================== */
+
 .dashboard-container {
-  padding: 0;
-  width: 100%;
-  margin: 0;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-/* ===== Student Info Header ===== */
+/* ===== Profile Header Card ===== */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: white;
-  color: #1e293b;
-  padding: 28px 32px;
-  border-radius: 20px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-  border-left: 6px solid #4f46e5;
+  background: linear-gradient(135deg, #1a1f35 0%, #12161f 100%);
+  border: 1px solid #1e2435;
+  color: var(--text-primary, #f0f4ff);
+  padding: 26px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  border-left: 4px solid #6366f1;
 }
 
 .student-avatar-display {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #4f46e5, #7c3aed);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
-  margin-right: 18px;
+  margin-right: 16px;
   flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
 .dashboard-header .student-info {
@@ -41,130 +45,90 @@
 }
 
 .student-info h1 {
-  margin: 0 0 4px 0;
-  font-size: 24px;
+  margin: 0 0 3px 0;
+  font-size: 25px;
   font-weight: 800;
-  color: #1e293b;
+  color: #f0f4ff;
 }
 
 .student-meta {
   margin: 0 0 2px 0;
-  font-size: 14px;
-  color: #64748b;
+  font-size: 17px;
+  color: #8892a4;
   font-weight: 500;
 }
 
 .student-email {
-  margin: 0 0 4px 0;
-  font-size: 13px;
-  color: #94a3b8;
+  margin: 0 0 3px 0;
+  font-size: 16px;
+  color: #4b5563;
 }
 
 .student-mentor {
-  margin: 6px 0 0 0;
-  font-size: 13px;
-  color: #7c3aed;
+  margin: 5px 0 0 0;
+  font-size: 16px;
+  color: #818cf8;
   display: flex;
   align-items: center;
 }
 
 .student-role-badge {
-  padding: 6px 16px;
-  background: #ede9fe;
+  padding: 5px 14px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
-  color: #7c3aed;
+  color: #818cf8;
   flex-shrink: 0;
-}
-
-/* ===== Tabs ===== */
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  background: white;
-  padding: 7px;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-}
-
-.tab {
-  flex: 1;
-  padding: 13px 16px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-weight: 600;
-  color: #94a3b8;
-  transition: all 0.3s ease;
-  border-radius: 11px;
-  font-size: 14px;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 6px;
-}
-
-.tab:hover {
-  background: #f0f4ff;
-  color: #4f46e5;
-}
-
-.tab.active {
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: white;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
 }
 
 /* ===== Tab Content Area ===== */
 .tab-content {
-  background: white;
+  background: #161925;
+  border: 1px solid #1e2435;
   min-height: 400px;
-  border-radius: 20px;
-  padding: 32px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-  animation: slideUp 0.3s ease-out;
+  border-radius: 16px;
+  padding: 28px;
+  animation: slideUp 0.25s ease-out;
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== Profile View ===== */
 .profile-view {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 22px;
 }
 
 .profile-section {
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 24px;
+  border: 1px solid #1e2435;
+  border-radius: 14px;
+  padding: 22px;
+  background: #12161f;
 }
 
 .profile-section h3 {
-  margin: 0 0 18px;
-  font-size: 16px;
+  margin: 0 0 16px;
+  font-size: 18px;
   font-weight: 800;
-  color: #1e293b;
+  color: #f0f4ff;
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .profile-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 .profile-field {
@@ -173,55 +137,55 @@
   gap: 4px;
 }
 
-.profile-field.full-width {
-  grid-column: 1 / -1;
-}
+.profile-field.full-width { grid-column: 1 / -1; }
 
 .profile-field label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  color: #94a3b8;
+  color: #4b5563;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .profile-field span {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
-  padding: 10px 14px;
-  background: #f8fafc;
+  color: #f0f4ff;
+  padding: 10px 13px;
+  background: #0b0e18;
   border-radius: 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #1e2435;
 }
 
 .mentor-highlight {
-  color: #7c3aed !important;
-  background: #faf5ff !important;
-  border-color: #e9d5ff !important;
+  color: #818cf8 !important;
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.25) !important;
 }
 
 /* View only note */
 .view-only-note {
-  padding: 10px 14px;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: 10px;
-  font-size: 13px;
-  color: #92400e;
-  margin-bottom: 16px;
+  padding: 9px 13px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fbbf24;
+  margin-bottom: 14px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.profile-loading,
-.profile-empty {
+.profile-loading, .profile-empty {
   padding: 30px;
   text-align: center;
-  color: #94a3b8;
-  font-size: 14px;
+  color: #4b5563;
+  font-size: 17px;
 }
 
-/* ===== Academic Records View (student, read-only) ===== */
+/* ===== Academic Records View ===== */
 .academic-records-view {
   display: flex;
   flex-direction: column;
@@ -233,20 +197,21 @@
   align-items: center;
   gap: 16px;
   padding: 14px 18px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #0b0e18;
+  border: 1px solid #1e2435;
   border-radius: 12px;
-  transition: box-shadow 0.2s;
+  transition: all 0.2s;
 }
 
 .academic-record-card:hover {
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.1);
 }
 
 .arc-semester {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 800;
-  color: #4f46e5;
+  color: #818cf8;
   min-width: 110px;
 }
 
@@ -264,76 +229,54 @@
 }
 
 .arc-label {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
-  color: #94a3b8;
+  color: #4b5563;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
 
 .arc-value {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 800;
-  color: #374151;
+  color: #f0f4ff;
 }
 
 .arc-date {
-  font-size: 11px;
-  color: #94a3b8;
+  font-size: 15px;
+  color: #4b5563;
   flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
-  .dashboard-header {
-    flex-direction: column;
-    gap: 14px;
-    text-align: center;
-    padding: 20px;
-  }
-
-  .dashboard-header .student-info {
-    flex-direction: column;
-  }
-
-  .profile-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .tabs {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .arc-stats {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+  .dashboard-header { flex-direction: column; gap: 14px; text-align: center; padding: 18px; }
+  .dashboard-header .student-info { flex-direction: column; }
+  .profile-grid { grid-template-columns: 1fr; }
+  .arc-stats { flex-wrap: wrap; gap: 10px; }
 }
 
-/* ===== Change Password Section ===== */
-.change-password-section {
-  max-width: 500px;
-}
+/* ===== Change Password ===== */
+.change-password-section { max-width: 500px; }
 
 .cp-card {
-  background: #f8fafc;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 30px;
+  background: #12161f;
+  border: 1px solid #1e2435;
+  border-radius: 16px;
+  padding: 28px;
 }
 
 .cp-card-header {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 
 .cp-icon-wrap {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -342,55 +285,51 @@
 
 .cp-card-header h3 {
   margin: 0 0 4px;
-  font-size: 18px;
+  font-size: 21px;
   font-weight: 800;
-  color: #1e293b;
+  color: #f0f4ff;
 }
 
 .cp-card-header p {
   margin: 0;
-  font-size: 13px;
-  color: #64748b;
+  font-size: 16px;
+  color: #8892a4;
 }
 
 .cp-error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
-  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 10px 13px;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .cp-success {
-  background: #ecfdf5;
-  border: 1px solid #6ee7b7;
-  color: #065f46;
-  padding: 10px 14px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #6ee7b7;
+  padding: 10px 13px;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .cp-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
-.cp-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+.cp-field { display: flex; flex-direction: column; gap: 6px; }
 
 .cp-field label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  color: #374151;
+  color: #4b5563;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -403,64 +342,51 @@
 
 .cp-input-wrap input {
   width: 100%;
-  padding: 12px 44px 12px 14px;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 14px;
-  color: #1e293b;
-  background: white;
+  padding: 11px 42px 11px 13px;
+  border: 1px solid #1e2435;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #f0f4ff;
+  background: #0b0e18;
   outline: none;
   transition: all 0.2s;
 }
 
 .cp-input-wrap input:focus {
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
 }
 
 .cp-eye {
   position: absolute;
-  right: 14px;
+  right: 12px;
   background: none;
   border: none;
   cursor: pointer;
-  color: #94a3b8;
-  font-size: 15px;
+  color: #4b5563;
+  font-size: 18px;
   padding: 0;
   display: flex;
   align-items: center;
   transition: color 0.2s;
 }
 
-.cp-eye:hover {
-  color: #4f46e5;
-}
+.cp-eye:hover { color: #818cf8; }
 
-.cp-hint-error {
-  font-size: 11px;
-  color: #ef4444;
-  font-weight: 600;
-  padding-left: 2px;
-}
-
-.cp-hint-success {
-  font-size: 11px;
-  color: #10b981;
-  font-weight: 600;
-  padding-left: 2px;
-}
+.cp-hint-error { font-size: 15px; color: #ef4444; font-weight: 600; padding-left: 2px; }
+.cp-hint-success { font-size: 15px; color: #10b981; font-weight: 600; padding-left: 2px; }
 
 .btn-cp-submit {
   width: 100%;
-  padding: 13px;
+  padding: 12px;
   background: linear-gradient(135deg, #4f46e5, #7c3aed);
   color: white;
   border: none;
-  border-radius: 12px;
-  font-size: 15px;
+  border-radius: 10px;
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.25s;
+  transition: all 0.22s;
   margin-top: 4px;
 }
 
@@ -469,7 +395,10 @@
   box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
 }
 
-.btn-cp-submit:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
+.btn-cp-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ===== Counselling Page Layout ===== */
+.counselling-page-layout {
+  max-width: 600px;
+  animation: slideUp 0.3s ease-out;
 }
