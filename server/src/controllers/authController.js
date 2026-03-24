@@ -5,11 +5,11 @@ import Mentor from '../models/Mentor.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'academic_ei_tracker_secret_key_2026';
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
-const DEFAULT_PASSWORD = 'bitsathy1';
+const DEFAULT_PASSWORD = process.env.DEFAULT_USER_PASSWORD || 'bitsathy1';
 
-// Hardcoded admin credentials
-const ADMIN_USERNAME = 'admin';
-let ADMIN_PASSWORD = 'admin17042005';
+// Default Admin credentials
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+let ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin17042005';
 
 // Student Login (email + password, email must end with @bitsathy.ac.in)
 export const login = async (req, res) => {

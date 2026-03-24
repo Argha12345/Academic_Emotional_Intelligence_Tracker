@@ -4,8 +4,8 @@ import Mentor from '../models/Mentor.js';
 import Student from '../models/Student.js';
 import MentorFeedback from '../models/MentorFeedback.js';
 
-const JWT_SECRET = 'academic_ei_tracker_secret_key_2026';
-const DEFAULT_MENTOR_PASSWORD = 'mentor123';
+const JWT_SECRET = process.env.JWT_SECRET || 'academic_ei_tracker_secret_key_2026';
+const DEFAULT_MENTOR_PASSWORD = process.env.DEFAULT_MENTOR_PASSWORD || 'mentor123';
 
 // Mentor Login
 export const mentorLogin = async (req, res) => {
