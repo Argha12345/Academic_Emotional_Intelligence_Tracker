@@ -80,7 +80,7 @@ function Login({ onLogin }) {
         setError('');
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/auth/admin-login`, {
+            const res = await fetch(`${API_URL}/api/auth/admin-login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password: adminPass })
