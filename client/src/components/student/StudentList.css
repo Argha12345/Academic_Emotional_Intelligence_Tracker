@@ -6,12 +6,12 @@
   width: 100%;
   padding: 14px 18px;
   font-size: 21px;
-  border: 1px solid #1e2435;
+  border: 1px solid var(--card-border);
   border-radius: 12px;
   box-sizing: border-box;
   transition: all 0.3s;
-  background: #0b0e18;
-  color: #f0f4ff;
+  background: var(--role-btn-bg);
+  color: var(--text-primary);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
@@ -19,10 +19,10 @@
   outline: none;
   border-color: #6366f1;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-  background: #0f1623;
+  background: var(--input-focus-bg);
 }
 
-.search-input::placeholder { color: #4b5563; }
+.search-input::placeholder { color: var(--text-muted); }
 
 .students-grid {
   display: grid;
@@ -31,12 +31,12 @@
 }
 
 .student-card {
-  background: #161925;
+  background: var(--card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
-  border: 1px solid #1e2435;
+  border: 1px solid var(--card-border);
 }
 
 .student-card:hover {
@@ -47,12 +47,12 @@
 
 .card-header {
   background: linear-gradient(135deg, #312e81, #4c1d95);
-  color: white;
+  color: var(--text-primary);
   padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .card-header h3 {
@@ -76,18 +76,18 @@
 .card-body p {
   margin: 10px 0;
   font-size: 18px;
-  color: #8892a4;
+  color: var(--text-secondary);
   display: flex;
   gap: 8px;
 }
 
 .card-body strong {
-  color: #cbd5e1;
+  color: var(--text-secondary);
   min-width: 60px;
 }
 
 .date {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 14px !important;
 }
 
@@ -137,9 +137,9 @@
 .empty-state {
   text-align: center;
   padding: 60px 20px;
-  color: #8892a4;
+  color: var(--text-secondary);
   font-size: 21px;
-  background: #161925;
+  background: var(--card-bg);
   border-radius: 16px;
   border: 1px dashed #334155;
 }

@@ -1,3 +1,4 @@
+/* AcademicRecords.css - Light Professional Theme */
 .records-container {
   background: transparent;
   border-radius: 12px;
@@ -13,13 +14,13 @@
 
 .records-header h2 {
   margin: 0;
-  color: #f0f4ff;
-  font-weight: 700;
+  color: var(--text-primary);
+  font-weight: 800;
 }
 
 .btn-add {
   padding: 12px 24px;
-  background: linear-gradient(135deg, #10b981, #059669);
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   border: none;
   border-radius: 12px;
@@ -27,21 +28,21 @@
   font-weight: 700;
   font-size: 18px;
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
 .btn-add:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
 }
 
 .form-card {
-  background: #161925;
+  background: var(--card-bg);
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 24px;
-  border: 1px solid #1e2435;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 15px rgba(148, 163, 184, 0.15);
 }
 
 .form-row {
@@ -59,52 +60,56 @@
 .form-group label {
   margin-bottom: 6px;
   font-weight: 700;
-  color: #8892a4;
-  font-size: 18px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .form-group input {
   padding: 12px 14px;
-  border: 1px solid #1e2435;
+  border: 1px solid var(--card-border);
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.2s;
-  background: #0b0e18;
-  color: #f0f4ff;
+  background: #f8fafc;
+  color: var(--text-primary);
+  outline: none;
 }
 
 .form-group input:focus {
-  outline: none;
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  background: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .error-message {
-  background: rgba(239, 68, 68, 0.1);
-  color: #f87171;
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
   padding: 10px 14px;
   border-radius: 10px;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 600;
   margin-bottom: 16px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .btn-submit {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.2s;
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
 }
 
 /* Records List */
@@ -115,39 +120,36 @@
 }
 
 .record-item {
-  background: #161925;
-  border: 1px solid #1e2435;
-  border-left: 5px solid;
-  border-image: linear-gradient(to bottom, #6366f1, #8b5cf6) 1;
-  padding: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-left: 5px solid #3b82f6;
+  padding: 20px 24px;
   border-radius: 0 14px 14px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(148, 163, 184, 0.1);
   transition: all 0.2s;
 }
 
 .record-item:hover {
   transform: translateX(4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 6px 20px rgba(148, 163, 184, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
-.record-main {
-  flex: 1;
-}
+.record-main { flex: 1; }
 
 .subject-name {
   font-weight: 800;
   font-size: 22px;
-  color: #f0f4ff;
-  margin-bottom: 10px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
 }
 
 .record-details {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 8px;
 }
@@ -157,42 +159,46 @@
   align-items: center;
   padding: 5px 14px;
   border-radius: 20px;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   color: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.badge.gpa { background: linear-gradient(135deg, #4f46e5, #6366f1); }
-.badge.assignment { background: linear-gradient(135deg, #10b981, #14b8a6); }
-.badge.attendance { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+.badge.gpa { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.badge.assignment { background: linear-gradient(135deg, #10b981, #059669); }
+.badge.attendance { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
 
 .record-date {
-  font-size: 17px;
-  color: #8892a4;
-  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-secondary);
+  font-weight: 600;
 }
 
 .btn-delete {
   padding: 8px 18px;
-  background: rgba(239, 68, 68, 0.1);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.2);
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 17px;
+  font-size: 16px;
   transition: all 0.2s;
 }
 
 .btn-delete:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.6);
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
 }
 
 .empty-message {
   text-align: center;
-  color: #8892a4;
+  color: var(--text-muted);
   padding: 60px 20px;
-  font-size: 21px;
+  font-size: 18px;
+  font-weight: 500;
+  background: var(--card-bg);
+  border-radius: 14px;
+  border: 1px dashed var(--card-border);
 }

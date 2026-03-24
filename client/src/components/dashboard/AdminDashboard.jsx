@@ -569,20 +569,20 @@ function AdminDashboard({ activeTab, user }) {
                                         </div>
                                         
                                         {loadingFeedback ? (
-                                            <div style={{ padding: '20px', color: '#8892a4' }}>Loading feedback...</div>
+                                            <div style={{ padding: '20px', color: '#64748b' }}>Loading feedback...</div>
                                         ) : mentorFeedbacks.length === 0 ? (
-                                            <div style={{ padding: '20px', color: '#8892a4', background: '#0b0e18', borderRadius: '10px', marginTop: '16px' }}>No feedback given to this student yet.</div>
+                                            <div style={{ padding: '20px', color: '#64748b', background: '#f0f7ff', borderRadius: '10px', marginTop: '16px', border: '1px solid #dbeafe' }}>No feedback given to this student yet.</div>
                                         ) : (
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '16px' }}>
                                                 {mentorFeedbacks.map(fb => (
-                                                    <div key={fb.id} style={{ background: '#0b0e18', padding: '16px', borderRadius: '12px', border: '1px solid #1e2435' }}>
+                                                    <div key={fb.id} style={{ background: '#f0f7ff', padding: '16px', borderRadius: '12px', border: '1px solid #dbeafe' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                                                             <strong style={{ color: '#0ea5e9' }}><FaUserTie style={{ marginRight: '6px' }} /> {fb.mentorName}</strong>
-                                                            <span style={{ fontSize: '13px', color: '#8892a4' }}>
+                                                            <span style={{ fontSize: '13px', color: '#64748b' }}>
                                                               {new Date(fb.createdAt).toLocaleDateString()}
                                                             </span>
                                                         </div>
-                                                        <p style={{ margin: 0, color: '#e2e8f0', fontSize: '15px', lineHeight: '1.5' }}>{fb.feedback}</p>
+                                                        <p style={{ margin: 0, color: '#334155', fontSize: '15px', lineHeight: '1.5' }}>{fb.feedback}</p>
                                                     </div>
                                                 ))}
                                             </div>

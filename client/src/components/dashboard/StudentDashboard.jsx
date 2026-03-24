@@ -176,7 +176,7 @@ function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, 
           <div className="profile-view">
            <div className="profile-section">
                <h3><FaUserTie style={{ marginRight: '8px', color: '#0ea5e9' }} />Mentor Feedback</h3>
-               <p style={{ color: '#8892a4', marginBottom: '20px', fontSize: '14px' }}>Feedback and notes left by your assigned mentor regarding your academic and emotional progress.</p>
+               <p style={{ color: '#64748b', marginBottom: '20px', fontSize: '14px' }}>Feedback and notes left by your assigned mentor regarding your academic and emotional progress.</p>
                {loadingFeedback ? (
                    <div className="profile-loading">Loading feedback...</div>
                ) : mentorFeedbacks.length === 0 ? (
@@ -186,15 +186,15 @@ function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, 
                        {mentorFeedbacks.map(fb => (
                            <div key={fb.id} className="academic-record-card" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: '10px' }}>
                                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
-                                   <span style={{ fontWeight: 700, color: '#f0f4ff', display: 'flex', alignItems: 'center' }}>
+                                   <span style={{ fontWeight: 700, color: '#0f172a', display: 'flex', alignItems: 'center' }}>
                                        <FaUserTie style={{ marginRight: '8px', color: '#0ea5e9' }} />
                                        {capitalize(fb.mentorName)}
                                    </span>
-                                   <span style={{ fontSize: '13px', color: '#8892a4' }}>
+                                   <span style={{ fontSize: '13px', color: '#64748b' }}>
                                        {new Date(fb.createdAt).toLocaleDateString()} • {new Date(fb.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                    </span>
                                </div>
-                               <p style={{ margin: 0, fontSize: '15px', color: '#cbd5e1', lineHeight: '1.6', background: '#0b0e18', padding: '14px', borderRadius: '10px', width: '100%', border: '1px solid #1e2435', boxSizing: 'border-box' }}>
+                               <p style={{ margin: 0, fontSize: '15px', color: '#334155', lineHeight: '1.6', background: '#f0f7ff', padding: '14px', borderRadius: '10px', width: '100%', border: '1px solid #dbeafe', boxSizing: 'border-box' }}>
                                   {fb.feedback}
                                </p>
                            </div>

@@ -7,7 +7,7 @@
 }
 
 .form-card {
-  background: #12161f;
+  background: var(--card-bg);
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   padding: 40px;
@@ -20,7 +20,7 @@
 .form-card h2 {
   margin-top: 0;
   margin-bottom: 28px;
-  color: #f0f4ff;
+  color: var(--text-primary);
   text-align: center;
   font-weight: 800;
   font-size: 30px;
@@ -32,7 +32,7 @@
   display: block;
   margin-bottom: 6px;
   font-weight: 700;
-  color: #8892a4;
+  color: var(--text-secondary);
   font-size: 17px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -41,27 +41,27 @@
 .form-group input {
   width: 100%;
   padding: 14px 16px;
-  border: 1px solid #1e2435;
+  border: 1px solid var(--card-border);
   border-radius: 12px;
   font-size: 20px;
   box-sizing: border-box;
   transition: all 0.2s;
-  background: #0b0e18;
-  color: #f0f4ff;
+  background: var(--role-btn-bg);
+  color: var(--text-primary);
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #6366f1;
-  background: #0f1623;
+  background: var(--input-focus-bg);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .input-readonly {
-  background: #161925 !important;
-  color: #4b5563 !important;
+  background: var(--card-bg) !important;
+  color: var(--text-muted) !important;
   cursor: not-allowed;
-  border-color: #1e2435 !important;
+  border-color: var(--card-border) !important;
 }
 
 .error-message {
@@ -104,12 +104,12 @@
 }
 
 .btn-cancel {
-  background: #1e2435;
-  color: #8892a4;
+  background: var(--card-border);
+  color: var(--text-secondary);
   border: 1px solid #334155;
 }
 
 .btn-cancel:hover {
   background: #334155;
-  color: #f0f4ff;
+  color: var(--text-primary);
 }

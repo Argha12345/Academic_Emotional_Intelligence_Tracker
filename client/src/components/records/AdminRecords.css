@@ -1,49 +1,48 @@
-/* ========== Shared Admin Records Styles - Dark Theme ========== */
-
+/* AdminRecords.css - Light Professional Theme */
 .admin-records { width: 100%; }
 
 .admin-records-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .admin-records-header h3 {
     margin: 0;
     font-size: 25px;
     font-weight: 800;
-    color: #f0f4ff;
+    color: var(--text-primary);
 }
 
 .btn-add-admin {
     display: flex;
     align-items: center;
     padding: 10px 18px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }
 
 .btn-add-admin:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.3);
 }
 
 /* ===== Form Card ===== */
 .admin-form-card {
-    background: #161925;
+    background: #f8fafc;
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 24px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 15px rgba(148, 163, 184, 0.1);
     animation: slideDown 0.25s ease-out;
 }
 
@@ -56,24 +55,25 @@
     margin: 0 0 16px;
     font-size: 21px;
     font-weight: 800;
-    color: #f0f4ff;
+    color: var(--text-primary);
 }
 
 .admin-form-error {
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(239, 68, 68, 0.08);
     border: 1px solid rgba(239, 68, 68, 0.25);
-    color: #f87171;
+    color: #dc2626;
     padding: 10px 14px;
     border-radius: 10px;
-    font-size: 17px;
+    font-size: 16px;
+    font-weight: 600;
     margin-bottom: 16px;
 }
 
 .admin-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 16px;
+    gap: 16px;
+    margin-bottom: 20px;
 }
 
 .admin-form-group {
@@ -82,9 +82,9 @@
 }
 
 .admin-form-group label {
-    font-size: 17px;
+    font-size: 14px;
     font-weight: 700;
-    color: #8892a4;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 6px;
@@ -93,100 +93,101 @@
 .admin-form-group input,
 .admin-form-group select,
 .admin-form-group textarea {
-    padding: 11px 14px;
-    border: 1px solid #1e2435;
+    padding: 12px 14px;
+    border: 1px solid var(--card-border);
     border-radius: 10px;
-    font-size: 20px;
-    color: #f0f4ff;
-    background: #0b0e18;
+    font-size: 16px;
+    color: var(--text-primary);
+    background: #ffffff;
     outline: none;
     transition: all 0.2s;
+    font-weight: 500;
 }
 
 .admin-form-group input:focus,
 .admin-form-group select:focus,
 .admin-form-group textarea:focus {
-    border-color: #6366f1;
-    background: #0f1623;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .admin-form-actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
 }
 
 .btn-save-admin {
     display: flex;
     align-items: center;
-    padding: 11px 22px;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #10b981, #059669);
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }
 
 .btn-save-admin:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
 }
 
 .btn-cancel-admin {
     display: flex;
     align-items: center;
-    padding: 11px 22px;
-    background: #1e2435;
-    color: #94a3b8;
-    border: 1px solid #334155;
+    padding: 12px 24px;
+    background: #ffffff;
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .btn-cancel-admin:hover {
-    background: #334155;
-    color: #f0f4ff;
+    background: #f1f5f9;
+    color: var(--text-primary);
 }
 
 /* ===== Records List ===== */
 .admin-records-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
 }
 
 .admin-records-empty {
     padding: 40px;
     text-align: center;
-    color: #8892a4;
-    font-size: 21px;
-    background: #161925;
+    color: var(--text-muted);
+    font-size: 18px;
+    font-weight: 500;
+    background: var(--card-bg);
     border-radius: 14px;
-    border: 1px dashed #334155;
+    border: 1px dashed var(--card-border);
 }
 
 .admin-record-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #161925;
+    background: var(--card-bg);
     border-radius: 14px;
-    padding: 18px 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    border: 1px solid #1e2435;
+    padding: 20px 24px;
+    box-shadow: 0 2px 10px rgba(148, 163, 184, 0.08);
+    border: 1px solid var(--card-border);
     transition: all 0.2s;
 }
 
 .admin-record-item:hover {
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
-    border-color: rgba(99, 102, 241, 0.25);
+    box-shadow: 0 4px 15px rgba(148, 163, 184, 0.15);
+    border-color: rgba(59, 130, 246, 0.3);
 }
 
 .admin-record-item.ei-record { align-items: flex-start; }
@@ -194,44 +195,46 @@
 .admin-record-left {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 .semester-badge {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
-    color: #c7d2fe;
-    margin-bottom: 4px;
+    color: #2563eb;
+    margin-bottom: 2px;
 }
 
 .record-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
 }
 
 .badge-gpa {
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
-    font-size: 16px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
-    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+    border: 1px solid rgba(59, 130, 246, 0.2);
 }
 
 .badge-info {
-    padding: 4px 12px;
+    padding: 6px 14px;
     border-radius: 20px;
-    font-size: 16px;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.05);
-    color: #94a3b8;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+    font-weight: 700;
+    background: #f1f5f9;
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
 }
 
 .record-date-admin {
-    font-size: 17px;
-    color: #64748b;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
 }
 
 /* EI Record Specifics */
@@ -239,99 +242,99 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .ei-overall-score {
-    padding: 5px 16px;
+    padding: 6px 18px;
     border-radius: 20px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
-    color: white;
-    background: linear-gradient(135deg, #10b981, #059669);
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+    color: #6d28d9;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.2);
 }
 
 .ei-bars-admin {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     min-width: 420px;
 }
 
 .ei-bar-row {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
 .ei-bar-label {
-    font-size: 17px;
-    color: #8892a4;
-    font-weight: 600;
-    white-space: nowrap;
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 700;
 }
 
 .ei-bar-bottom {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .ei-bar-track {
     flex: 1;
-    height: 10px;
-    background: #0b0d14;
+    height: 12px;
+    background: #e2e8f0;
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid #1e2435;
+    border: 1px solid #cbd5e1;
 }
 
 .ei-bar-fill {
     height: 100%;
     border-radius: 20px;
     transition: width 0.4s ease;
-    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    background: linear-gradient(90deg, #a855f7, #7c3aed);
 }
 
 .ei-bar-val {
-    font-size: 18px;
-    font-weight: 700;
-    color: #cbd5e1;
-    width: 24px;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-primary);
+    width: 28px;
     text-align: right;
     flex-shrink: 0;
 }
 
 .ei-notes-admin {
-    font-size: 18px;
-    color: #94a3b8;
-    margin-top: 8px;
-    font-style: italic;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-top: 12px;
+    background: #f8fafc;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    font-weight: 500;
+    line-height: 1.5;
 }
 
 /* Sliders */
 .ei-sliders-admin {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    margin-bottom: 8px;
+    gap: 16px;
+    margin-bottom: 12px;
 }
 
 .ei-slider-row {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
 .ei-slider-row label {
-    font-size: 20px;
-    color: #f0f4ff;
-    font-weight: 600;
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 700;
     width: 170px;
     flex-shrink: 0;
 }
@@ -339,86 +342,81 @@
 .ei-slider-input {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     flex: 1;
 }
 
 .ei-slider-input input[type="range"] {
     flex: 1;
-    height: 6px;
-    accent-color: #8b5cf6;
+    height: 8px;
+    accent-color: #7c3aed;
     cursor: pointer;
-    padding: 0;
-    border: none;
-    background: #1e2435;
+    background: #e2e8f0;
     border-radius: 10px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    outline: none;
 }
 
 .ei-score-badge {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #7c3aed;
     font-weight: 800;
-    font-size: 20px;
+    font-size: 17px;
+    background: white;
+    border: 1px solid rgba(124, 58, 237, 0.3);
     flex-shrink: 0;
-    transition: background 0.2s;
-    background: #1e2435;
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Edit/Delete Buttons */
 .admin-record-actions {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-shrink: 0;
-    margin-left: 16px;
+    margin-left: 20px;
 }
 
 .btn-edit-admin,
 .btn-delete-admin {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     border: 1px solid transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     transition: all 0.2s;
 }
 
 .btn-edit-admin {
-    background: rgba(99, 102, 241, 0.15);
-    color: #818cf8;
-    border-color: rgba(99, 102, 241, 0.2);
+    background: rgba(59, 130, 246, 0.1);
+    color: #2563eb;
+    border-color: rgba(59, 130, 246, 0.2);
 }
 
 .btn-edit-admin:hover {
-    background: #6366f1;
+    background: #3b82f6;
     color: white;
-    transform: scale(1.08);
 }
 
 .btn-delete-admin {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
     border-color: rgba(239, 68, 68, 0.2);
 }
 
 .btn-delete-admin:hover {
     background: #ef4444;
     color: white;
-    transform: scale(1.08);
 }
 
 @media (max-width: 600px) {
     .admin-form-grid { grid-template-columns: 1fr; }
     .ei-bars-admin { min-width: unset; }
-    .ei-bar-label { width: 110px; font-size: 16px; }
+    .ei-bar-label { font-size: 14px; }
 }

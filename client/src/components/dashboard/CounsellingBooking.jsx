@@ -161,7 +161,7 @@ function CounsellingBooking({ studentId, studentName, studentEmail, bookedByRole
             case 'confirmed': return { color: '#10b981', bg: 'rgba(16,185,129,0.15)', label: 'Confirmed', icon: <FaCheckCircle /> };
             case 'cancelled': return { color: '#ef4444', bg: 'rgba(239,68,68,0.15)', label: 'Cancelled', icon: <FaTimesCircle /> };
             case 'completed': return { color: '#6366f1', bg: 'rgba(99,102,241,0.15)', label: 'Completed', icon: <FaCheckCircle /> };
-            default: return { color: '#8892a4', bg: 'rgba(136,146,164,0.15)', label: status, icon: <FaClock /> };
+            default: return { color: '#64748b', bg: 'rgba(136,146,164,0.15)', label: status, icon: <FaClock /> };
         }
     };
 
@@ -173,7 +173,7 @@ function CounsellingBooking({ studentId, studentName, studentEmail, bookedByRole
                     <FaHeartbeat />
                 </div>
                 <div>
-                    <h3>Counselling Support {!isSelf && <span style={{ fontSize: '13px', fontWeight: 600, color: '#8892a4' }}>- for {studentName}</span>}</h3>
+                    <h3>Counselling Support {!isSelf && <span style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>- for {studentName}</span>}</h3>
                     <p>{needsUrgent ? '⚠️ High stress detected - session recommended' : 'Book & manage counselling sessions'}</p>
                 </div>
             </div>
