@@ -50,26 +50,47 @@ export const login = async (req, res) => {
 };
 
 // Admin Login
-export const adminLogin = (req, res) => {
+export const adminLogin = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
         return res.status(400).json({ error: 'Username and password are required' });
     }
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-        const token = jwt.sign(
-            { id: '0', email: 'admin@system', name: 'Admin', role: 'admin' },
-            JWT_SECRET,
-            { expiresIn: '7d' }
-        );
-        return res.json({
-            token,
-            user: { id: '0', name: 'Admin', email: 'admin@system', role: 'admin' }
-        });
-    }
+    try {
+        const adminUser = await User.findOne({ email: username, role: 'admin' });
+        if (adminUser) {
+            const isMatch = await bcrypt.compare(password, adminUser.password);
+            if (isMatch) {
+                const token = jwt.sign(
+                    { id: adminUser.id, email: adminUser.email, name: adminUser.name, role: 'admin' },
+                    JWT_SECRET,
+                    { expiresIn: '7d' }
+                );
+                return res.json({
+                    token,
+                    user: { id: adminUser.id, name: adminUser.name, email: adminUser.email, role: 'admin' }
+                });
+            }
+        }
 
-    return res.status(401).json({ error: 'Invalid admin credentials' });
+        // Fallback to env default if DB fails/missing
+        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            const token = jwt.sign(
+                { id: '0', email: 'admin@system', name: 'Admin', role: 'admin' },
+                JWT_SECRET,
+                { expiresIn: '7d' }
+            );
+            return res.json({
+                token,
+                user: { id: '0', name: 'Admin', email: 'admin@system', role: 'admin' }
+            });
+        }
+
+        return res.status(401).json({ error: 'Invalid admin credentials' });
+    } catch (e) {
+        return res.status(500).json({ error: 'Server error during admin login' });
+    }
 };
 
 // Verify Token
@@ -157,6 +178,17 @@ export const getProfile = async (req, res) => {
 
     try {
         if (role === 'admin') {
+            const adminUser = await User.findOne({ role: 'admin' });
+            if (adminUser) {
+                return res.json({
+                    id: adminUser.id,
+                    name: adminUser.name,
+                    email: adminUser.email,
+                    role: 'admin',
+                    department: 'System Administration',
+                    joinedDate: adminUser.createdAt
+                });
+            }
             return res.json({
                 id: '0',
                 name: 'Admin',
@@ -205,15 +237,33 @@ export const adminChangeOwnPassword = async (req, res) => {
     if (newPassword.length < 6) {
         return res.status(400).json({ error: 'New password must be at least 6 characters' });
     }
-    if (currentPassword !== ADMIN_PASSWORD) {
-        return res.status(401).json({ error: 'Current password is incorrect' });
+
+    try {
+        const adminUser = await User.findOne({ role: 'admin' });
+        if (adminUser) {
+            const isMatch = await bcrypt.compare(currentPassword, adminUser.password);
+            if (!isMatch) {
+                return res.status(401).json({ error: 'Current password is incorrect' });
+            }
+            const hashed = await bcrypt.hash(newPassword, 10);
+            adminUser.password = hashed;
+            await adminUser.save();
+            return res.json({ message: 'Password changed successfully in database' });
+        }
+
+        // Env fallback for password change
+        if (currentPassword !== ADMIN_PASSWORD) {
+            return res.status(401).json({ error: 'Current password is incorrect' });
+        }
+        
+        ADMIN_PASSWORD = newPassword;
+        
+        // Note: Since admin password is hardcoded, we acknowledge the change but it will reset on server restart
+        // In a real app, this would update a database entry
+        res.json({ message: 'Password changed successfully (Note: Hardcoded admin credentials require code update for persistence across restarts)' });
+    } catch (e) {
+        return res.status(500).json({ error: 'Server error changing password' });
     }
-    
-    ADMIN_PASSWORD = newPassword;
-    
-    // Note: Since admin password is hardcoded, we acknowledge the change but it will reset on server restart
-    // In a real app, this would update a database entry
-    res.json({ message: 'Password changed successfully (Note: Hardcoded admin credentials require code update for persistence across restarts)' });
 };
 
 // Internal: Create user account (called when admin adds a student)
