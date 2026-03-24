@@ -65,7 +65,7 @@ function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, 
 
     setCpLoading(true);
     try {
-      const res = await fetch(`${API_URL}/auth/change-password`, {
+      const res = await fetch(`${API_URL}/api/auth/change-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
