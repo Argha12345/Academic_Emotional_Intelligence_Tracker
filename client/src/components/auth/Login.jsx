@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
 
 function Login({ onLogin }) {
     const [role, setRole] = useState('student');
@@ -40,7 +40,7 @@ function Login({ onLogin }) {
         }
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/auth/login`, {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email.toLowerCase(), password })
@@ -80,7 +80,7 @@ function Login({ onLogin }) {
         setError('');
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/auth/admin-login`, {
+            const res = await fetch(`${API_URL}/auth/admin-login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password: adminPass })

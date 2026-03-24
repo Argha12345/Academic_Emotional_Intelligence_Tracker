@@ -8,7 +8,7 @@ import {
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
 
 function ProfileSection({ user, student }) {
     const [profileData, setProfileData] = useState(null);
@@ -35,7 +35,7 @@ function ProfileSection({ user, student }) {
     const fetchProfile = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/auth/profile?role=${user.role}&email=${encodeURIComponent(user.email)}`);
+            const res = await fetch(`${API_URL}/auth/profile?role=${user.role}&email=${encodeURIComponent(user.email)}`);
             if (res.ok) {
                 const data = await res.json();
                 setProfileData(data);
@@ -59,13 +59,13 @@ function ProfileSection({ user, student }) {
             let body = {};
 
             if (isAdmin) {
-                url = `${API_URL}/api/auth/admin-change-own-password`;
+                url = `${API_URL}/auth/admin-change-own-password`;
                 body = { currentPassword: cpCurrent, newPassword: cpNew };
             } else if (isMentor) {
                 url = `${API_URL}/mentors/change-password`;
                 body = { email: user.email, currentPassword: cpCurrent, newPassword: cpNew };
             } else {
-                url = `${API_URL}/api/auth/change-password`;
+                url = `${API_URL}/auth/change-password`;
                 body = { email: user.email || student?.email, currentPassword: cpCurrent, newPassword: cpNew };
             }
 

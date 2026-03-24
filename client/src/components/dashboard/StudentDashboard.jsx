@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
 
 function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, user }) {
   const [academicRecords, setAcademicRecords] = useState([]);
@@ -65,7 +65,7 @@ function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, 
 
     setCpLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/auth/change-password`, {
+      const res = await fetch(`${API_URL}/auth/change-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

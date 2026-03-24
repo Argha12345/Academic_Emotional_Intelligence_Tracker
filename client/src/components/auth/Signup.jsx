@@ -14,7 +14,7 @@ function Signup({ onLogin, onSwitchToLogin }) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,7 +46,7 @@ function Signup({ onLogin, onSwitchToLogin }) {
         }
 
         try {
-            const response = await fetch(`${API_URL}/api/auth/signup`, {
+            const response = await fetch(`${API_URL}/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

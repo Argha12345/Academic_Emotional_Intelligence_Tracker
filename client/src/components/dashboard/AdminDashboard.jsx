@@ -13,7 +13,7 @@ import {
 import { capitalize } from '../../utils/stringUtils';
 import ProfileSection from './ProfileSection';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
 
 const defaultAddForm = { name: '', email: '', rollNumber: '', department: '', mentorName: '' };
@@ -200,7 +200,7 @@ function AdminDashboard({ activeTab, user }) {
         if (rpNew !== rpConfirm) { setRpError('Passwords do not match'); return; }
         setRpLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/auth/admin-change-password`, {
+            const res = await fetch(`${API_URL}/auth/admin-change-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: selectedStudent.email, newPassword: rpNew })
