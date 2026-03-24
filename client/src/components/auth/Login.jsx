@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function Login({ onLogin }) {
     const [role, setRole] = useState('student');
@@ -176,9 +176,6 @@ function Login({ onLogin }) {
                                         required
                                     />
                                 </div>
-                                <div className="field-hint" style={{ color: '#94a3b8' }}>
-                                    Default password: <strong>bitsathy1</strong>
-                                </div>
                             </div>
 
                             <button type="submit" className="auth-submit" disabled={loading}>
@@ -215,9 +212,6 @@ function Login({ onLogin }) {
                                         placeholder="Enter your password"
                                         required
                                     />
-                                </div>
-                                <div className="field-hint" style={{ color: '#94a3b8' }}>
-                                    Default password: <strong>mentor123</strong>
                                 </div>
                             </div>
 

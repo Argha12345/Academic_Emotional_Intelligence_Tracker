@@ -13,7 +13,7 @@ import {
 import { capitalize } from '../../utils/stringUtils';
 import ProfileSection from './ProfileSection';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
 
 const defaultAddForm = { name: '', email: '', rollNumber: '', department: '', mentorName: '' };
@@ -409,7 +409,6 @@ function AdminDashboard({ activeTab, user }) {
                                 <button type="submit" className="btn-sidebar-submit btn-submit-blue" disabled={mentorLoading}>
                                     {mentorLoading ? '...' : <><FaPlus size={10} /> Add</>}
                                 </button>
-                                <div className="sidebar-hint">Default password: mentor123</div>
                             </form>
                         </div>
                     )}

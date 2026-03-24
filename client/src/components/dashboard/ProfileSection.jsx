@@ -8,7 +8,7 @@ import {
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function ProfileSection({ user, student }) {
     const [profileData, setProfileData] = useState(null);

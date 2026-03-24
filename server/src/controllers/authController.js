@@ -9,7 +9,7 @@ const DEFAULT_PASSWORD = 'bitsathy1';
 
 // Hardcoded admin credentials
 const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'admin123';
+let ADMIN_PASSWORD = 'admin17042005';
 
 // Student Login (email + password, email must end with @bitsathy.ac.in)
 export const login = async (req, res) => {
@@ -208,9 +208,12 @@ export const adminChangeOwnPassword = async (req, res) => {
     if (currentPassword !== ADMIN_PASSWORD) {
         return res.status(401).json({ error: 'Current password is incorrect' });
     }
+    
+    ADMIN_PASSWORD = newPassword;
+    
     // Note: Since admin password is hardcoded, we acknowledge the change but it will reset on server restart
     // In a real app, this would update a database entry
-    res.json({ message: 'Password change acknowledged (Note: Hardcoded admin credentials require code update for persistence)' });
+    res.json({ message: 'Password changed successfully (Note: Hardcoded admin credentials require code update for persistence across restarts)' });
 };
 
 // Internal: Create user account (called when admin adds a student)

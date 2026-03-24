@@ -6,7 +6,7 @@ import {
     FaSpinner, FaChevronRight, FaBan, FaPlus
 } from 'react-icons/fa';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function CounsellingBooking({ studentId, studentName, studentEmail, bookedByRole }) {
     const [checkData, setCheckData] = useState(null);

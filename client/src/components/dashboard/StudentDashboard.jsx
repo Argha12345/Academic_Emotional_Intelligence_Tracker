@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function StudentDashboard({ student, currentUserEmail, activeTab, setActiveTab, user }) {
   const [academicRecords, setAcademicRecords] = useState([]);

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './AdminRecords.css';
 import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaBook } from 'react-icons/fa';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const SEMESTERS = [
     'Semester 1', 'Semester 2', 'Semester 3', 'Semester 4',
