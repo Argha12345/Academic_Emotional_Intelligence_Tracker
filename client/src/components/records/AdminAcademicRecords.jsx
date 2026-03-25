@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './AdminRecords.css';
 import { FaPlus, FaEdit, FaTrash, FaSave, FaTimes, FaBook } from 'react-icons/fa';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://09j91kzt-5000.inc1.devtunnels.ms/api';
 
 const SEMESTERS = [
     'Semester 1', 'Semester 2', 'Semester 3', 'Semester 4',

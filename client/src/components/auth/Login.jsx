@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 
 const ALLOWED_DOMAIN = '@bitsathy.ac.in';
-const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://09j91kzt-5000.inc1.devtunnels.ms/api';
 
 function Login({ onLogin }) {
     const [role, setRole] = useState('student');

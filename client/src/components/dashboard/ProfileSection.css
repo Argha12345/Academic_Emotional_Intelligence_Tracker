@@ -132,6 +132,8 @@
     font-size: 18px;
     font-weight: 600;
     color: var(--text-primary);
+    word-break: break-all;
+    overflow-wrap: anywhere;
 }
 
 .profile-detail-full {

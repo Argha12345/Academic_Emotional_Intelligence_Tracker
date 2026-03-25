@@ -8,7 +8,7 @@ export default function GradesChart({ studentId }) {
   const [records, setRecords] = useState([]);
   
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api'}/academic/${studentId}`)
+    fetch(`${import.meta.env.VITE_API_URL || 'https://09j91kzt-5000.inc1.devtunnels.ms/api'}/academic/${studentId}`)
       .then(r => r.json())
       .then(data => setRecords((data || []).slice().reverse()));
   }, [studentId]);

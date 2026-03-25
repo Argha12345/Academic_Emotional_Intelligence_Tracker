@@ -15,7 +15,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://09j91kzt-5000.inc1.devtunnels.ms/api';
 
 function MentorDashboard({ user, activeTab, setActiveTab }) {
     const [students, setStudents] = useState([]);

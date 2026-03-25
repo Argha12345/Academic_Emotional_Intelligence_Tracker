@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fa';
 import { capitalize } from '../../utils/stringUtils';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://academic-emotional-intelligence-tracker.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://09j91kzt-5000.inc1.devtunnels.ms/api';
 
 function AcademicInsights({ studentId, studentName }) {
     const [insights, setInsights] = useState(null);
